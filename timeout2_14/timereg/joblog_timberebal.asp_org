@@ -1,0 +1,1233 @@
+<%response.buffer = true%>
+<!--#include file="../inc/connection/conn_db_inc.asp"-->
+<!--#include file="../inc/errors/error_inc.asp"-->
+<!--#include file="../inc/regular/global_func.asp"-->
+
+<%
+
+func = request("func")
+thisfile = "joblog_timberebal"
+
+	if len(request("FM_medarb")) <> 0 then
+	FM_medarb = request("FM_medarb")
+	else
+	FM_medarb = request("FM_medarb_alle")
+	end if
+	
+	'**** Valgte medarbejdere ***
+	sqlMedKri = "("
+	antalmedarb = 0
+	medarbs = split(FM_medarb, ",")
+	for i = 0 to UBOUND(medarbs)
+	sqlMedKri = sqlMedKri & " m.mid = "& medarbs(i) &" OR "
+	antalmedarb = antalmedarb + 1
+	next
+	
+	len_sqlMedKri = len(sqlMedKri) 
+	left_sqlMedKri = left(sqlMedKri, len_sqlMedKri-3)
+	sqlMedKri = left_sqlMedKri & ")"
+	
+	'** Alt medarbSQL kriterie
+	sqlMedKriThis = replace(sqlMedKri, "m.mid", "tmnr")
+												
+	
+	if len(request("FM_job")) <> 0 then
+	FM_job = request("FM_job")
+	else
+	FM_job = 0
+	end if
+	
+	'**** Valgte job ****
+	sqlJobKri = "("
+	
+	jobnrs = split(FM_job, ",")
+	antaljob = 0
+	for i = 0 to UBOUND(jobnrs)
+	sqlJobKri = sqlJobKri & " jobnr = "& jobnrs(i) &" OR "
+	antaljob = antaljob + 1
+	next
+	
+	len_sqlJobKri = len(sqlJobKri) 
+	left_sqlJobKri = left(sqlJobKri, len_sqlJobKri-3)
+	sqlJobKri = left_sqlJobKri & ")"
+	
+	
+	'*** Hvad skal vises ***
+	'0 timer
+	'1 fakbare timer og oms
+	'2 ressource timer
+	
+	if len(request("vis_fakbare_res")) <> 0 then
+	visfakbare_res = request("vis_fakbare_res")
+	response.cookies("cc_vis_fakbare_res") = visfakbare_res
+	response.cookies("cc_vis_fakbare_res").expires = date + 10
+	else
+		if len(request.cookies("cc_vis_fakbare_res")) <> 0 then
+		visfakbare_res = request.cookies("cc_vis_fakbare_res")
+		else
+		visfakbare_res = 0
+		end if
+	end if
+	
+	if (antaljob <= 25 OR (antalmedarb <= 5 AND antaljob <= 150)) then
+	visfakbare_res = visfakbare_res = 0
+	else
+		 if visfakbare_res = 2 then
+	 	visfakbare_res = 0
+	 	end if
+	end if
+	
+	
+	if len(request("vis_medarb")) <> 0 then
+	visMedarb = request("vis_medarb")
+	response.cookies("cc_vis_medarb") = visMedarb
+	response.cookies("cc_vis_medarb").expires = date + 10
+	else
+		if request.cookies("cc_vis_medarb") = "1" then
+		visMedarb = 1
+		else
+		visMedarb = 0
+		end if
+	end if
+	
+	if len(request("vis_job")) <> 0 then
+	visJob = request("vis_job")
+	response.cookies("cc_vis_job") = visJob
+	response.cookies("cc_vis_job").expires = date + 10
+	else
+		if request.cookies("cc_vis_job") = "1" then
+		visJob = 1
+		else
+		visJob = 0
+		end if
+	end if
+	
+	
+	
+	'if len(request("vis_aktiviteter")) <> 0 then
+	'visakt = 1
+	'else
+	'visakt = 0
+	'end if
+	
+	if len(request("FM_vis_aktiviteter_forjob")) <> 0 then
+	forjob = request("FM_vis_aktiviteter_forjob")
+	else
+	forjob = 0
+	end if
+	
+	if request("vis_jobtotalpavalgtemedarb") = 1 then
+	visTotaluansetMedarb = 1
+	else
+	visTotaluansetMedarb = 0
+	end if
+	
+	
+	'*** txt orientering ***
+	if request("FM_orientering") = "v" OR request.cookies("cc_orientering") = "v" then
+	tdstyleTimOms = "valign=top style='padding:2px; border-left:1px #999999 solid; border-top:1px #999999 solid; writing-mode:tb-rl;'"
+	tdstyleTimOms1 = "valign=top style='padding:2px; border-left:2px #999999 solid; border-top:1px #999999 solid; writing-mode:tb-rl;'"
+	oriChk1 = "CHECKED"
+	oriChk = ""
+	tdh = "250"
+	else
+		
+		tdstyleTimOms = "valign=bottom style='padding:2px; border-left:1px #999999 dashed; border-top:1px #999999 solid;'"
+		tdstyleTimOms1 = "valign=bottom style='padding:2px; border-left:2px #999999 solid; border-top:1px #999999 solid;'"
+		oriChk = "CHECKED"
+		oriChk1 = ""
+	
+	tdh = "20"
+	end if
+	
+	if len(request("FM_orientering")) <> 0 then
+	response.cookies("cc_orientering") = request("FM_orientering")
+	response.cookies("cc_orientering").expires = date + 10
+	end if
+	
+	'** Vis nulfilter ***
+	'if len(request("FM_visnulfilter")) <> 0 then
+	'visnulfilter = 1
+	'nulFilter = "CHECKED"
+	'else
+	'visnulfilter = 0
+	'nulFilter = ""
+	'end if
+	
+	
+	public restimerThis, strJobLinie
+	function restimer(medi, joid, stdato, sldato)
+		
+		
+		strSQL3 = "SELECT sum(r.timer) AS restimer FROM "_
+		&" ressourcer r WHERE r.mid = "& medi &" AND r.jobid = "& joid &" "_
+		&" AND r.dato BETWEEN '"& stdato &"' AND '"& sldato &"'"_
+		&" GROUP BY r.jobid"
+		
+		'Response.write strSQL3
+		'Response.flush
+		
+		restimerThis = 0
+		oRec3.open strSQL3, oConn, 3 
+		if not oRec3.EOF then 
+		restimerThis = oRec3("restimer")
+		end if
+		oRec3.close
+		
+		if restimerThis > 0 then
+		strJobLinie = strJobLinie & formatnumber(restimerThis, 2)
+		else
+		strJobLinie = strJobLinie & "&nbsp;"
+		end if
+		
+	end function
+	
+	public intKorselKM '***( Bruges ikke endnu)
+	function korsel(medi, jonr, stdato, sldato)
+			
+			
+			strSQL3 = "SELECT sum(t.timer) AS sumtimerFakbare, tmnr, tjobnr, sum(t.timer*t.timepris) AS vaegtettimepris "_
+			&" FROM medarbejdere m "_
+			&" LEFT JOIN timer t ON tjobnr = "& jonr &" AND tmnr = m.mid AND tfaktim = 5 AND tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoSlut&"'"_
+			&" WHERE m.mid = "& medi &" GROUP BY tmnr, tjobnr ORDER BY tmnr"
+			
+			
+			'Response.write strSQL3
+			'Response.flush
+			
+			intKorselKM = 0
+			oRec3.open strSQL3, oConn, 3 
+			if not oRec3.EOF then 
+			intKorselKM = oRec3("sumtimerFakbare")
+			end if
+			oRec3.close
+			
+			if intKorselKM > 0 then
+			Response.write formatnumber(intKorselKM, 2)
+			else
+			Response.write "&nbsp;"
+			end if
+	
+	end function
+	
+	
+	
+	
+	
+if len(session("user")) = 0 then
+	%>
+	<!--#include file="../inc/regular/header_inc.asp"-->
+	<%
+	errortype = 5
+	call showError(errortype)
+	else
+	
+	'*** Sætter lokal dato/kr format. Skal indsættes efter kalender.
+	Session.LCID = 1030
+	%>
+	
+
+
+	
+	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+	<!--#include file="../inc/regular/topmenu_inc.asp"-->
+	
+	
+	<div id="sindhold" style="position:absolute; left:20px; top:70px; visibility:visible;">
+	<%call tsamainmenu()%><br><br>
+	
+	<table>
+	<tr></tr>
+	<td Style="border:2px silver solid; padding:10px;" bgcolor="#ffffff">
+	<table>
+	<form action="joblog_timberebal.asp" method="post">
+	<input type="hidden" name="FM_medarb" id="FM_medarb" value="<%=FM_medarb%>">
+	<input type="hidden" name="FM_job" id="FM_job" value="<%=FM_job%>">
+		<tr>
+			<td valign=top width=350>
+			<h3>Filter og søgekriterier.</h3>
+			<b>Periode:</b><br><!--#include file="inc/weekselector_s.asp"--></td>
+			<td rowspan=2 valign=top style="padding-top:5px;" width=350>
+			<!--<b>Vis / udspecificer:</b>-->
+			<table cellpadding=2 cellspacing=2 border=0>
+			<tr>
+				<td colspan=2 valign=top style="padding-top:5px;" bgcolor="#d6dff5">Udspecificér de valgte Job:</td>
+				
+				<%if cint(visJob) = 1 then
+				jbChk1 = "CHECKED"
+				jbChk = ""
+				else
+				jbChk1 = ""
+				jbChk = "CHECKED"
+				end if%>
+				
+				<td valign=top bgcolor="#d6dff5">Ja:<input type="radio" name="vis_job" id="vis_job" value="1" <%=jbChk1%>>&nbsp;&nbsp;
+				Nej:<input type="radio" name="vis_job" id="vis_job" value="0" <%=jbChk%>></td>
+			</tr>
+			<tr>
+				<td colspan=2 valign=top style="padding-top:5px;" bgcolor="#eff3ff">Vis de valgte medarbejder(e):</td>
+				
+				<%if cint(visMedarb) = 1 then
+				medChk1 = "CHECKED"
+				medChk = ""
+				else
+				medChk1 = ""
+				medChk = "CHECKED"
+				end if%>
+				
+				<td valign=top bgcolor="#eff3ff">Ja:<input type="radio" name="vis_medarb" id="vis_medarb" value="1" <%=medChk1%>>&nbsp;&nbsp;
+				Nej:<input type="radio" name="vis_medarb" id="vis_medarb" value="0" <%=medChk%>></td>
+			</tr>
+			
+			<%select case cint(visfakbare_res) 
+			case 1
+				
+				fakChk = ""
+				fakChk1 = "CHECKED"
+				fakChk2 = ""
+				
+			case 2
+				
+				fakChk = ""
+				fakChk1 = ""
+				fakChk2 = "CHECKED"
+				
+			case else
+				
+				fakChk = "CHECKED"
+				fakChk1 = ""
+				fakChk2 = ""
+			
+			end select%>
+			
+			<tr>
+				<td colspan=2 valign=top style="padding-top:5px;">Vis timer. (fakturer- og ikke fakturerbare)</td>
+				<td valign=top style="padding-top:5px;"><input type="radio" name="vis_fakbare_res" id="vis_fakbare_res" value="0" <%=fakChk%>></td>
+			</tr>
+			
+			<tr>
+				<td colspan=2 valign=top style="padding-top:5px;">Vis fakturerbare timer og omsætning.<br>
+				<font class=megetlillesort>Ved udsp. af aktiviteter vises også ikke fakturerbare akt.</td>
+				<td valign=top style="padding-top:5px;"><input type="radio" name="vis_fakbare_res" id="vis_fakbare_res" value="1" <%=fakChk1%>></td>
+			</tr>
+			<%if antaljob <= 25 OR (antalmedarb <= 5 AND antaljob <= 150) then%>
+			<tr>
+				<td colspan=2 valign=top bgcolor="#ffffe1">Vis timer ialt, ressourcetimer  og balance:<br>
+				<font class=megetlillesort>(vises ikke ved udspe. af aktiviteter)</font></td>
+				<td valign=top bgcolor="#ffffe1"><input type="radio" name="vis_fakbare_res" id="vis_fakbare_res" value="2" <%=fakChk2%>></td>
+			</tr>
+			<%else%>
+			<tr>
+				<td colspan=3 valign=top bgcolor="#ffffff">
+				<font class=megetlillesort>Ressourcetimer, Udspecificering kan kun ske hvis:<br>
+				- der er valgt mindre end 25 job.<br>
+				- der er valgt mindre end 150 job og maks 5 medarbejder.</td>
+			</tr>
+			<%end if%>
+			
+			</table></td>
+		</tr>
+		<tr>
+			<td style="padding-top:5px;">
+				<%
+				if visTotaluansetMedarb = 1 then
+				chkMedJob1 = "CHECKED"
+				chkMedJob = ""
+				else
+				chkMedJob1 = ""
+				chkMedJob = "CHECKED"
+				end if%>
+				<input type="radio" name="vis_jobtotalpavalgtemedarb" id="vis_jobtotalpavalgtemedarb" value="1" <%=chkMedJob1%>> Vis totaltimer på job som sum af de <u>valgte</u> medarbejdere<br>
+				<input type="radio" name="vis_jobtotalpavalgtemedarb" id="vis_jobtotalpavalgtemedarb" value="0" <%=chkMedJob%>> Vis totaltimer på job <u>uanset</u> hvilke medarbejdere der er valgt.<br><br>
+			
+			
+				Udspecificér <b>Aktiviteter</b> på et enkelt job: (vælg job)<br>
+				<select name="FM_vis_aktiviteter_forjob" id="FM_vis_aktiviteter_forjob" style="width:300px;">
+				<option value=0>Joboversigt</option>
+				<option value=0>-------------------------------------------------------------</option>
+				<%
+				strSQLjob = "SELECT id, jobnr, jobnavn"_
+				&" FROM job "_
+				&" WHERE "& sqlJobKri &" ORDER BY jobnavn"
+				
+				oRec.open strSQLjob, oConn, 3 
+				while not oRec.EOF 
+				if cint(forjob) = oRec("jobnr") then
+				thisSEL = "SELECTED"
+				else
+				thisSEL = ""
+				end if%>
+				<option value="<%=oRec("jobnr")%>" <%=thisSEL%>><%=oRec("jobnavn")%> (<%=oRec("jobnr")%>)</option>"
+				<%
+				oRec.movenext
+				wend
+				oRec.close 
+				%>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			Text-orientering på medarbejdere timer og beløb:<br><input type="radio" name="FM_orientering" value="h" <%=oriChk%>> <b>Horisontal</b>  &nbsp;&nbsp;
+			<input type="radio" name="FM_orientering" value="v" <%=oriChk1%>>&nbsp;<b>Vertical</b> (til print)
+			<!--<input type="checkbox" name="FM_visnulfilter" id="FM_visnulfilter" value="1" <=nulFilter%>>Vis "NUL" job (job uden timeregistreringer) -->
+			</td>
+			<td align=right><input type="image" src="../ill/statpil.gif"></td>
+		</tr>
+	</form>
+	</table>
+	</td></tr>
+	</table>
+	
+	
+	</div>
+	
+	
+
+	
+	<div id="antal" style="position:absolute; left:780px; top:103px; visibility:visible; border-color:2px red solid; background-color=#ffffff; border:2px silver solid; padding:10px;">
+	<%
+	'jur = 0
+	
+	if (antalmedarb + antaljob) < 25 then
+	faktor = (antalmedarb + antaljob) / 1.5
+	end if
+	
+	if (antalmedarb + antaljob) >= 25 AND (antalmedarb + antaljob) < 50  then
+	faktor = (antalmedarb + antaljob) / 2
+	end if
+	
+	if (antalmedarb + antaljob) >= 50 AND (antalmedarb + antaljob) < 75  then
+	faktor = (antalmedarb + antaljob) / 5
+	end if
+	
+	if (antalmedarb + antaljob) >= 75 AND (antalmedarb + antaljob) < 100  then
+	faktor = (antalmedarb + antaljob) / 10
+	end if
+	
+	if (antalmedarb + antaljob) >= 100 then
+	faktor = (antalmedarb + antaljob) / 18
+	end if
+	
+	if visfakbare_res <> 0 then
+	faktor = faktor / 6
+	end if
+	
+	Response.write "<h3>Loadtid</h3>"
+	Response.write "Der er valgt: <b>" & antalmedarb & "</b> medarbejder(e).<br>"
+	Response.write "Der er valgt: <b>" & antaljob & "</b> job.<br><br>"
+	'Response.write faktor
+	Response.write "<b><u>Forventet loadtid:</u></b><br><font color=red> < "& cint((antalmedarb + antaljob) / faktor) &" Sekunde(r).</font> (2 mbit ADSL)"
+	Response.flush
+	%><br><br>
+	<a href="stat.asp?menu=stat&show=joblog_timberebal" class=vmenu><img src="../ill/soeg-knap_tilbage.gif" width="16" height="16" alt="" border="0">&nbsp;Tilbage til søgekriterier</a></div>
+	
+	
+	<%
+	if (antaljob) > 250 then
+	%>
+	<div id="fejl" style="position:absolute; left:200px; top:360px; visibility:visible; border-color:2px red solid; background-color=#fffff1; border:2px red solid; padding:10px;">
+	<h3><img src="../ill/alert_lille.gif" width="22" height="19" alt="" border="0">Fejl!</h3>
+	Antallet af valgte job er over 250.<br>
+	Vælg et mindre antal.<br><br>
+	<a href="Javascript:history.back()"><img src="../ill/soeg-knap_tilbage.gif" width="16" height="16" alt="" border="0">&nbsp;Tilbage</a>
+	</div>
+	<%
+	else
+	%>	
+	<div id="oCode" name="oCode" style="position:absolute; zoom: 100%; left:20px; top:370px; visibility:visible;" bgcolor="#ffffff">
+	<%	
+			m = 15
+			x = 10500 '6500 '2500
+			lastjid = 0
+			strMids = 0
+			dim jobmedtimer, jobtimerIaltX
+			redim jobmedtimer(x, m), jobtimerIaltX(x)
+			
+			v = 0
+			dim medarb', medarbnavnognr
+			redim medarb(v)', medarbnavnognr(v)
+			
+			dim medabTottimer, restimerTot, omsTot, fakbareTimerTot, normTimerTot
+			Redim medabTottimer(v), restimerTot(v), omsTot(v), fakbareTimerTot(v), normTimerTot(v)
+			
+			dim  jobTottimer, jobRestimerTot, jobOmsTot, jobfakbareTimerTot
+			Redim  jobTottimer(0), jobRestimerTot(0), jobOmsTot(0), jobfakbareTimerTot(0)
+			
+			
+			'*** Udspecificer på aktiviteter? **'
+			if forjob <> 0 then
+			grpBySQL = "a.id, m.mid"
+			orderBySQL = "a.id, m.mid"
+			sqlJobKri = " j.jobnr = "& forjob
+			aktSQLFields = ", taktivitetid, taktivitetnavn, a.id AS aid, a.job, a.navn AS anavn, a.fakturerbar AS afakbar "
+			aktSQLTables = ", aktiviteter a "
+			aktSQLWhere = " AND (a.job = j.id AND a.fakturerbar <> 2) "
+			aktjobTimerWhere = " taktivitetid = a.id "
+			else
+			grpBySQL = "jobnr, m.mid"
+			orderBySQL = "jobnr, m.mid"
+			sqlJobKri = sqlJobKri
+			aktSQLFields = ""
+			aktSQLTables = ""
+			aktSQLWhere = ""
+			aktjobTimerWhere = " tjobnr = j.jobnr "
+			end if
+			
+			if visfakbare_res = 1 then
+				if forjob = 0 then
+				whrClaus = " t.tfaktim = 1"
+				else
+				whrClaus = " (t.tfaktim = 1 OR tfaktim = 2) " '** aktiviteter
+				end if
+			vgtTimePris = " sum(t.timer*t.timepris) AS vaegtettimepris, "
+			else
+			whrClaus = " (t.tfaktim = 1 OR tfaktim = 2) "
+			vgtTimePris = ""
+			end if
+			
+			sqlDatoStart = strAar&"/"&strMrd&"/"&strDag
+			sqlDatoSlut = strAar_slut&"/"&strMrd_slut&"/"&strDag_slut
+			
+			
+			
+			
+			'*** Main SQL ******
+			strSQL = "SELECT j.id AS jid, t.tjobnavn, t.tjobnr, j.jobnr AS jnr, j.jobnavn, "_
+			&" sum(t.timer) AS sumtimer, "& vgtTimePris &" t.tmnr, t.tmnavn, t.timepris, m.mnavn, m.mnr, m.mid, "_
+			&" j.jobTpris, j.fakturerbart, j.budgettimer, j.fastpris, m.medarbejdertype AS mtype "& aktSQLFields &""_
+			&" FROM medarbejdere m, job j "& aktSQLTables &" "_
+			&" LEFT JOIN timer t ON ( "& aktjobTimerWhere &" AND tmnr = m.mid AND "& whrClaus &" AND tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoSlut&"')"_
+			&" WHERE "& sqlMedKri &" AND "& sqlJobKri &" "& aktSQLWhere &" GROUP BY "& grpbySQL &" ORDER BY " & orderBySQL
+			
+			
+			'Response.write "<br><br><br>"
+			'response.write strSQL & "<br><br>"
+			'response.flush
+			
+			x = 0
+			k = 0
+			timeprisThis = 0
+			strMidsK = "#0#,"
+			oRec.open strSQL, oConn, 3 
+			while not oRec.EOF 
+						
+						
+						
+						'Response.write x &", " & m &"<br>"
+						
+						'*** Job og medarb data ****
+						jobmedtimer(x, 0) = oRec("jid")
+						jobmedtimer(x, 1) = oRec("jobnavn")
+						jobmedtimer(x, 3) = formatnumber(oRec("sumtimer"), 2)
+						jobmedtimer(x, 2) = oRec("mnavn") &" ("&oRec("mnr")&")"
+						jobmedtimer(x, 4) = oRec("mid")
+						
+						'jobmedtimer(x, 5) = oRec("restimer")
+						jobmedtimer(x, 6) = oRec("jnr")
+						
+						'*** Uspecificering af aktiviteter ***
+						if cint(forjob) <> 0 then
+							
+							jobmedtimer(x, 12) = oRec("aid")
+							jobmedtimer(x, 13) = oRec("anavn")
+							thisAktFakbar = oRec("afakbar")
+							if thisAktFakbar = 1 then
+							jobmedtimer(x, 14) = "<font color=green>Fakturerbar"
+							else
+							jobmedtimer(x, 14) = "<font color=green>Ikke fakturerbar"
+							end if
+						
+						end if
+						
+						jobmedtimer(x,15) = oRec("mtype")
+						
+						
+						'*** Antal Medarbejdere / Navne ***
+						if instr(strMidsK, "#"& oRec("mnr") &"#") = 0 then
+						strMidsK = strMidsK & ",#"& oRec("mnr") &"#"
+							
+							Redim preserve medarb(v)
+							Redim preserve medarbnavnognr(v)
+							medarb(v) = jobmedtimer(x,4)
+							medarbnavnognr(v) = jobmedtimer(x, 2)
+							v = v + 1
+							
+						else
+						strMidsK = strMidsK
+						end if
+						
+						
+						'*** Jobtype ***
+						if oRec("fastpris") = 1 then
+						jobmedtimer(x, 8) = "<font color=green>Fastpris"
+						else
+						jobmedtimer(x, 8) = "<font color=green>Lbn.timer" 
+						end if
+						
+						
+						'** Timepris v. fastpris job 
+						timeprisThis = 0
+						
+						if oRec("budgettimer") > 0 then
+						bdgTim = oRec("budgettimer")
+						else
+						bdgTim = 1
+						end if
+						
+						if oRec("jobtpris") > 0 then
+						jobbelob = oRec("jobtpris")
+						else
+						jobbelob = 0
+						end if
+						
+						timeprisThis = (jobbelob / bdgTim)
+						
+						if visfakbare_res = 1 then
+							
+							'*** Timepriser ***
+							jobmedtimer(x,7) = 0
+							if oRec("fastpris") = 1 then
+							jobmedtimer(x,7) = (timeprisThis * oRec("sumtimer"))
+							else
+							jobmedtimer(x,7) = oRec("vaegtettimepris")
+							end if
+							
+						end if
+						
+						
+						jobmedtimer(x, 10) = timeprisThis
+						jobmedtimer(x, 11) = oRec("fastpris")
+						
+						'if cint(visfakbare_res) = 1 then
+						'	
+						'	if cint(forjob) = 0 then
+						'	
+						'	
+						'	strSQL3 = "SELECT sum(t.timer) AS sumtimerFakbare, tmnr, tjobnr, sum(t.timer*t.timepris) AS vaegtettimepris "_
+						'	&" FROM timer t "_
+						'	&" WHERE tjobnr = "& oRec("jnr") &" AND tmnr = "& oRec("mid") &" AND tfaktim = 1 AND tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoSlut&"'"_
+						'	&" GROUP BY tmnr ORDER BY tmnr"
+						'	
+						'	else 
+						'	'** Aktiviteter ***
+						'		
+						'		strSQL3 = "SELECT sum(t.timer) AS sumtimerFakbare, tmnr, tjobnr, sum(t.timer*t.timepris) AS vaegtettimepris "_
+						'		&" FROM timer t WHERE taktivitetid = "& oRec("aid") &" AND tmnr = "& oRec("mid") &" AND tfaktim = 1 AND tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoSlut&"'"_
+						'		&" GROUP BY tmnr ORDER BY tmnr"
+						'	
+						'		
+						'	end if
+						'	
+						'	
+						'	jobmedtimer(x,9) = 0
+						'	oRec3.open strSQL3, oConn, 3 
+						'	if not oRec3.EOF then 
+						'				
+						'				jobmedtimer(x,9) = oRec3("sumtimerFakbare")
+						'		
+						'				'*** Timepriser ***
+						'				
+						'				jobmedtimer(x,7) = 0
+						'				if oRec("fastpris") = 1 then
+						'				jobmedtimer(x,7) = (timeprisThis * oRec3("sumtimerFakbare"))
+						'				else
+						'				jobmedtimer(x,7) = oRec3("vaegtettimepris")
+						'				end if
+						'		
+						'	end if
+						'	oRec3.close
+						'end if
+				
+				if lastJid <> jobmedtimer(x, 0) then 		
+				Redim preserve jobtimerIaltX(x)
+				jobtimerIaltX(x) = jobmedtimer(x, 3)
+				else
+				jobtimerIaltX(x) = jobtimerIaltX(x) + jobmedtimer(x, 3)
+				end if
+				
+			x = x + 1
+			response.flush		
+			oRec.movenext
+			wend
+			oRec.close 
+			
+			
+			if cint(forjob) = 0 then
+			jobaktOskrift = "Job"
+			bgtd = "#ffffff"
+			else
+			jobaktOskrift = "Aktvitet"
+			bgtd = "#ffffff"
+			end if
+			
+			'*****************************************************************
+			'*** Beregner antal mandage, tirsdag onsdag mv. ***
+			'*** Bruges til at finde normerede timer i periode **
+			wdayFirst = weekday(strDag&"/"&strMrd&"/"&strAar, 2)
+			'Response.write wdayFirst & "<br>"
+			
+			wdayEnd = weekday(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 2)
+			'Response.write wdayEnd & "<br>"
+			
+			antaluger = datediff("ww", strDag&"/"&strMrd&"/"&strAar, strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 2, 3)
+			'Response.write antaluger
+			
+			if 1 > wdayEnd AND 1 < wdayFirst then
+			antalMandage = antaluger - 1
+			else
+			antalMandage = antaluger 
+			end if
+			
+			if 2 > wdayEnd AND 2 < wdayFirst then
+			antalTirsdage = antaluger - 1
+			else
+			antalTirsdage = antaluger 
+			end if
+			
+			if 3 > wdayEnd AND 3 < wdayFirst then
+			antalOnsdage = antaluger - 1
+			else
+			antalOnsdage = antaluger 
+			end if
+			
+			if 4 > wdayEnd AND 4 < wdayFirst then
+			antalTorsdage = antaluger - 1
+			else
+			antalTorsdage = antaluger 
+			end if
+			
+			if 5 > wdayEnd AND 5 < wdayFirst then
+			antalFredage = antaluger - 1
+			else
+			antalFredage = antaluger 
+			end if
+			
+			if 6 > wdayEnd AND 6 < wdayFirst then
+			antalLordage = antaluger - 1
+			else
+			antalLordage = antaluger 
+			end if 
+			
+			if 7 > wdayEnd AND 7 < wdayFirst then
+			antalSondage = antaluger - 1
+			else
+			antalSondage = antaluger 
+			end if
+			
+			'************'			
+			
+			strJobLinie_top = ""
+			strJobLinie = ""
+			strJobLinie_total = ""
+			
+			
+			strJobLinie_top = "<table cellspacing=0 cellpadding=0 border=0>"
+			strJobLinie_top = strJobLinie_top & "<tr><td Style='border:2px silver solid; padding:10px;' bgcolor='#ffffff'>"
+			strJobLinie_top = strJobLinie_top & "<h3>Timeforbrug, Omsætning og Ressourcetimer.</h3>"
+			strJobLinie_top = strJobLinie_top & "<table cellspacing=0 cellpadding=0 border=0 bgcolor='#ffffff'>"
+			strJobLinie_top = strJobLinie_top & "<tr>"
+			strJobLinie_top = strJobLinie_top & "<td height="& tdh &" valign=bottom style='padding:2px;' bgcolor='#d6dff5'><b>"&jobaktOskrift&" / Medarbejdere:</b><img src='../ill/blank.gif' width='100' height='1' alt='' border='0'></td>"
+				
+				
+				'*** job totaler oskrifter  **
+				strJobLinie_top = strJobLinie_top & "<td class=lille align=right "&tdstyleTimOms1&" bgcolor=#d6dff5>"&jobaktOskrift&"&nbsp;"
+				if cint(visfakbare_res) = 1 AND forjob = 0 then
+				strJobLinie_top = strJobLinie_top & "fakturerbare timer"
+				else
+				strJobLinie_top = strJobLinie_top & "timer ialt"
+				end if
+				
+				strJobLinie_top = strJobLinie_top & "</td>"
+				
+				
+				if cint(visfakbare_res) = 1 then
+				strJobLinie_top = strJobLinie_top & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=#d6dff5>Omsætning</td>"
+				end if
+				
+				if cint(visfakbare_res) = 2 AND cint(forjob) = 0 then
+				strJobLinie_top = strJobLinie_top & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=#d6dff5>Ressourcetimer tildelt</td>"
+				strJobLinie_top = strJobLinie_top & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=#d6dff5>Balance (Reg. timer / Ressource timer)</td>"
+				end if
+				
+				
+				
+				x = 0
+				
+				
+				if visMedarb = 1 then
+				
+						for v = 0 to v - 1
+						Redim preserve medabTottimer(v)
+						Redim preserve restimerTot(v)
+						Redim preserve omsTot(v)
+						Redim preserve fakbareTimerTot(v)
+						Redim preserve normTimerTot(v)
+						medabTottimer(v) = 0
+						restimerTot(v) = 0
+						omsTot(v) = 0
+						fakbareTimerTot(v) = 0
+						normTimerTot(v) = 0
+						'** Medarb 1 Row ***
+						strJobLinie_top = strJobLinie_top & "<td class=lille align=right "&tdstyleTimOms1&" bgcolor=#eff3ff><font color=red>"&medarbnavnognr(v)&"</font>&nbsp;"
+						if cint(visfakbare_res) = 1 then
+						strJobLinie_top = strJobLinie_top & "Fak.bare timer"
+						else
+						strJobLinie_top = strJobLinie_top & "Timer ialt"
+						end if
+						
+						strJobLinie_top = strJobLinie_top & "</td>"
+						
+						
+						
+						if cint(visfakbare_res) = 1 then
+						strJobLinie_top = strJobLinie_top & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=#ffffff>Omsætning</td>"
+						end if
+						
+						
+						if cint(visfakbare_res) = 2 AND cint(forjob) = 0 then
+						strJobLinie_top = strJobLinie_top & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=#fffff1>Ressource timer tildelt</td>"
+						strJobLinie_top = strJobLinie_top & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=#fffff1>Balance reg.timer/ressource timer</td>"
+						
+						strJobLinie_top = strJobLinie_top & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=Honeydew>Normeret timer ialt i periode</td>"
+						strJobLinie_top = strJobLinie_top & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=Honeydew>Balance (Reg. timer / Ressource timer)</td>"
+						
+						
+						
+									'**** Normeret timer ****
+									sumnomtimerThis = 0
+									strSQL3 = "SELECT normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, "_
+									&" normtimer_lor, normtimer_son FROM medarbejdertyper WHERE id = " & jobmedtimer(x,15)
+									
+									'Response.write strSQL3
+									'Response.flush
+									oRec3.open strSQL3, oConn, 3 
+									
+									if not oRec3.EOF then
+										sumnomtimerThis = ((oRec3("normtimer_man") * antalMandage) + (oRec3("normtimer_tir") * antalTirsdage ) + (oRec3("normtimer_ons") * antalOnsdage) + (oRec3("normtimer_tor") * antalTorsdage) + (oRec3("normtimer_fre") * antalFredage) + (oRec3("normtimer_lor") * antalLordage) + (oRec3("normtimer_son") * antalSondage)) 
+									end if
+									oRec3.close 
+									
+									normTimerTot(v) = sumnomtimerThis
+									'sumnomtimerBal = (sumnomtimerThis - jobtimerIalt)
+									
+						
+						end if
+						
+						next
+						
+				end if%>
+				
+				
+				
+				
+				
+				
+				<%
+				'************************************************************
+				'*** Udskriver en ny linie med de valgte job / Aktiviteter
+				'************************************************************ 
+				
+				p = 0
+				lastV = -1
+				
+				lastjid = 0
+				for x = 0 to UBOUND(jobmedtimer, 1)
+				
+				
+					
+					'if jobtimerIaltX(x) > 0 AND visnulfilter = 1 then
+				
+								if cint(forjob) = 0 then '** Job
+								jobaktId = jobmedtimer(x,0)
+								jobaktNr = jobmedtimer(x,6)
+								jobaktNavn = jobmedtimer(x,1)
+								jobaktType = jobmedtimer(x, 8)
+								
+								jobaktIdSQLkri = "tjobnr = "& jobmedtimer(x,6) &""
+								jobaktIdSQLkriGrpBy = "tjobnr"
+								
+								else '*** Udspeciffer Akt.
+								
+								jobaktId = jobmedtimer(x,12)
+								jobaktNr = jobmedtimer(x,12)
+								jobaktNavn = jobmedtimer(x,13)
+								jobaktType = jobmedtimer(x, 14)
+								
+								jobaktIdSQLkri = "taktivitetid = "& jobmedtimer(x,12) &""
+								jobaktIdSQLkriGrpBy = "taktivitetid"
+								end if
+									
+						
+									
+									if lastjid <> jobaktId AND len(jobaktNavn) <> 0 then
+									
+									strJobLinie = strJobLinie & "</tr><tr>"
+									strJobLinie = strJobLinie & "<td style='padding:2px; border-top:1px #999999 solid;' class=lille bgcolor='"& bgtd &"'>"&left(jobaktNavn, 30)&"&nbsp;("&jobaktNr&") "& jobaktType &"</td>"
+										
+										
+											
+											'*** job totaler timerIalt **
+											jobtimerIalt = 0
+											
+											if visTotaluansetMedarb = 1 then
+											medarbSQLKriJob = " AND "& sqlMedKriThis 
+											else
+											medarbSQLKriJob = ""
+											end if
+											
+											'**** Fakbare timer og beløb ialt på job ***
+											if cint(forjob) = 0 then '** Job
+											
+											strSQL3 = "SELECT sum(t.timer) AS jobtimerIalt, sum(t.timer*t.timepris) AS vaegtettimepris, tfaktim FROM timer t "_
+											&" WHERE "& jobaktIdSQLkri &" AND "& whrClaus &" "& medarbSQLKriJob &" AND "_
+											&" tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoSlut&"'"_
+											&" GROUP BY "& jobaktIdSQLkriGrpBy 
+											
+											'strSQL3 = "SELECT sum(t.timer) AS jobfaktimerIalt, tmnr, sum(t.timer*t.timepris) AS vaegtettimepris "_
+											'&" FROM timer t WHERE tjobnr = "& jobaktNr &" AND tfaktim = 1 "& medarbSQLKriJob &" AND tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoSlut&"'"_
+											'&" GROUP BY "& jobaktIdSQLkriGrpBy
+											
+											else
+											
+											strSQL3 = "SELECT sum(t.timer) AS jobtimerIalt, sum(t.timer*t.timepris) AS vaegtettimepris, tfaktim"_
+											&" FROM timer t WHERE taktivitetid = "& jobaktId &" AND tfaktim <> 5 "& medarbSQLKriJob &" AND tdato BETWEEN '"& sqlDatoStart &"' AND '"& sqlDatoSlut&"'"_
+											&" GROUP BY " & jobaktIdSQLkriGrpBy
+											
+											end if
+											
+											'Response.write strSQL3
+											'Response.flush
+											
+											jobtimerIalt = 0
+											jobOmsIalt = 0
+											oRec3.open strSQL3, oConn, 3 
+											if not oRec3.EOF then
+											
+											jobtimerIalt = oRec3("jobtimerIalt")
+												
+												'*** Job Timepriser ***
+												if oRec3("tfaktim") = 1 then
+													if jobmedtimer(x,11) = 1 then
+														jobOmsIalt = (jobmedtimer(x,10) * oRec3("jobtimerIalt"))
+													else
+														jobOmsIalt = oRec3("vaegtettimepris")
+													end if
+												else
+												jobOmsIalt = 0
+												end if
+												
+											end if
+											oRec3.close 
+											
+											totaltotaljboTimerIalt = totaltotaljboTimerIalt + jobtimerIalt
+											
+											strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms1&" bgcolor='#eff3ff'>"&formatnumber(jobtimerIalt, 2)&"</td>"
+											
+											
+											
+											if cint(visfakbare_res) = 1 then
+											
+											'*** Omsætning  **
+											totaltotaljobOmsIalt = totaltotaljobOmsIalt + jobOmsIalt
+											'strJobLinie = strJobLinie & "<td class=lille align=right style='padding:2px;' bgcolor='#ffffff'>"&formatnumber(jobFaktimerIalt, 2)&"</td>"
+											strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms&" bgcolor='#ffffff'>"&formatnumber(jobOmsIalt, 2)&"</td>"
+											
+											end if
+											
+											
+											
+											'*** Ressource timer vises kun på job niveau **
+											if cint(visfakbare_res) = 2 AND cint(forjob) = 0  then
+											
+											strSQL3 = "SELECT sum(r.timer) AS restimer"_
+											&" FROM ressourcer r WHERE r.jobid = "& jobmedtimer(x,0) &" "_
+											&" AND r.dato BETWEEN '"& stdato &"' AND '"& sldato &"'"_
+											&" GROUP BY r.jobid"
+									
+											'Response.write strSQL3
+											'Response.flush
+											
+											jobRestimerThis = 0
+											oRec3.open strSQL3, oConn, 3 
+											if not oRec3.EOF then 
+											jobRestimerThis = oRec3("restimer")
+											end if
+											oRec3.close
+											
+											totaltotalJobRestimer = totaltotalJobRestimer + jobRestimerThis
+											balJobRestimer = (jobRestimerThis - jobtimerIalt)
+											
+													
+											
+											strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms&" bgcolor='#ffffff' width=60>"&formatnumber(jobRestimerThis, 2)&"</td>"
+											strJobLinie = strJobLinie & "<td class=lille align=right "&tdstyleTimOms&" bgcolor='#ffffff' width=60>"&formatnumber(balJobRestimer, 2)&"</td>"
+											
+											end if
+											
+											
+											
+											lastjid = jobaktId
+										end if
+										
+								
+								
+								
+				
+						'*************************************************************
+						'**** Medarbjedere LOOP
+						'**************************************************************
+						
+						if visMedarb = 1 then
+						
+							for v = 0 to v - 1
+								
+								
+								if medarb(v) = jobmedtimer(x,4) then
+								'*** timer total ***
+								
+								strJobLinie = strJobLinie & "<td class=lille align=right  "& tdstyleTimOms1 &" bgcolor='#eff3ff'>"
+								
+								if jobmedtimer(x,3) > 0 then
+									strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,3), 2)
+								else
+									strJobLinie = strJobLinie & "&nbsp;"
+								end if 
+								
+								strJobLinie = strJobLinie & "</td>"
+								
+								 
+									'*** fakbare timer ***
+									if cint(visfakbare_res) = 1 then
+									
+									'strJobLinie = strJobLinie & "<td class=lille align=right style='padding:2px;' bgcolor='#ffffff'>"
+									
+									'if jobmedtimer(x,9) > 0 then
+									'strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,9), 2)
+									'else
+									'strJobLinie = strJobLinie &"&nbsp;"
+									'end if
+									
+									'strJobLinie = strJobLinie &"</td>"
+									
+									
+									
+									'**** Beløb / Omsætning ****
+									strJobLinie = strJobLinie &"<td class=lille align=right "& tdstyleTimOms &" bgcolor='#ffffff'>"
+									
+									if jobmedtimer(x,7) > 0 then
+									strJobLinie = strJobLinie & formatnumber(jobmedtimer(x,7), 2)
+									else
+									strJobLinie = strJobLinie & "&nbsp;"
+									end if 
+									strJobLinie = strJobLinie & "</td>"
+								
+								end if%>
+								
+								
+								
+								<%if cint(visfakbare_res) = 2 AND cint(forjob) = 0  then
+									
+									strJobLinie = strJobLinie & "<td class=lille align=right "& tdstyleTimOms &" bgcolor='#fffff1'>"
+									
+									'**** Ressource timer ****
+									call restimer(jobmedtimer(x, 4), jobmedtimer(x, 0), sqlDatoStart, sqlDatoSlut)
+									
+									strJobLinie = strJobLinie & "</td>"
+									
+									balThis = (restimerThis - jobmedtimer(x,3))
+									if len(balThis) <> 0 then
+									balThis = balThis
+									else
+									balThis = 0
+									end if
+									
+									strJobLinie = strJobLinie & "<td class=lille align=right "& tdstyleTimOms &" bgcolor='#fffff1'>"
+									if balThis <> 0 then
+									strJobLinie = strJobLinie & formatnumber(balThis, 2)
+									else
+									strJobLinie = strJobLinie & "&nbsp;"
+									end if
+									
+									strJobLinie = strJobLinie & "</td>"
+									
+									
+									strJobLinie = strJobLinie & "<td class=lille align=right "& tdstyleTimOms &" bgcolor='Honeydew'>&nbsp;-</td>"
+									strJobLinie = strJobLinie & "<td class=lille align=right "& tdstyleTimOms &" bgcolor='Honeydew'>&nbsp;-</td>"
+											
+									
+								end if
+								
+								
+								medabTottimer(v) = medabTottimer(v) + jobmedtimer(x,3)
+								restimerTot(v) = restimerTot(v) + restimerThis
+								omsTot(v) = omsTot(v) + jobmedtimer(x,7)
+								
+								'fakbareTimerTot(v) = fakbareTimerTot(v) + jobmedtimer(x,9)
+								
+								
+								'*** For at krydstjekke bliver restimer og balance summeret som totaler på medarb
+								'*** Mens Timer ialt og fakbare timer og Oms. bliver summeret på jobtotaler
+								restimerTotTot = restimerTotTot + restimerThis
+								end if
+								
+							
+							next 'medarb
+						end if 'if visMedarb = 1 then
+						
+					response.flush
+						
+						'end if 'jobtimerIaltX(x)
+				
+				'*** Tilprint ***
+				next 'job
+			
+			strJobLinie = strJobLinie & "</tr>"
+			
+			
+			'***************************************
+			'**** Udskriver Tables *****************
+			'***************************************
+			
+			Response.write strJobLinie_top
+			
+			
+			'*** Skal job vises eller vises kun totaler?
+			if cint(visJob) = 1 then 
+			Response.write strJobLinie
+			else
+			Response.write "&nbsp;"
+			end if
+			
+			
+			
+			'*** totaler i bunden ***
+			strJobLinie_total = "<tr>"
+				strJobLinie_total = strJobLinie_total & "<td style='padding:2px;' valign=bottom bgcolor=#d6dff5><b>Total:</b></td>"
+				
+						'*** Jobtotaler IALT ***
+						strJobLinie_total = strJobLinie_total & "<td class=lille align=right "&tdstyleTimOms1&" bgcolor=#d6dff5>"& formatnumber(totaltotaljboTimerIalt, 2)&"</td>"
+						
+						
+						if cint(visfakbare_res) = 1 then
+						strJobLinie_total = strJobLinie_total & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=#d6dff5>"&formatnumber(totaltotaljobOmsIalt, 2)&"</td>"
+						end if
+						
+						if cint(visfakbare_res) = 2 AND cint(forjob) = 0  then
+						strJobLinie_total = strJobLinie_total & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=#d6dff5>"&formatnumber(restimerTotTot, 2)&"</td>"
+						strJobLinie_total = strJobLinie_total & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=#d6dff5>"
+						
+						balanceTotTot = (restimerTotTot - totaltotaljboTimerIalt)
+						
+						strJobLinie_total = strJobLinie_total & formatnumber(balanceTotTot, 2) & "</td>"
+						
+						end if
+						
+				
+				
+				
+				if visMedarb = 1 then
+				
+						for v = 0 to v - 1
+						strJobLinie_total = strJobLinie_total & "<td class=lille align=right "&tdstyleTimOms1&" bgcolor=#eff3ff>"&formatnumber(medabTottimer(v), 2)&"</td>"
+						
+							
+							
+							if cint(visfakbare_res) = 1 then
+							strJobLinie_total = strJobLinie_total & "<td class=lille align=right"&tdstyleTimOms&" bgcolor=#ffffff>"&formatnumber(omsTot(v), 2)&"</td>"
+							end if
+						
+							if cint(visfakbare_res) = 2 AND cint(forjob) = 0  then
+								
+								'*** Ressource timer ****
+								strJobLinie_total = strJobLinie_total & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=#fffff1>"&formatnumber(restimerTot(v), 2)&"</td>"
+								
+								balThisTot = (restimerTot(v) - medabTottimer(v))
+								
+								if len(balThisTot) <> 0 then
+								balThisTot = balThisTot
+								else
+								balThisTot = 0
+								end if
+								
+								strJobLinie_total = strJobLinie_total & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=#fffff1>"&formatnumber(balThisTot, 2)&"</td>"
+								
+								'****  Normeret timer ***** 
+								strJobLinie_total = strJobLinie_total & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=Honeydew>"&formatnumber(normTimerTot(v), 2)&"</td>"
+								
+								NormBalThisTot = (normTimerTot(v) - medabTottimer(v))
+								if len(NormBalThisTot) <> 0 then
+								NormBalThisTot = NormBalThisTot
+								else
+								NormBalThisTot = 0
+								end if
+								
+								strJobLinie_total = strJobLinie_total & "<td class=lille align=right "&tdstyleTimOms&" bgcolor=Honeydew>"&formatnumber(NormBalThisTot, 2)&"</td>"
+							end if
+						next
+				  end if 'if visMedarb = 1 then
+			strJobLinie_total = strJobLinie_total & "</tr></table></td></tr></table>"
+			
+			
+			Response.write strJobLinie_total
+			
+			'Response.write "<br><br>Antal C:" & len(strJobLinie)
+			'len_strJobLinie = len(strJobLinie)
+			'opdeling = cint((len_strJobLinie / 24))
+			'Response.write "<br>"& opdeling
+			
+			'newJobLinie = strJobLinie
+			
+			'for j = 0 to 24
+				
+			'	nextJobLinie = left(newJobLinie, opdeling)
+			'	'len_newJobLinie = len(newJobLinie)
+			'	'newJobLinie = mid(newJobLinie, opdeling * j, opdeling * j + 1)
+				
+			'	select case j 
+			'	case 0
+			'	strJobLinie2 = nextJobLinie 'newJobLinie
+			'	case else
+			'	strJobLinie3 = nextJobLinie 'newJobLinie
+			'	end select
+				
+			'next
+			
+			%>
+			<form action="printversion.asp" method="post"> <!--  -->
+			<input type="hidden" name="datointerval" id="datointerval" value="<%=formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1) & " - " & formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1)%>">
+			<input type="hidden" name="txt1" id="txt1" value="<%=strJobLinie_top%>">
+			<input type="hidden" name="txt2" id="txt2" value="<%=strJobLinie%>">
+			<input type="hidden" name="txt20" id="txt20" value="<%=strJobLinie_total%>">
+			
+			<input type="submit" value="Print version">
+			
+			</form>
+			
+			<b>Jobtyper:</b> Fastpris eller vægtet timepris ved løbende timer.<br><br>&nbsp;
+			</div>
+		<%end if ' max size%>	
+		
+	
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<%end if%>
+<!--#include file="../inc/regular/footer_inc.asp"-->

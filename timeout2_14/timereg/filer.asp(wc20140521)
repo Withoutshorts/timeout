@@ -1,0 +1,1156 @@
+<%response.buffer = true%>
+<!--#include file="../inc/connection/conn_db_inc.asp"-->
+<!--#include file="../inc/errors/error_inc.asp"-->
+<!--#include file="../inc/regular/global_func.asp"-->
+<script>
+function NewWin(url)    {
+window.open(url, 'Help', 'width=700,height=580,scrollbars=1,toolbar=0,menubar=1');    
+}
+
+function popUp(URL,width,height,left,top) {
+		window.open(URL, 'navn', 'left='+left+',top='+top+',toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=' + width + ',height=' + height + '');
+}
+</script>
+
+<%
+if session("user") = "" then
+%>
+<!--#include file="../inc/regular/header_inc.asp"-->
+<%
+	errortype = 5
+	call showError(errortype)
+	else
+	%>
+	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+	<%
+	
+	id = request("id")
+	kundeid = request("kundeid")
+	
+	thisfile = "filarkiv"
+	
+	if len(request("jobid")) <> 0 then
+	jobid = request("jobid")
+	else
+	jobid = 0
+	end if
+	
+    if len(request("fms")) <> 0 then
+        if request("vistommefoldere") <> 0 then
+        vistommefoldere = 1
+        vistommefoldereCHK = "CHECKED"
+        else
+        vistommefoldere = 0
+        vistommefoldereCHK = ""
+        end if
+
+        response.cookies("TSA")("tommefoldere") = vistommefoldere
+
+    else
+        
+        if request.cookies("TSA")("tommefoldere") = "1" then
+        vistommefoldere = 1
+        vistommefoldereCHK = "CHECKED"
+        else
+        vistommefoldere = 0
+        vistommefoldereCHK = ""
+        end if
+
+    end if
+	
+	if request("nomenu") = "1" then
+	nomenu = 1
+	else
+	nomenu = 0
+	end if
+
+    if len(trim(request("sortby"))) <> 0 then
+    sortby = request("sortby")
+    else
+    sortby = "navn"
+    end if
+	
+    if sortby = "navn" then
+    filorderby = "filnavn"
+    else
+    filorderby = "fi.dato DESC"
+    end if
+
+	func = request("func")
+	'Response.write kundeid
+	level = session("rettigheder")
+	
+	
+	sub sideindholdtop%>
+	<div id="sindhold" style="position:absolute; left:20; top:20; visibility:visible; display:; z-index:50;">
+	<h3><img src="../ill/ac0038-24.gif" width="24" height="24" alt="" border="0">&nbsp;Filarkiv</h3>
+	<table cellspacing=1 bgcolor="#ffffff" cellpadding=2 border=0>
+	<%end sub
+	
+	sub sideindholdbund%> 
+	</table>
+	<br>
+	<br>
+	&nbsp;
+	</div>
+	<br><br>&nbsp;
+	<%end sub
+	
+	
+	
+	select case func
+	case "redfil"
+	
+	strSQL = "SELECT filnavn, id, adg_kunde, adg_alle, type, folderid FROM filer WHERE id =" & id
+	'Response.write strSQL
+	'Response.flush
+	oRec.open strSQL, oConn, 3 
+	if not oRec.EOF then
+	
+	'filnavn = oRec("filnavn")
+	adg_kunde = oRec("adg_kunde")
+	adg_alle = oRec("adg_alle")
+	intType = oRec("type")
+	intFolderid = oRec("folderid")
+	
+	end if
+	oRec.close 
+	
+	call sideindholdtop
+	%>
+	<tr><form action="filer.asp?func=dbredfil&id=<%=id%>&kundeid=<%=kundeid%>&jobid=<%=jobid%>&nomenu=<%=nomenu%>" method="post">
+		<td>
+		
+		<br><b>Filtype</b>: (Office dokument, billede ell. firma logo)<br>
+		<select name="FM_filtype">
+		<%select case intType
+		case 1 
+		logoSel = "SELECTED"
+		offSel = ""
+		bilSel = ""
+		case 5
+		logoSel = ""
+		offSel = "SELECTED"
+		bilSel = ""
+		case 7
+		bilSel = "SELECTED"
+		logoSel = ""
+		offSel = ""
+		end select%>
+		<option value="5" <%=offSel%>>Office Dokument</option>
+		<option value="7" <%=bilSel%>>Billede (screenshot)</option>
+		<option value="1" <%=logoSel%>>Firma Logo</option>
+		</select><br><br>
+	<b>Folder:</b><br>
+	
+	
+	<%
+	strSQL = "SELECT fo.kundeid AS kundeid, fo.navn AS foldernavn, "_
+	&" fo.id AS foid, fo.kundese"_
+	&" FROM foldere fo "_
+	&" WHERE fo.kundeid = "& kundeid &" "& jobidSQL &" OR (fo.id = 500) ORDER BY foldernavn"
+	
+	'Response.write strSQL
+	'Response.flush
+	%>
+	<select name="FM_folderid" id="FM_folderid">
+	<%
+	
+	
+	oRec.open strSQL, oConn, 3 
+	while not oRec.EOF 
+	
+	if cint(oRec("foid")) = cint(intFolderid) then
+	fSel = "SELECTED"
+	else
+	fSel = ""
+	end if
+	%>
+	<option value="<%=oRec("foid")%>" <%=fSel%>><%=oRec("foldernavn")%></option>
+	<%
+	oRec.movenext
+	wend
+	oRec.close %>
+	</select>
+	
+	<br><br>
+	<b>Adgangs rettigheder:</b><br>
+	Hvilke brugergrupper skal have adgang til dette dokument:<br>
+	<%
+	if adg_kunde = 1 then
+	chkKunde = "CHECKED"
+	else
+	chkKunde = ""
+	end if
+	%>
+	<input type="checkbox" name="FM_adg_kunde" id="FM_adg_kunde" value="1" <%=chkKunde%>> Kontakter. <br>
+    <input id="Checkbox1" type="checkbox" checked disabled /> TimeOut System Administrator(er).<br>
+	
+	<%
+	if adg_alle = 1 then
+	chkAlle = "CHECKED"
+	else
+	chkAlle = ""
+	end if
+	%>
+	<input type="checkbox" name="FM_adg_alle" id="FM_adg_alle" value="1" <%=chkAlle%>> TimeOut Alle brugere. 
+	<br><br>
+	<input type="image" src="../ill/opdaterpil.gif">
+	<%
+	call sideindholdbund
+	
+	case "dbredfil"
+	
+	intType = request("FM_filtype")
+	
+	if len(request("FM_adg_kunde")) <> 0 then
+	adg_kunde = 1
+	else
+	adg_kunde = 0
+	end if
+	
+	if len(request("FM_adg_alle")) <> 0 then
+	adg_alle = 1
+	else
+	adg_alle = 0
+	end if
+	
+	folderid = request("FM_folderid")
+
+
+	strSQLupd = "UPDATE filer SET "_
+	&" type = "& intType &", folderid = "& folderid &", "_
+	&" adg_kunde = "& adg_kunde &", adg_alle = "& adg_alle &""_
+	&" WHERE id = "& id
+	
+	oConn.execute(strSQLupd)
+	
+	if cint(nomenu) <> 1 then
+	Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
+	Response.Write("<script language=""JavaScript"">window.close();</script>")
+	else
+	Response.redirect "filer.asp?kundeid="&kundeid&"&jobid="&jobid&"&nomenu="&nomenu 
+	end if
+		
+	
+	
+	case "slet"
+	'*** Her spørges om det er ok at der slettes en folder ***
+	
+	%>
+	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+	<!-------------------------------Sideindhold------------------------------------->
+	<%
+	
+	slttxt = "<b>Du er ved at <b>slette</b> en folder!</b><br />"_
+	&" Når en folder slettes slettes alle de filer der ligge i folderen også.<br><br>"
+	slturl = "filer.asp?func=sletok&id="&id&"&kundeid="&kundeid&"&jobid="&jobid&"&nomenu="&nomenu
+	
+	call sltque(slturl,slttxt,slturlalt,slttxtalt,210,90)
+	
+	
+	
+	case "sletok"
+	
+	
+	Set FSO = Server.CreateObject("Scripting.FileSystemObject")
+		
+	
+	'*** Her slettes folder og filer ***
+	strSQL = "SELECT filnavn, id FROM filer WHERE folderid = "& id 
+	oRec.open strSQL, oConn, 3
+	while not oRec.EOF 
+		
+		'Response.write strPath
+		'*** Sletter filen fysisk ***
+		on Error resume Next 
+		strPath =  "d:\dkdomains\outzource\wwwroot\timeout_xp\wwwroot\ver2_1\inc\upload\"&lto&"\" & oRec("filnavn")
+		Set fsoFile = FSO.GetFile(strPath)
+		fsoFile.Delete
+		
+		oConn.execute("DELETE FROM filer WHERE id = "& oRec("id") &"")
+		
+	oRec.movenext
+	wend
+	oRec.close
+	
+	Set FSO = nothing
+	
+	oConn.execute("DELETE FROM foldere WHERE id = "& id &"")
+	
+	'if cint(nomenu) <> 1 then 
+	'Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
+	'Response.Write("<script language=""JavaScript"">window.close();</script>")
+	'else
+	Response.redirect "filer.asp?kundeid="&kundeid&"&jobid="&jobid&"&nomenu="&nomenu 
+	'end if
+	
+	
+	case "sletfil"
+	'*** Her spørges om det er ok at der slettes en fil ***
+	
+	%>
+	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+	<!-------------------------------Sideindhold------------------------------------->
+	<%
+	
+	slttxt = "<b>Du er ved at <b>slette</b> en fil!</b><br />"_
+	&"Er du sikker på at du vil slette denne fil?<br><br>"
+	slturl = "filer.asp?func=sletfilok&id="&id&"&kundeid="&kundeid&"&jobid="&jobid&"&nomenu="&nomenu
+	
+	call sltque(slturl,slttxt,slturlalt,slttxtalt,210,90)
+	
+
+	
+	case "sletfilok"
+	'*** Her slettes en fil ***
+	'ktv
+	'strPath =  "E:\www\timeout_xp\wwwroot\ver2_1\upload\"&lto&"\" & Request("filnavn")
+	'Abusiness
+	strPath =  "d:\dkdomains\outzource\wwwroot\timeout_xp\wwwroot\ver2_1\inc\upload\"&lto&"\" & Request("filnavn")
+	'Response.write strPath
+	
+	on Error resume Next 
+
+	Set FSO = Server.CreateObject("Scripting.FileSystemObject")
+	Set fsoFile = FSO.GetFile(strPath)
+	fsoFile.Delete
+	
+	Set FSO = nothing
+	
+	oConn.execute("DELETE FROM filer WHERE id = "& id &"")
+	
+	'if cint(nomenu) <> 1 then 
+	'Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
+	'Response.Write("<script language=""JavaScript"">window.close();</script>")
+	'else
+	Response.redirect "filer.asp?kundeid="&kundeid&"&jobid="&jobid&"&nomenu="&nomenu 
+	'end if
+	
+	
+	case "dbopretfo", "dbredfo"
+	
+	strNavn = request("FM_navn")
+	if len(request("FM_kundese")) then
+	kundese = 1
+	else
+	kundese = 0
+	end if
+	
+	
+	sqldato = year(now) & "/" & month(now) & "/" & day(now)
+	'intJobid = request("FM_jobid")
+	
+	if len(strNavn) <>  0 then
+		
+		if func = "dbopretfo" then
+		strSQL = "INSERT INTO foldere (navn, kundeid, kundese, jobid, editor, dato) VALUES "_
+		&" ('"& strNavn &"', "& kundeid &", "& kundese &", "& jobid &", '"& session("user") &"', '"& sqldato &"')"
+		else
+		strSQL = "UPDATE foldere SET navn = '"& strNavn &"', "_
+		&" kundese = "& kundese &", jobid = "& jobid &", editor = '"& session("user") &"', dato = '"& sqldato &"' WHERE id = " & id
+		end if
+		
+		
+		
+		oConn.execute(strSQL)
+		
+		
+		
+		
+		if cint(nomenu) <> 1 then
+		Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
+		Response.Write("<script language=""JavaScript"">window.close();</script>")
+		else
+		Response.redirect "filer.asp?kundeid="& kundeid &"&jobid="&jobid&"&nomenu="&nomenu
+		end if
+		
+	else
+	
+		%>
+		<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+		<%
+		useleftdiv = "j"
+		errortype = 8
+		call showError(errortype)
+	
+	end if
+	
+	case "oprfo", "fored"
+		
+		if func = "fored" then
+		
+			strSQL = "SELECT navn, id, kundese, jobid, editor, dato FROM foldere WHERE id = "& id
+			oRec.open strSQL, oConn, 3 
+			if not oRec.EOF then
+			
+			strNavn = oRec("navn")
+			kundese = oRec("kundese")
+			intJobid = oRec("jobid")
+			strEditor = oRec("editor")
+			dtDato = oRec("dato") 
+			
+			end if
+			oRec.close 
+			
+			dbfunc = "dbredfo"
+		
+		else
+			
+			intJobid = jobid
+			strNavn = ""
+			kundese = 0
+			dbfunc = "dbopretfo"
+		
+		end if
+		
+		
+		if kundese = "1" then
+		ksCHK = "CHECKED"
+		else
+		ksCHK = ""
+		end if
+		
+		
+		
+	%>
+	<div id="Div1" style="position:absolute; left:20px; top:20px; visibility:visible; display:; z-index:50;">
+	
+	<%
+    oimg = "icon_cabinet_open.png"
+	oleft = 0
+	otop = 0
+	owdt = 400
+	oskrift = "Filarkiv"
+	
+	call sideoverskrift(oleft, otop, owdt, oimg, oskrift)
+    
+     %>
+	
+	
+	 <%
+	 
+	 tTop = 0
+	tLeft = 0
+	tWdth = 400
+	
+	
+	call tableDiv(tTop,tLeft,tWdth)
+	
+	%>
+	
+	<%
+	 
+                          tdheight = 300
+                          ptop = 0
+                          pleft = 0
+                          pwdt = 400
+            
+                         call filteros09(ptop, pleft, pwdt, "Opret folder", 1, tdheight)
+                        
+                         %>
+                         <table cellspacing=0 cellpadding=0 border=0 width=100%>
+                         <form action="filer.asp?func=<%=dbfunc%>&kundeid=<%=kundeid%>&id=<%=id%>&nomenu=<%=nomenu%>" method="post">
+	
+	
+	<%if func = "fored" then
+	
+	if len(dtDato) <> 0 then
+	showDato = formatdatetime(dtDato, 1)
+	else
+	showDato = ""
+	end if%>
+	
+	
+	
+	
+	<tr><td colspan=2><span style="color:#999999;"><i>Sidst redigeret af: <%=strEditor%> d. <%=showDato%></i></span></td></tr>
+	<%end if%>
+	<tr><td valign=top colspan=2><br /><br /><b>Foldernavn:</b></td>
+	</tr>
+	<tr><td valign=top colspan=2><input type="text" name="FM_navn" id="FM_navn" style="width:220px;" value="<%=strNavn%>"><br>
+	<input type="checkbox" name="FM_kundese" id="FM_kundese" value="1" <%=ksCHK%>> Denne folder være tilgængelig for eksterne kontakter (kunder). <br><br>
+	</td></tr>
+	<tr><td valign=top colspan=2>
+	<b>Skal denne folder være knyttet til<br /> et bestemt job eller tilbud? </b>
+	</td>
+	</tr>
+	<tr><td valign=top colspan=2>
+	<select name="jobid" id="jobid" style="width:220px;">
+	<option value="0">Nej</option>
+	<%
+	strSQL = "SELECT jobnavn, id, jobnr FROM job WHERE ((jobstatus = 1 AND fakturerbart = 1) OR jobstatus = 3) AND jobknr = "& kundeid &" ORDER BY jobnavn"
+	
+	oRec.open strSQL, oConn, 3 
+	while not oRec.EOF 
+	if cint(intJobid) = oRec("id") then
+	jsel = "SELECTED"
+	else
+	jsel = ""
+	end if%>
+	<option value="<%=oRec("id")%>" <%=jsel%>><%=oRec("jobnavn")%> (<%=oRec("jobnr")%>)</option>
+	<%
+	oRec.movenext
+	wend
+	oRec.close %>
+	</select>
+	</td></tr>
+	<tr><td colspan=2 align=right><br><br>
+        <input id="Submit1" type="submit" value=" Opdater >> " /></td></tr>
+	</form>
+	</table>
+	
+	<!-- filteros09 slut -->
+		                </td>
+		                </tr>
+		                </table>
+		                </div>
+	
+	<!-- table div -->
+	</div>
+	
+	
+    <!--
+	<br><br>
+	<div style="position:relative; background-color:#FFFFe1; visibility:visible; border:1px red solid; padding:15px; width:550px;">
+	<img src="../ill/ac0005-24.gif" width="24" height="24" alt="" border="0">&nbsp;<b>Side note(r):<br></b>
+	<br>
+	Når en folder tilknyttes et job, har kun de medarbejdere
+	der har adgang til at redigere jobbet (Admin, eller jobansvarlige) adgang til denne folder.
+	<br><br>Yderligere adgangs-rettigheder til filerne i en folder styres herefter på fil-niveau, hvor det kan bestemmes om
+	<u>Alle</u> skal have adgang til den enkelte fil, eller om det kun skal være administratorer brugere.
+	</div>
+    -->
+	
+	
+	<br>
+	<br>
+	</div>
+	<br><br>&nbsp;
+	
+	
+	<%
+	
+	case else
+	
+	
+	
+	
+	'*** Er det kunde der er logget på ? ***
+	if request("kundelogin") = "1" then
+	kundelogin = 1
+	else
+	kundelogin = 0
+	end if
+	
+	
+	%>
+	
+	<%if kundelogin <> 1 AND nomenu = 0 then
+	sindhTop = 120
+	%>
+		<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+		<!--#include file="../inc/regular/topmenu_inc.asp"-->
+		<div id="topmenu" style="position:absolute; left:0; top:42; visibility:visible;">
+		<%call tsamainmenu(10)%>
+		</div>
+		<div id="sekmenu" style="position:absolute; left:15; top:82; visibility:visible;">
+		<%
+		'call filertopmenu()
+		%>
+		</div>
+	<%else
+	%>
+	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->	
+	<!--#include file="../inc/regular/topmenu_inc.asp"-->
+	<%
+	sindhTop = 60
+	end if%>
+	
+	
+	<div id="sindhold" style="position:absolute; left:20; top:<%=sindhTop%>; visibility:visible; display:; z-index:50;">
+	
+    <%
+    oimg = "icon_cabinet_open.png"
+	oleft = 0
+	otop = 0
+	owdt = 400
+	oskrift = "Filarkiv"
+	
+	call sideoverskrift(oleft, otop, owdt, oimg, oskrift)
+    
+     %>
+
+	
+	<%
+	'call sideindholdtop
+	if kundelogin <> 1 then
+	
+	call filterheader(0,0,947,pTxt)
+	
+	%>
+    <form action="filer.asp?nomenu=<%=nomenu%>&fms=1" method="post">
+	<table width=100% cellspacing=0 cellpadding=3 border=0>
+	<tr><td>
+		<b>Kontakter (kunder):</b>
+		</td>
+		<td>
+		<select name="kundeid" size="1" style="width:525 px;" onchange="submit()">
+		<option value="0">Alle</option>
+		<%
+				strSQL = "SELECT Kkundenavn, Kkundenr, Kid FROM kunder WHERE Kid <> 0 ORDER BY Kkundenavn"
+				oRec.open strSQL, oConn, 3
+				while not oRec.EOF
+				
+				if cint(kundeid) = cint(oRec("Kid")) then
+				isSelected = "SELECTED"
+				else
+				isSelected = ""
+				end if
+				%>
+				<option value="<%=oRec("Kid")%>" <%=isSelected%>><%=oRec("Kkundenavn")%></option>
+				<%
+				oRec.movenext
+				wend
+				oRec.close
+				%>
+		</select>
+		</td>
+		</tr>
+		<tr>
+		<td valign=top>
+		<b>Job:</b>
+		</td>
+		<td>
+		<%strSQLjob = "SELECT id, jobnavn, jobnr FROM job WHERE jobknr = "& kundeid & " ORDER BY jobnavn" %>
+		
+		
+		<select name="jobid" size="10" style="width:525px;" onchange="submit()">
+		<option value="0">Alle</option>
+		
+		<%
+		oRec.open strSQLjob, oConn, 3
+		while not oRec.EOF
+		
+		if cint(jobid) = oRec("id") then
+		jSel = "SELECTED"
+		else
+		jSel = ""
+		end if
+		%>
+		<option value="<%=oRec("id") %>" <%=jSel %>><%=oRec("jobnavn")%> (<%=oRec("jobnr") %>)</option>
+		<%
+		oRec.movenext
+		wend
+		oRec.close%>
+		</select>
+        <br />
+        <input type="CHECKBOX" value="1" name="vistommefoldere" <%=vistommefoldereCHK %> /> Vis foldere uden indhold<br />
+        </td>
+		<td valign=bottom>
+		
+		<input type="submit" value=" Vis filer >> ">
+		
+	</td></tr>
+	</table>
+    </form>
+	
+	
+	<!-- filter header -->
+	</td></tr></table>
+	</div>
+	<br /><br />
+	
+	<%if (level <= 2 OR level = 6) then  
+            
+            if kundeid <> 0 then%>
+			<a href="javascript:popUp('filer.asp?func=oprfo&kundeid=<%=kundeid%>&jobid=<%=jobid%>&nomenu=<%=nomenu%>','600','500','250','120');" target="_self" class=vmenu><img src="../ill/folder_ikon.gif" width="17" height="15" alt="" border="0">&nbsp;Opret folder >></a>
+		     &nbsp;&nbsp;|&nbsp;&nbsp;
+			<a href="javascript:popUp('upload.asp?type=job&id=<%=id%>&kundeid=<%=kundeid%>&jobid=<%=jobid%>&nomenu=<%=nomenu%>','600','500','250','120');" target="_self" class=vmenu><img src="../ill/addmore55.gif" width="10" height="13" alt="" border="0">&nbsp;Upload fil >></a>
+			
+            <%else %>
+            <img src="../ill/folder_ikon.gif" width="17" height="15" alt="" border="0">&nbsp;Opret folder >> (vælg først kunde)
+             &nbsp;&nbsp;|&nbsp;&nbsp;
+			<img src="../ill/addmore55.gif" width="10" height="13" alt="" border="0">&nbsp;Upload fil >> (vælg først kunde)
+			
+            <%end if %>
+            
+           
+			<%end if%>
+	
+	<%end if%>
+	
+	
+	<%
+	
+	tTop = 0
+	tLeft = 0
+	tWdth = 950
+	
+	
+	call tableDiv(tTop,tLeft,tWdth)
+	
+	%>
+	
+	<script>
+
+	    $(window).load(function () {
+	        // run code
+
+
+
+
+
+	    
+
+	    for (i = 0; i < 2000; i++) { //bør svare til maks antal foldere linier
+
+	        //alert($.cookie('showfolder_' + i))
+	        if ($.cookie('showfolder_' + i) == "1") {
+
+	            //alert("her" + i)
+	            $(".foid_" + i).css("display", "");
+	            $(".foid_" + i).css("visibility", "visible");
+	            $(".foid_" + i).show(100);
+
+	            $("#foid_" + i).html("<img src='../ill/folder_document.png'  alt='' border='0'/>")
+
+	        }
+
+	    }
+
+	});
+
+
+	    $(document).ready(function () {
+
+              $(".showfolder").mouseover(function () {
+                    //alert("her")
+                    $(this).css("cursor", "hand");
+              });
+
+
+	        $(".showfolder").click(function () {
+
+	            var thisid = this.id
+	            var thisvallngt = thisid.length
+	            var thisvaltrim = thisid.slice(5, thisvallngt)
+	            thisid = thisvaltrim
+
+	            $(".trfo").css("background-color", "#FFFFFF");
+
+	            //alert($(".foid_" + thisid).css('display'))
+	            if ($(".foid_" + thisid).css('display') == "none") {
+
+	                $(".foid_" + thisid).css("display", "");
+	                $(".foid_" + thisid).css("visibility", "visible");
+	                $(".foid_" + thisid).show(100);
+
+	                $("#trid_" + thisid).css("background-color", "#FFFF99");
+
+	                $.scrollTo(this, 200, { offset: -100 });
+
+
+	                $("#foid_" + thisid).html("<img src='../ill/folder_document.png'  alt='' border='0'/>") 
+
+	                $.cookie('showfolder_' + thisid, '1');
+
+	            } else {
+
+	                $(".foid_" + thisid).hide(100);
+	                $.cookie('showfolder_' + thisid, '0');
+
+	                $("#trid_" + thisid).css("background-color", "#FFFFE1");
+	                $("#foid_" + thisid).html("<img src='../ill/folder.png'  alt='' border='0'/>")
+
+	                
+	                $.scrollTo(this, 200, { offset: -200 });
+
+	            }
+
+
+
+	        });
+
+
+	       
+
+	    });
+	
+	</script>
+	
+	<table cellspacing=0 bgcolor="#ffffff" cellpadding=2 border=0 width=100%>
+	<%
+	
+	'kundelogin = 0
+	
+	if jobid <> 0 then
+	jobidSQL = " AND (fo.jobid = "& jobid &" OR fi.jobid = " & jobid &" )"
+	jobidSQL2 = "" '"AND fi.jobid = " & jobid
+	else
+	jobidSQL = "" 
+	jobidSQL2 = ""
+	end if
+	
+	if kundelogin = 1 then
+	kundeseSQL = " AND fo.kundese = 1 "
+	kundeseFilSQL = " AND fi.adg_kunde = 1 "
+	gamleFilerKri = ""
+	
+    else
+	
+    kundeseSQL = ""
+	    
+        if kundeid <> 0 then
+	    kundeIdSQL = " (fo.kundeid = "& kundeid &" OR fo.kundeid = 0) " '(fo.id = 500 OR fo.id = 1000) "
+	    else
+        kundeIdSQL = " fo.kundeid <> -1 "
+	    'kundeseFilSQL = " AND (fo.id = 500 OR fo.id = 1000) "
+	    end if
+	
+    'gamleFilerKri = " (fo.id = 14) OR (fo.id = 500) OR "
+	gamleFilerKri = ""
+	end if 
+	
+	
+	
+	strSQL = "SELECT fo.kundeid AS kundeid, fo.navn AS foldernavn, "_
+	&" fi.adg_kunde, fi.adg_admin, fi.adg_alle, fo.id AS foid, fo.kundese, "_
+	&" fo.jobid AS jobid, filnavn, fi.id AS fiid, COUNT(fi.id) AS antalfiler,"_
+	&" fi.dato, "_
+	&" j1.jobnr AS j1jobnr, j1.jobnavn AS j1jobnavn, j1.jobans1 AS j1jobans1, j1.jobans2 AS j1jobans2, "_
+	&" j2.jobnr As j2jobnr, j2.jobnavn As j2jobnavn, j2.jobans1 AS j2jobans1, j2.jobans2 AS j2jobans2, "_
+	&" fo.dato AS fodato, kkundenavn, kkundenr"_
+	&" FROM foldere fo "_
+	&" LEFT JOIN filer AS fi ON (fi.folderid = fo.id "& jobidSQL2 &") "_
+	&" LEFT JOIN job AS j1 ON (j1.id = fo.jobid) "_
+	&" LEFT JOIN job AS j2 ON (j2.id = fi.jobid) "_
+    &" LEFT JOIN kunder AS k ON (k.kid = fo.kundeid) "_
+	&" WHERE ("& kundeIdSQL &" "& jobidSQL &") "& kundeseSQL &" GROUP BY foid, fiid ORDER BY fo.navn, "& filorderby
+	'"& gamleFilerKri &"
+	
+	
+	'Response.write strSQL
+	'Response.flush
+	%>
+	
+	
+	<tr bgcolor="#8caae6">
+	<td valign=bottom class=alt width=250><a href="filer.asp?sortby=navn&kundeid=<%=kundeid %>&id=<%=id %>&jobid=<%=jobid %>&nomenu=<%=nomenu %>&func=<%=func %>" class=alt><u>Folder / Filer navn</u></a></td>
+	<td valign=bottom align=center class=alt><a href="filer.asp?sortby=dato&kundeid=<%=kundeid %>&id=<%=id %>&jobid=<%=jobid %>&nomenu=<%=nomenu %>&func=<%=func %>" class=alt><u>Dato</u></a></td>
+	<td valign=bottom class=alt><b>Kontakt</b> (kunde)<br /><b>Job</b></td>
+	<td valign=bottom class=alt><b>Ekstern adgang<br>til folder?</b></td>
+	
+	
+	<%
+	'** Er det kunde der er logget ind ?
+	if kundelogin <> 1 then
+	%>
+	
+	<td valign=bottom class=alt align=center><b>Fil rettigheder.<br>Admin.</b></td>
+	<td valign=bottom class=alt align=center><b>Fil rettigheder.<br>Alle medarbjedere.</b></td>
+	<td valign=bottom class=alt align=center width=50 class=red><b>Slet</b></td>
+	<%else%>
+	<td colspan=5>&nbsp;</td>
+	<%end if%>
+	</tr>
+	<%
+	
+	
+	
+	x = 0
+    y = 0
+	lastfolderid = 0
+	oRec.open strSQL, oConn, 3 
+	while not oRec.EOF 
+	
+	'******************** Folder *****************************
+
+    if cint(vistommefoldere) = 1 OR oRec("antalfiler") = "1" then
+
+	if lastfolderid <> oRec("foid") then
+	
+       y = y + 1
+
+               ' select case right(y, 1)
+				'case 0,2,4,6,8
+				'folderbg = "#eff3ff"
+				'case else
+				folderbg = "#FFFFFF"
+                'end select
+
+		'** Er det kunde eller medarbejder der er logget ind ?
+		if kundelogin <> 1 then 'ikke kunde logget ind => Medarbjeder logget ind
+			
+			
+		'** Tjekker rettigheder eller om man er jobanssvarlig ***
+		editok = 0
+			
+			'** På foldere der er tilknyttet et job ***
+			if len(oRec("j1jobnavn")) <> 0 then
+			
+			
+				if level = 1 then '** Administrator
+				editok = 1
+				else
+						'*** jobans 
+						if cint(session("mid")) = oRec("j1jobans1") OR cint(session("mid")) = oRec("j1jobans2") OR _
+						(cint(oRec("j1jobans1")) = 0 AND cint(oRec("j1jobans2")) = 0) then
+						editok = 1
+						end if
+				end if
+			
+			else
+			'** På foldere der IKKE er tilknyttet et job ***
+				
+				if level <= 3 OR level = 6 then '** Admin eller niveau 1 må redigere FOLDER
+				editok = 1
+				else
+				editok = 0
+				end if
+			
+			end if
+		    
+            
+		
+				%>
+				<tr bgcolor="<%=folderbg %>" id="trid_<%=oRec("foid")%>" class="trfo">
+					
+					<td style="border-top:1px #cccccc solid; height:30px;">
+                    
+                   
+                    <%if oRec("antalfiler") = "1" then 
+                    spcls = "showfolder"
+                    spcol = "#000000"%>
+					<span id="foid_<%=oRec("foid")%>" class="showfolder"><img src="../ill/folder.png"  alt="" border="0"/></span>
+                    <%else 
+                    spcls = ""
+                    spcol = "#999999"%>
+                    <img src="../ill/folder_blue.png"  alt="" border="0"/>
+					<%end if %>
+                    
+                  
+
+					
+					<span id="fxid_<%=oRec("foid")%>" class="<%=spcls %>" style="font-size:14px; color:<%=spcol %>;"><b><%=left(oRec("foldernavn"), 40)%></b></span>
+					<%if oRec("foid") <> 14 AND oRec("foid") <> 500 AND oRec("foid") <> 1000 AND editok = 1 then%>
+                    &nbsp;<a href="javascript:popUp('filer.asp?func=fored&kundeid=<%=oRec("kundeid")%>&id=<%=oRec("foid")%>&nomenu=<%=nomenu%>','600','500','250','120');" target="_self"><img src="../ill/blyant.gif" width="12" height="11" alt="" border="0"></a>
+				    <%end if%>
+
+                    
+					
+					
+					
+					</td>
+					
+					<td class=lille style="border-top:1px #cccccc solid; white-space:nowrap;" align=center><%=oRec("fodato")%>&nbsp;</td>
+					
+					<td class=graa style="border-top:1px #cccccc solid;">
+
+                    <%if len(trim(oRec("kkundenavn"))) <> 0 then%>
+					<b><%=left(oRec("kkundenavn"), 30)%> (<%=oRec("kkundenr")%>)</b>
+					<%end if%>
+
+					<%if len(trim(oRec("j1jobnavn"))) <> 0 then%>
+					<br /><%=left(oRec("j1jobnavn"), 30)%> (<%=oRec("j1jobnr")%>)
+					<%end if%>
+					&nbsp;</td>
+					
+					<td align=center  style="border-top:1px #cccccc solid;">
+					<%if oRec("kundese") = "1" then%>
+					<i>V</i>
+					<%end if%>&nbsp;
+					</td>
+					
+					<td style="border-top:1px #cccccc solid;" colspan=2>&nbsp;</td>
+					<td align=center style="border-top:1px #cccccc solid;">
+					<%if oRec("foid") <> 14 AND oRec("foid") <> 500 AND oRec("foid") <> 1000 AND editok = 1 then%>
+					<a href="filer.asp?func=slet&kundeid=<%=oRec("kundeid")%>&id=<%=oRec("foid")%>&jobid=<%=jobid%>&nomenu=<%=nomenu%>"><img src="../ill/slet_16.gif" border="0" /></a>
+					<%else%>
+					&nbsp;
+					<%end if%></td>
+					
+				</tr>
+				<%
+				
+				
+				
+		
+	
+	else%>
+		<tr bgcolor="<%=folderbg %>">	
+			<td style="border-bottom:1px #8caae6 solid;"><img src="../ill/folder_ikon.gif" width="17" height="15" alt="" border="0"><b><%=oRec("foldernavn")%></b></td>
+			<td class=lille style="border-bottom:1px #8caae6 solid;" align=center><%=oRec("fodato")%>&nbsp;</td>
+			
+            <td class=graa style="border-bottom:1px #8caae6 solid;">
+			<%if len(trim(oRec("j1jobnavn"))) <> 0 then%>
+			<%=oRec("j1jobnavn")%> (<%=oRec("j1jobnr")%>)
+			<%end if%>
+			&nbsp;</td>
+			
+			<td style="border-bottom:1px #8caae6 solid;">
+			<%if oRec("kundese") = "1" then%>
+			<i>V</i>
+			<%end if%>&nbsp;
+			</td>
+			
+			<td style="border-bottom:1px #8caae6 solid;">&nbsp;</td>
+			<td style="border-bottom:1px #8caae6 solid;" colspan=4>&nbsp;</td>
+		</tr>
+			
+	<%end if '*** kundelogget ind
+		
+	end if 'lastfolder%>
+	
+	
+	<%
+	'******************** Filer *****************************
+	if isNull(oRec("filnavn")) <> true then
+		'** Er det kunde der er logget ind ?
+		if kundelogin <> 1 then
+		
+				'*** Rettigheder ***
+				
+				'***
+				'*** Hvis adgang til alle
+				'*** Hvis level = admin 
+				'*** Hvis Jobans (folder tilknyttet job) (editok = 1)
+				'***
+				
+                'if (oRec("adg_alle") = 1 OR (level = 1) OR editok = 1) AND len(trim(oRec("filnavn"))) <> 0 then
+				
+				'select case right(x, 1)
+				'case 0,2,4,6,8
+				bgtd = "#FFFFFF"
+				'case else
+				'bgtd = "#D6DFf5"
+                '#eff3ff
+				'end select
+				%>
+				
+				<tr bgcolor="<%=bgtd %>" class="foid_<%=oRec("foid")%>" style="visibility:visible; display:;">	
+					<td style="padding-left:24px;"><img src="../ill/addmore55.gif" width="10" height="13" alt="" border="0">&nbsp;<a href="../inc/upload/<%=lto%>/<%=oRec("filnavn")%>" class='vmenu' target="_blank"><%=left(oRec("filnavn"), 40)%></a>&nbsp;
+					<%if (level = 1 OR oRec("adg_alle") = 1) then%>
+					<a href="javascript:popUp('filer.asp?kundeid=<%=kundeid%>&jobid=<%=jobid%>&func=redfil&id=<%=oRec("fiid")%>&nomenu=<%=nomenu%>','600','500','250','120');" target="_self"><img src="../ill/blyant.gif" width="12" height="11" alt="" border="0"></a>
+					<%end if%>
+					&nbsp;</td>
+						
+						<td class=lille align=center style="white-space:nowrap;"><%=oRec("dato")%>&nbsp;</td>
+						
+                        
+
+						<td class=graa >
+						<%if len(trim(oRec("j2jobnavn"))) <> 0 then%>
+					<%=left(oRec("j2jobnavn"), 30)%> (<%=oRec("j2jobnr")%>)
+					<%end if%>
+                    &nbsp;
+						</td>
+						
+						<td align=center >
+						<%if oRec("adg_kunde") = "1" then%>
+						<i>V</i>
+						<%end if%>
+						&nbsp;
+						</td>
+						
+							
+							<td align=center >
+							<%if oRec("adg_admin") = "1" then%>
+							<i>V</i>
+							<%end if%>&nbsp;</td>
+							
+							<td align=center >
+							<%if oRec("adg_alle") = "1" then%>
+							<i>V</i>
+							<%end if%>&nbsp;</td>
+							
+							<td align=center >
+							<%if (level = 1 OR editok = 1) then%>
+							<a href="filer.asp?func=sletfil&kundeid=<%=oRec("kundeid")%>&id=<%=oRec("fiid")%>&jobid=<%=jobid%>&nomenu=<%=nomenu%>">
+                                <img src="../ill/slet_16.gif" border="0"/></a>
+							<%end if%>&nbsp;</td>
+				</tr>
+				<%'end if '** Rettigheder
+				
+				
+		else '*** Kundelogin
+			if len(oRec("filnavn")) <> 0 then%>
+			<tr>	
+					
+					<td style="padding-left:20px; border-bottom:1px #cccccc solid;"><img src="../ill/addmore55.gif" width="10" height="13" alt="" border="0">&nbsp;<a href="../inc/upload/<%=lto%>/<%=oRec("filnavn")%>" class='vmenulille' target="_blank"><%=oRec("filnavn")%></a>&nbsp;</td>
+					<td align=center class=lille ><%=oRec("dato")%></td>
+					<td colspan=8 >&nbsp;</td>
+			</tr>
+			<%end if
+		
+		end if
+		
+	end if
+	
+    lastfilnavn = oRec("filnavn")
+	lastfolderid = oRec("foid") 
+	
+	x = x + 1
+
+    end if 'tommefiler oRec("antalfiler") = "1"
+
+	oRec.movenext
+	wend
+	oRec.close 
+	
+	
+	%>
+	
+	</table>
+	</div>
+	
+	<br><br>
+	<%if kundelogin <> 1 then%>
+    <!--
+	<div style="position:relative; background-color:#ffffe1; visibility:visible; border:1px red dashed; padding:15px; width:450px;">
+	<img src="../ill/ac0005-24.gif" width="24" height="24" alt="" border="0">&nbsp;<b>Side note(r):<br></b>
+	Kun administratorer, niveau 1 og 1B brugere kan oprette foldere og filer. Alle brugere kan se foldere.<br>
+	Brugere kan <u>se, redigere og slette</u> filer, hvortil "Alle" har adgang til. <br>
+	Administratorer niveau 1 og 1B brugere kan se, redigere og slette alle filer. <br>
+	Kontakter kan se filer og foldere hvortil der er givet adgang. <br>
+	Filer med samme navn som den fil der uploades bliver automatisk overskrevet, og der oprettes ikke en ny record i databasen.<br><br>
+	</div>
+    -->
+	<%else%>
+	<a href="Javascript:history.back()"><img src="../ill/pil_left.gif" width="22" height="22" alt="" border="0"></a>
+	<%end if%>
+	<br>
+	<br>
+	&nbsp;
+	</div>
+	<br><br>&nbsp;
+	<%
+	
+	
+	end select
+	
+	%>
+	
+	
+	
+	<%
+end if %>
+<!--#include file="../inc/regular/footer_inc.asp"-->
+
+
+<!--- 
+******************  Rettigheds Matrix filrarkiv ***********************************************
+***********************************************************************************************
+			Folder			| 		Filer			| 	Folder tilknyttet job
+							|						|	Hvis jobans   	Ikke jobans
+			Se 	Opr 	Red | Se	upload	 red.	|  	Se/Opr/Red 		Se/Opr/Red   
+***********************************************************************************************
+Admin	:	*	*		*	| *		*		*		|	*	*	*		*	*	*
+***********************************************************************************************
+N1		:	*	*		*	| *		*		-/*		|	*	* 	*		-	-	-
+***********************************************************************************************
+N2		:	*	-		-	| *		-		-/*		|	*	-	*		-	-	-			
+***********************************************************************************************
+Kunde	:	*	-		-	| *		-		-		|	*	- 	-		*	-	-
+***********************************************************************************************
+--->
