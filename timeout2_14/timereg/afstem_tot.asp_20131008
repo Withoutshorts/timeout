@@ -1,0 +1,1981 @@
+<!--#include file="../inc/connection/conn_db_inc.asp"-->
+<!--#include file="../inc/xml/tsa_xml_inc.asp"-->
+<!--#include file="../inc/errors/error_inc.asp"-->
+<!--#include file="../inc/regular/global_func.asp"-->
+<!--#include file="../inc/regular/treg_func.asp"-->
+<%
+
+ '**** Søgekriterier AJAX **'
+        'section for ajax calls
+        if Request.Form("AjaxUpdateField") = "true" then
+        Select Case Request.Form("control")
+        case "grandtotal"
+
+        usemrn = request("jqusemrn")
+        startDato = request("jqstartdato")
+        slutDato_GT = request("jqslutdato")
+        lic_mansat_dt = request("jqlic_mansat_dt")
+        levelthis = request("jqlevel")
+        
+
+        	call akttyper2009(6)
+	        akttype_sel = "#-99#, " & aktiveTyper
+	        akttype_sel_len = len(akttype_sel)
+	        left_akttype_sel = left(akttype_sel, akttype_sel_len - 2)
+	        akttype_sel = left_akttype_sel
+        
+        'akttype_sel = "#99#"
+
+        'Response.write "her:" & akttype_sel
+        'Response.end
+        'if session("mid") = 1 then
+        'Response.write "startDato: " & startDato & " slutDato_GT: "& slutDato_GT & "<br>"
+        'end if
+
+        call medarbafstem(usemrn, startDato, slutDato_GT, 5, akttype_sel, 0)
+
+        lonPerafsl = dateAdd("d", -1, startDato)
+        periodeTxt = "<span style=""color:darkred; font-size:11px;"">"& formatdatetime(lic_mansat_dt,1) & " - " & formatdatetime(slutDato_GT, 1) & "<span> "
+        periodeTxt = periodeTxt & "<br><span style=""font-size:9px; color:#000000;"">Senest afstemt (l&oslash;n-periode afsluttet): " & formatdatetime(lonPerafsl, 1) & "<span>"
+        'if levelthis = 1 then
+        'periodeTxt = periodeTxt & " <span style=""color:#999999; font-size:9px; font-weight:lighter;"">(TSA --> Statistik --> Medarb. afstemning & l&oslash;n)</span>"
+        'end if
+
+        if len(trim(request("media"))) <> 0 then
+        media = request("media")
+        else
+        media = ""
+        end if
+
+        if media = "print" then
+        gtDvTop = -220
+        else
+        gtDvTop = 0
+        end if 
+        %>
+         <div id="gtdv" style="position:relative; top:<%=gtDvTop%>px;">
+        <table><tr><td>
+        <b>Grandtotal <%=periodeTxt %></b>
+          </td></tr></table>
+
+        <table cellspacing=5 cellpadding=2 border=0><tr> 
+    <%
+
+    ltf = 0 
+    if lto <> "cst" AND lto <> "kejd_pb" then
+    %>
+    <!-- saldobalancer -->
+    <td align=right class=lille style="background-color:pink; border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b>Flekssaldo +/-</b><br /> 
+    Realiseret<br /> / Normtid<br />
+    <%=realNormBal %>
+    </td>
+    <%
+    ltf = ltf + 160
+    end if
+    
+    
+     if session("stempelur") <> 0 then %>
+    
+     <td align=right class=lille style="background-color:#DCF5BD; border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b>Flekssaldo +/-</b><br /> 
+    Komme/g&aring; tid<br /> / Normtid<br />
+     <%=normLontBal %>
+    </td>
+
+    <%
+    
+    ltf = ltf + 160
+    if lto <> "cst" AND lto <> "kejd_pb"  then %>
+     <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;"><b>Balance +/-</b><br />
+    Realiseret<br />/ Komme/g&aring; tid<br />
+    <%=realLontBal %>
+    </td>
+    <%
+    ltf = ltf + 160
+    end if 
+    
+    end if
+    
+    
+    
+    %>
+
+
+      <!-- Afspad / Overarb --->
+	       <%if instr(akttype_sel, "#30#") <> 0 OR instr(akttype_sel, "#31#") <> 0 then %>
+           
+               
+	         <%if lto <> "kejd_pb" AND lto <> "fk" then %>
+	         <td align=right style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom class=lille>Overarb. optjent:<br /> <%=formatnumber(afspTimer(x), 2)%></td>
+            <%end if %>
+             
+            <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;;" valign=bottom>Afspaderet:<br /> <%=formatnumber(afspTimerBr(x), 2)%></td>
+
+          
+	             <%
+                 
+                  aafspTimerTot = aafspTimerTot + afspTimer(x) 
+	              aafspTimerBrTot = aafspTimerBrTot + afspTimerBr(x)
+	              aafspTimerUdbTot = aafspTimerUdbTot + afspTimerUdb(x)
+	          
+	             afspadUdbBal = 0
+	             afspadUdbBal = (afspTimerOUdb(x) - afspTimerUdb(x)) 
+	         
+	             aafspadUdbBalTot = aafspadUdbBalTot + (afspadUdbBal)
+
+                 AfspadBal = 0 
+	             AfspadBal = (afspTimer(x) - (afspTimerBr(x)+ afspTimerUdb(x)))
+	             aAfspadBalTot = aAfspadBalTot + (AfspadBal)
+                 
+                 if lto <> "lw" AND lto <> "kejd_pb" AND lto <> "fk" then %>
+	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom>Udbetalt:<br /><%=formatnumber(afspTimerUdb(x), 2)%></td>
+	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom>&Oslash;nsk. udb.:<br /><%=formatnumber(afspadUdbBal, 2)%></td>
+	             <td align=right class=lille style="border-bottom:2px silver solid; width:80px; white-space:nowrap;" valign=bottom>Overarb. tilgode saldo:<br /><%=formatnumber(AfspadBal, 2)%></td>
+        	 
+                    <%end if %>
+	         
+            
+            
+
+	       <%end if %>
+
+           
+            </tr>
+             </table>
+             </div>
+
+           
+
+        <%
+
+     
+           
+        end select
+        Response.end
+
+
+        end if  
+
+
+if session("user") = "" then
+%>
+<!--#include file="../inc/regular/header_inc.asp"-->
+<%
+	errortype = 5
+	call showError(errortype)
+	else
+	
+	thisfile = "afstem_tot.asp"
+	if len(trim(request("usemrn"))) <> 0 then
+	usemrn = request("usemrn")
+	else
+	usemrn = 0
+	end if
+	
+	varTjDatoUS_man = request("varTjDatoUS_man")
+
+    if len(trim(request("varTjDatoUS_son"))) <> 0 then
+    varTjDatoUS_son = request("varTjDatoUS_son")
+    else
+    varTjDatoUS_son = dateadd("d", 6, varTjDatoUS_man)
+    varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
+	end if
+
+	nextweek = dateadd("d", 7, varTjDatoUS_man)
+	prevweek = dateadd("d", -7, varTjDatoUS_man)
+	
+	'Response.Write "varTjDatoUS_man: " & varTjDatoUS_man
+	
+	intMid = usemrn
+
+    if len(trim(request("media"))) <> 0 then
+    media = request("media")
+    else
+    media = ""
+    end if
+
+
+    'if len(trim(request("sort"))) <> 0 then
+    'sort = request("sort")
+    'else
+    '       if request.cookies("tsa")("afs_sorter") <> "" then
+    '       sort = request.cookies("tsa")("afs_sorter") 
+    '       else
+    '       sort = 0
+    '       end if
+    
+    'end if
+
+    'response.cookies("tsa")("afs_sorter") = sort
+
+
+     sort = 1 
+
+
+    if cint(sort) = 0 then
+    fortegn = -1
+    else
+    fortegn = 1
+    end if
+                   
+
+ 
+	
+
+    if media <> "print" AND media <> "export" then
+
+
+	            %>
+	            <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+
+                <%call browsertype()
+    
+                    if browstype_client <> "ip" then%>
+
+	            <!--#include file="../inc/regular/topmenu_inc.asp"-->
+	
+	            <div id="sindhold" style="position:absolute; left:0px; top:42px; visibility:visible;">
+	            <!--<h4>Timeregistrering - Jobliste</h4>-->
+	            <%call tsamainmenu(1)%>
+	            </div>
+	            <div id="sekmenu" style="position:absolute; left:15px; top:97px; visibility:visible;">
+	            <%call tregsubmenu() %>
+	            </div>
+	
+	            <%end if %>
+
+	
+	              <%
+    
+                 call treg_3menu(thisfile)
+
+                 toppx = 122
+                 bdpx = 1
+   
+    else
+    %>
+    <!--#include file="../inc/regular/header_hvd_inc.asp"-->
+    <%
+    
+    bdpx = 0
+    toppx = 0
+    end if
+    %>
+    
+    
+   
+
+
+   
+   <script>
+
+
+       $(window).load(function () {
+           // run code
+
+            
+        
+
+           $("#loadbar").hide(1000);
+
+           //var m_names = new Array("Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "December");
+
+           var media = $("#media").val()
+           var jqusemrn = $("#jqusemrn").val()
+           var jqstartdato = $("#jqstartdato").val()
+           var jqslutdato = $("#jqslutdato").val()
+           var jqlic_mansat_dt = $("#jqlic_mansat_dt").val()
+           var jqlevel = $("#jqlevel").val()
+           var jqstartdatoDK = new Date()
+           
+           //alert(m_names[jqstartdatoDK.getMonth()])
+           //jqstartdatoDK = $("#jqstartdatoDK").val()
+           //var mthThis = m_names[jqstartdatoDK.getMonth()] + " " + jqstartdatoDK.getFullYear()
+           var show = $("#show").val()
+
+           //var mthThis = new Date()
+           //mthThis = jqstartdatoDK.getMonth()
+           //alert(mthThis)
+           //mthThis = mthThis.getMonth()
+
+           if ((show == 12 || show == 77 || show == 7) && media != 'export') {
+               $.post("?jqusemrn=" + jqusemrn + "&jqstartdato=" + jqstartdato + "&jqslutdato=" + jqslutdato + "&jqlic_mansat_dt=" + jqlic_mansat_dt + "&jqlevel=" + jqlevel, { control: "grandtotal", AjaxUpdateField: "true" }, function (data) {
+
+                   $("#div_gt").html(data);
+
+                   if (media == "print") {
+                       $("#gtdv").css("top", "-200px")
+                       window.print();
+                   }
+
+               });
+
+           } 
+
+
+               //if (show == 77 && media != 'export') {
+               //    $("#div_gt").html("<a href='javascript:history.back()' class=vmenu> << Tilbage...</a>");
+             
+
+               //if (media == "print") {
+
+               //    $("#div_gt").html("");
+               //    window.print();
+               //}
+
+
+           //}
+
+
+
+           if (show == 4 && media != "export") {
+              
+
+               if (media == "print") {
+
+                  
+                   window.print();
+               }
+
+
+           }
+
+         
+
+       });
+
+
+      
+
+
+
+
+
+
+
+
+       $(document).ready(function() {
+	    
+	    
+	    $("#showaf").click(function() {
+            $.cookie('showakt', '2');
+        }); 
+            
+            
+         $("#showst").click(function() {
+            $.cookie('showakt', '3');
+        }); 
+        
+          $("#showtim").click(function() {
+                $.cookie('showakt', '1');
+	      });
+
+
+         globalWdt = $("#globalWdt").val()
+        //alert(globalWdt)
+          $("#medarbafstem_aar").css("width", globalWdt+"px");
+       
+            
+
+
+	}); 
+       
+   </script>
+   
+   
+  
+   
+   
+   <%
+   
+   if len(trim(request("show"))) <> 0 then
+   show = request("show")
+    
+    if show = 5 then
+        'if lto = "cst" OR lto = "intranet - local" then
+        'show = 51
+        'else
+        show = 12
+        'end if
+    end if
+
+   else
+   show = 12
+   end if
+   
+   'if show = 12 AND instr(akttype_sel, "#30#") <> 0 OR instr(akttype_sel, "#31#") <> 0 then 
+   'dwdt = 800
+   'else
+
+   select case lto
+   case "kejd_pb", "cst"
+   dwdt = 1000
+   case else
+   dwdt = 1300
+   end select
+   'end if
+   
+  
+    
+    if len(trim(request("yuse"))) = 0 OR cint(request("yuse")) = cint(year(now)) then
+    ugp = now
+    ddato = datepart("d", ugp) &"/"& datepart("m", ugp) &"/"& datepart("yyyy", ugp)
+    ddato = dateadd("d",-1, ddato)
+    showigartxt = "("&tsa_txt_319&")"
+
+        'if datepart("y", now, 2,2) <= 120 then
+        'yuse = year(dateadd("yyyy",-1, now))
+        'else
+        yuse = year(now)
+        'end if
+    else
+    showigartxt = ""
+    ugp = "31-12-"&request("yuse")
+    ddato = datepart("d", ugp) &"/"& datepart("m", ugp) &"/"& datepart("yyyy", ugp)
+    yuse = request("yuse")
+    end if
+    
+   
+    
+    
+    slutDato = datepart("yyyy", ddato) &"/"& datepart("m", ddato) &"/"& datepart("d", ddato)
+    slutDato_GT = dateAdd("d", -1, now)'slutDato
+    slutDato_GT = year(slutDato_GT) &"/"& month(slutDato_GT) &"/"& day(slutDato_GT)
+
+
+  
+    globalWdt = 800
+
+       if media = "print" then
+       sdiv_pd = 0
+       else
+       sdiv_pd = 20
+       end if
+  
+    %>
+   
+ 
+    
+    
+    <div name="medarbafstem_aar" id="medarbafstem_aar" style="position:relative; left:20px; top:<%=toppx%>px; display:; border:0px #999999 solid; visibility:visible; width:<%=globalWdt%>px; background-color:#FFFFFF; padding:<%=sdiv_pd%>px;">
+   
+    
+    <%
+    if media <> "export" then
+    %>
+    <table cellpadding=0 cellspacing=0 border=0 width=100%>
+	<tr>
+	
+	<td valign=top><h4>Afstemning (Saldo)
+    <span style="font-size:10px;">
+     <%call meStamdata(usemrn) %>
+    <%=meTxt %>, ansat: <%=formatdatetime(meAnsatDato, 1) %>
+    </span>
+    </h4>
+   
+    </td>
+
+	</tr>
+	</table>
+    <%end if %>
+   
+    
+    
+    
+    <!--
+    Saldo Uge / md - dato:
+	 <a href="afstem_tot.asp?usemrn=<%=intMid %>&show=5&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=vmenu><%=global_txt_163 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+     -->
+     <%if media <> "print" AND media <> "export" then %>
+     År >> Dato: (fordelt pr. måned)
+	<a href="afstem_tot.asp?usemrn=<%=intMid %>&show=12&yuse=<%=year(now)%>&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=vmenu> <%=year(now) %></a>&nbsp; 
+    <%
+    
+    
+    for x = 1 to 5
+	
+	prevyears = dateadd("yyyy", -x, now)
+	
+	%>
+	 <a href="afstem_tot.asp?usemrn=<%=intMid %>&show=12&yuse=<%=year(prevyears) %>&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=vmenu><%=year(prevyears)%></a>&nbsp;
+	<%
+	next %>
+
+
+    <%
+        if datepart("y", now, 2,2) <= 120 then '1 maj
+        prevyearsFe = dateadd("yyyy", -2, "1/1/"&year(now)) 
+        else
+        prevyearsFe = dateadd("yyyy", -1, "1/1/"&year(now)) 
+        end if
+    
+    %>
+
+	|&nbsp;&nbsp;Ferie <%=global_txt_163 %>:
+	<a href="afstem_tot.asp?usemrn=<%=intMid %>&show=4&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=vmenu>nuværende</a> 
+
+     /
+    <a href="afstem_tot.asp?usemrn=<%=intMid %>&show=4&yuse=<%=year(prevyearsFe) %>&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=gray>forrige ferieår (<%=year(prevyearsFe)%>)</a>&nbsp;
+	<br />
+	<br />
+    
+    
+	
+	<div id="loadbar" style="position:absolute; display:; visibility:visible; top:80px; left:150px; width:300px; background-color:#ffffff; border:10px #6CAE1C solid; padding:5px; z-index:100000000;">
+
+	<table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
+	<img src="../ill/outzource_logo_200.gif" />
+	</td><td align=right style="padding-right:40px;">
+	<img src="../inc/jquery/images/ajax-loader.gif" />
+	</td></tr></table>
+
+	</div>
+
+    <%end if%>
+
+
+	
+	
+	<%
+	
+	
+	
+	'call licensStartDato()
+	call meStamdata(usemrn)
+	
+	ansatdato = meAnsatDato
+	mnavn = meTxt 'oRec("mnavn") & " ("& oRec("mnr") &")"
+	
+	
+	call licensStartDato()
+	ltoStDato = startDatoDag &"/"& startDatoMd &"/"& startDatoAar
+	
+	'*** fra ansættelse eller licens startdato ***'
+	if cDate(ltoStDato) > cDate(ansatdato) then
+	startDato = datepart("yyyy", ltoStDato) &"/"& datepart("m", ltoStDato) &"/"& datepart("d", ltoStDato)
+    else
+    startDato = datepart("yyyy", ansatdato) &"/"& datepart("m", ansatdato) &"/"& datepart("d", ansatdato)
+    end if
+    
+    
+	'dateDiff("ww", slutDato, slutDato, 2, 2) 
+	
+	'Response.Write startDato  & "ltoStDato:" & ltoStDato & " Weeks:" & dateDiff("ww", startDato, slutDato, 2, 2)  & "<br>"
+	'Response.Flush
+	
+	
+	
+	
+	call akttyper2009(6)
+	akttype_sel = "#-99#, " & aktiveTyper
+	akttype_sel_len = len(akttype_sel)
+	left_akttype_sel = left(akttype_sel, akttype_sel_len - 2)
+	akttype_sel = left_akttype_sel
+	
+	select case show 
+	case 51
+	
+	%>
+	<table cellpadding=0 cellspacing=0 border=0 width=100%>
+	<tr>
+	<td valign=top style="padding:10px; border:1px #cccccc solid;">
+	<%
+	
+	Response.Write "<b>"& mnavn & "</b>"
+	'Response.Write akttype_sel
+	Response.Write "<br>Periode: " & dateDiff("ww", startDato, slutDato, 2, 2)  & " uger (fra ansættelsesdato ell. licens start dato til igår)"
+	
+	%>
+	<br /><font class=roed>Opgjort pr. <b><%=formatdatetime(ddato, 1) %></b> <%=showigartxt %></font><br />
+	<%
+	
+	Response.Write "<h4>Saldo total</h4>"
+	call medarbafstem(usemrn, startDato, slutDato, 5, akttype_sel, 0)
+    response.flush
+    
+    
+    %>
+    </td>
+    <td style="width:20px;">
+    &nbsp;
+    
+    </td>
+    
+    <td>
+    
+    
+    <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+   <td valign=top width=40% style="padding:10px; border:1px #cccccc solid;">
+  
+   <%
+    strMrd = month(varTjDatoUS_man)
+    strAar = year(varTjDatoUS_man)
+	startDato = strAar &"/"& strMrd &"/1"
+	
+	fundetdato = 0
+	if cint(strAar) < cint(year(now)) OR (cint(strAar) = cint(year(now)) AND cint(strMrd) < cint(month(now))) then
+	    select case strMrd
+	    case 1,3,5,7,8,10,12
+	    lastdayinm = 31
+	    case 2
+	            select case right(strAar, 2)
+	            case "00", "04", "08", "12", "16", "20", "24", "28", "32", "36", "40"
+	            lastdayinm = 29
+	            case else
+	            lastdayinm = 28
+	           end select
+	    case else
+	    lastdayinm = 30
+	    end select
+	
+	slutDatoFA = strAar&"/"&strMrd&"/"&lastdayinm
+	'Response.Write "her"
+	
+	fundetdato = 1
+	end if
+	 
+	if cint(strAar) = cint(year(now)) AND cint(strMrd) = cint(month(now)) AND fundetdato = 0 then
+	slutDatoFA = year(now) &"/"& month(now) &"/"& day(now)
+	fundetdato = 1 
+	end if
+	
+	if cint(strAar) > cint(year(now)) OR (cint(strAar) = cint(year(now)) AND cint(strMrd) > cint(month(now))) AND fundetdato = 0 then
+	slutDatoFA = strAar &"/"& strMrd &"/1" 
+	fundetdato = 1
+	end if
+	
+	'Response.Write "slutDatoFA" & slutDatoFA
+	
+	
+	
+	varTjDatoUS_son = dateadd("d", 6, varTjDatoUS_man)
+	varTjDatoUS_son = year(varTjDatoUS_son) & "/"& month(varTjDatoUS_son) & "/"& day(varTjDatoUS_son)
+	'Response.Write "varTjDatoUS_son:" & varTjDatoUS_son
+	
+	weekEndintervalDate = varTjDatoUS_son
+	if datepart("yyyy", now, 2,2) > datepart("yyyy", varTjDatoUS_man, 2,2) then
+	    weekEndintervalDate = varTjDatoUS_son
+	 else
+	    if datepart("yyyy", now, 2,2) < datepart("yyyy", varTjDatoUS_man, 2,2) then
+	        weekEndintervalDate = varTjDatoUS_man
+	    else 
+	        if datepart("ww", now, 2,2) > datepart("ww", varTjDatoUS_man, 2,2) then 
+	            weekEndintervalDate = varTjDatoUS_son
+	        else
+	            if datepart("ww", now, 2,2) < datepart("ww", varTjDatoUS_man, 2,2) then 
+	                weekEndintervalDate = varTjDatoUS_son
+	            else
+	                weekEndintervalDate = year(now) &"/"& month(now) &"/"& day(now)
+	            end if
+	        end if
+	    end if
+	end if
+	
+	
+	%>
+	
+	
+    <%
+    call erugeAfslutte(datepart("yyyy", varTjDatoUS_man, 2,2), datepart("ww", varTjDatoUS_man, 2,2), usemrn) 
+    %>
+    
+    <%if showAfsuge = 0 then %>
+    <br />Denne uge er afsluttet via smiley d. <%=formatdatetime(cdAfs, 2)%> kl. <%=formatdatetime(cdAfs, 3)%> (uge <%=datepart("ww", cdAfs, 2, 2)%>)
+    <br />
+    <%end if%>
+	
+	<%
+	
+	'akttype_sel = ""
+	'*** Uge **'
+	call medarbafstem(usemrn, varTjDatoUS_man, weekEndintervalDate, 3, akttype_sel, 0)
+	
+	'akttype_sel = ""
+	call medarbafstem(usemrn, startDato, slutDatoFA, 2, akttype_sel, 0)
+	
+	
+	'** Md --> Dato **'
+	'*** ALM. real timer +
+	'*** Kørsel 5 
+	'*** Overarb. / afspad 
+	'*** Sygdom 
+	'*** Find aktive typer indefor områder ***'
+	akttype_sel = "#-99#, #5#, #20#, #21#, #8#, #81#, #30#, #31#, #32#, #33#, "
+    call medarbafstem(usemrn, startDato, slutDatoFA, 6, akttype_sel, 0)
+    
+    %>
+    <br /><br /><br /><br /><br />&nbsp; 
+    
+    </td>
+    
+    </tr></table>
+    
+   </td>
+    </tr>
+   </table>
+	
+	
+	
+	<%response.flush %>
+    
+    <%
+    case 12, 77
+
+
+    call stempelur_kolonne(lto)
+    'Response.Write akttype_sel
+     
+
+   
+     
+     if media <> "export" then%>
+     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><b>Udspecificering
+
+      <% 
+    if show = 12 then
+    Response.Write "År >> Dato<br>"
+    %>
+    <span style="color:darkred;">Opgjort pr. <b><%=formatdatetime(ddato, 1) %></b> <%=showigartxt %></span><br />
+    <%
+    
+     'if sort <> 0 then
+     'sortLnkTxt0 = "<< Dec - Jan"
+     'sortLnkTxt1 = "<u>Jan - Dec >></u>"
+     'else
+     'sortLnkTxt0 = "<u><< Dec - Jan</u>"
+     'sortLnkTxt1 = "Jan - Dec >>"
+     'end if
+
+    
+    else %>
+    Måned >> Dato
+    <%
+    
+     'if sort <> 0 then
+     'sortLnkTxt0 = "<< 31 - 1"
+     'sortLnkTxt1 = "<u>1 - 31 >></u>"
+     'else
+     'sortLnkTxt0 = "<u><< 31 - 1</u>"
+     'sortLnkTxt1 = "1 - 31 >>"
+     'end if
+    
+    end if %>
+
+    <%if media <> "print" then %>
+    <br /><a href="Javascript:history.back()" class="vmenu"><< Tilbage</a>
+        <%end if %>
+    </b>
+
+    <%'if media <> "print" AND media <> "export" then %>
+    <!--
+    Sorter: <a href="afstem_tot.asp?usemrn=<%=intMid%>&show=<%=show%>&yuse=<%=yuse%>&varTjDatoUS_man=<%=varTjDatoUS_man%>&sort=0" class=vmenu><%=sortLnkTxt0 %></a> | <a href="afstem_tot.asp?usemrn=<%=intMid%>&show=<%=show%>&yuse=<%=yuse%>&varTjDatoUS_man=<%=varTjDatoUS_man%>&sort=1" class=vmenu><%=sortLnkTxt1 %></a> 
+    -->
+    <%'end if %>
+    
+    
+    <%
+    'Sortering ALTID = 1 pga. overført saldo fra tidligere 20130311
+   
+    %>
+ 
+     <table cellpadding=0 cellspacing=0 border=0 width="100%">
+     <tr><td valign=top style="padding:10px; border:0px #cccccc solid;">
+   <br />&nbsp;
+
+
+    <table cellspacing=0 cellpadding=3 border=0 width="100%"><tr>
+    <td style="border-bottom:1px silver solid;">&nbsp;</td>
+
+	 
+     <!-- Norm -->
+	
+	 <td valign=bottom class=lille style="border-bottom:1px silver solid; width:50px;"><b><%=tsa_txt_173%></b></td>
+	 
+     
+     <!-- Komme / Gå -->
+      
+	  <%if session("stempelur") <> 0 then 
+          
+          globalWdt = globalWdt + 100%> 
+         <%if show = 77 then %>
+         <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>Komme/Gå tid</b></td>
+
+         <%select case lto
+                           case "kejd_pb", "intranet - local"
+                            case else %>
+        <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>Pauser</b></td>
+        <%end select %>
+        
+
+        <%end if %>
+	 <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>Komme/Gå<br /> optjent</b>
+     <%if lto = "dencker" then %>
+     <br />(løntimer)
+     <%end if %>
+     
+     </td>
+        <%if cint(showkgtil) = 1 then
+            globalWdt = globalWdt + 100 %>
+	    <td valign=bottom class=lille style="border-bottom:1px silver solid; width:50px;"><b>Tillæg +/-</b><br />Ferie, sygdom, korrektion etc. indberettet</td>
+	    <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>= Sum</b><br />Komme/gå tid<br /> + tillæg</td>
+        <%end if %>
+	 
+	 <td valign=bottom class=lille style="border:1px #DCF5BD solid; border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=tsa_txt_284%> +/-</b><br />Komme/gå tid<br /> / Normtid</td>
+	 <td bgcolor="#DCF5BD" valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=tsa_txt_284%> +/-<br / >Akkumuleret</b><br />Komme/gå tid<br /> / Normtid</td>
+     <%end if %>
+
+
+     <!-- Realiseret --->
+
+       <td valign=bottom class=lille style="border-bottom:1px silver solid; width:50px;">
+       <%select case lto 
+       case "kejd_pb"
+       %>
+       <b>Timer</b><br /> indberettet<br /> på aktiviteter
+       <%
+       case else
+       %>
+       <b>Timer<br /> realiseret</b>
+      <br />(indberettet på aktivit.)
+       <%
+       end select %>
+       </td>
+
+        <%if lto <> "cst" AND lto <> "kejd_pb" then %>
+	 <td class=lille valign=bottom style="border-bottom:1px silver solid; width:50px;">(heraf<br />fak.bare)</td>
+        <%if cint(showkgtil) = 1 then %>
+	    <td class=lille valign=bottom style="border-bottom:1px silver solid; width:50px;"><b>Korrektion</b><br />(overført saldo fra senest afsluttet løn-periode)</td>
+        <%end if %>
+    
+	  <td valign=bottom class=lille style="border:1px pink solid; border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=tsa_txt_284%> +/-</b><br />Realiseret<br /> / Normeret</td>
+	  <td bgcolor="pink" valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b><%=tsa_txt_284%> +/- <br / >Akkumuleret</b><br />Realiseret<br /> / Normeret</td>
+      <%end if %>
+
+
+     <%if session("stempelur") <> 0 then %> 
+	  <%if lto <> "cst" AND lto <> "kejd_pb" then 
+          globalWdt = globalWdt + 100%>
+	  <td valign=bottom class=lille style="border-bottom:1px silver solid; white-space:nowrap; width:50px;"><b>Balance +/-</b><br />Realiseret<br />/ Komme/gå tid</td>
+	  <%end if %>  
+	    
+	 <%end if %>
+	 
+	   <!-- Afspad / Overarb --->
+	       <%if instr(akttype_sel, "#30#") <> 0 OR instr(akttype_sel, "#31#") <> 0 then %>
+	          <%if lto <> "kejd_pb" AND lto <> "fk" then 
+                  globalWdt = globalWdt + 150%>
+              <td align=right valign=bottom class=lille style="border-bottom:1px silver solid; width:50px;"><b><%=tsa_txt_283%><br /> <%=tsa_txt_164%></b><br />(enh.)</td>
+	          <%end if %>
+              <td valign=bottom style="border-bottom:1px silver solid; white-space:nowrap; width:50px;" class=lille><b>Afspads.</b><br />~ timer</td>
+               
+               <%if lto <> "lw" AND lto <> "kejd_pb" AND lto <> "fk" then 
+                    globalWdt = globalWdt + 150%>
+	           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Udbetalt</b></td>
+	           <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Ønsk. Udbe.</b></td>
+	           <td valign=bottom style="border-bottom:1px silver solid;width:50px;" class=lille><b><%=tsa_txt_283 &" "& tsa_txt_280 %></b></td>
+               <%end if %>
+	       
+	 
+	 <%end if %>
+	 
+	 
+	
+	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Ferie afholdt</b>
+         <br />
+	 ~ dage
+         <%select case lto 
+             case "kejd_pb"
+             case else
+             %>
+               <br />
+     (Incl. afholdt u. løn & udbetalt)
+            <%
+             end select %>
+      </td>
+    
+      <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Feriefridage afholdt</b><br />
+           ~ dage<br />
+           <%select case lto 
+             case "kejd_pb"
+             case else
+             %>
+        
+     (Incl. udbetalt)
+            <%
+             end select %>
+	 </td>
+
+        <%select case lto
+            case "intranet - local", "fk" %>
+         <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>1 Maj timer</b></td>
+
+         <%end select
+             
+             
+             select case lto
+            case "intranet - local", "fk", "kejd_pb" 
+             globalWdt = globalWdt + 50%>
+        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Omsorgs<br />dage</b><br />
+	 ~ dage<br />
+     </td>
+    <%end select %>
+
+        <%
+          select case lto
+            case "intranet - local", "fk", "kejd_pb" 
+             globalWdt = globalWdt + 50%>
+        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Barsel</b><br />
+	 ~ dage<br />
+     </td>
+        <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Læge</b><br />
+	 ~ timer<br />
+     </td>
+    <%end select %>
+
+    	 
+	  <%if level = 1 OR (session("mid") = usemrn) then %>
+	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Syg</b><br />~ dage</td>
+	 <%end if %>
+
+         <%if level = 1 OR (session("mid") = usemrn) then %>
+	 <td valign=bottom style="border-bottom:1px silver solid; width:50px;" class=lille><b>Barn syg</b><br />~ dage</td>
+	 <%end if %>
+	 
+    </tr>
+    <%
+    
+   
+        end if 
+
+   
+
+
+
+
+
+    if show = 12 then
+   
+    'ddato = "23-4-2013"
+    monthThis = month(ddato)
+    endfor = monthThis 
+    stKri = -1
+    endKri = -2
+    stfor = stKri 'mth
+
+    visning = 7
+    else
+
+   
+    monthThis = month(varTjDatoUS_man)
+    stKri = 0
+    stfor = stKri '0 'datepart("d", ddato, 2,2)
+    endKri = -1
+    visning = 77
+     
+    '** Finder altal dage i dag/ dag visning
+
+    if cint(month(now)) = cint(monthThis) AND cint(year(now)) = cint((yuse)) then
+        
+        endfor = day(ddato)
+
+    else
+
+        select case monthThis
+        case 2
+        
+            select case year(varTjDatoUS_man)
+            case "2000", "2004", "2008", "2012", "2016", "2020", "2024", "2028", "2032", "2036", "2040", "2044" 
+            endfor = 29
+            case else
+            endfor = 28
+            end select
+
+        case 1,3,5,7,8,10,12
+        endfor = 31
+        case else
+        endfor = 30
+        end select
+
+
+    end if
+
+    end if
+
+    public bgc
+    bgc = 0
+    
+    'ddato = "21-1-2013"
+    'endfor = 1
+    'Response.write "SHWO: "& show &" ddato:" & ddato  &" stfor: " & stfor & "stKri: " & stKri & " endfor+(endKri): "& endfor &" "&endKri & "sort:" & sort &"ddato: "& ddato &" varTjDatoUS_man "& varTjDatoUS_man &"<br>"
+   
+    'Response.write visning
+
+    
+    'StDatoKri77sort = ddato
+    if sort = 1 then
+    ddato = dateadd("m", -(endfor-1), ddato)
+    end if
+
+
+
+    '*********************************************'
+    '********* Henter AKKu saldo inden Periode ***'
+    '*********************************************'
+    public akuPreNormLontBal, akuPreRealNormBal 
+
+    
+    
+    
+    '*** Finder startDato for afstemning
+
+         call licensStartDato()
+         
+         call meStamdata(usemrn)
+
+         '**** StartKri for PreSaldo
+         if cdate(meAnsatDato) > cdate(licensstdato) then
+         listartDato_GT = meAnsatDato
+         else
+         listartDato_GT = licensstdato
+         end if
+
+      
+
+         if visning = 7 then 'md / md
+            if sort <> 1 then
+                  
+                  if year(now) = year(ddato) then
+                  PreSaldoEndDt = "1-1-"&year(ddato)
+                  PreSaldoEndDt = dateAdd("d", -1, PreSaldoEndDt)
+                  else
+                  PreSaldoEndDt = dateAdd("yyyy", -1, ddato)
+                  PreSaldoEndDt = "31-12-"&year(PreSaldoEndDt)
+                  end if    
+
+                  'Response.write "7 = 1: listartDato_GT: "& listartDato_GT & " ddato:" & ddato &" PreSaldoEndDt: "& PreSaldoEndDt & " lonKorsel_lukketPerDt: "& lonKorsel_lukketPerDt &" endfor:" & endfor &" stKri: "& stKri
+            else
+                  
+
+                  if year(now) = year(ddato) then
+                  PreSaldoEndDt = "1-"&month(ddato)&"-"&year(ddato)
+                  PreSaldoEndDt = dateAdd("d", -1, PreSaldoEndDt)
+                  else
+                  PreSaldoEndDt = dateAdd("yyyy", -1, ddato)
+                  PreSaldoEndDt = "31-12-"&year(PreSaldoEndDt)
+                  end if    
+                 
+                      
+                     
+                 
+                  'Response.write "7 <> 1: listartDato_GT: "& listartDato_GT & " PreSaldoEndDt: "& PreSaldoEndDt & " lonKorsel_lukketPerDt: "& lonKorsel_lukketPerDt &" endfor:" & endfor &" stKri: "& stKri
+                 'Response.end
+            end if
+         end if
+         
+         if visning = 77 then 'dag/dag
+            
+             if sort <> 1 then
+                  
+                   StDatoKri77sort = dateadd("d", +(endfor-1-stfor), varTjDatoUS_man)
+                  PreSaldoEndDt = "1-"& month(StDatoKri77sort) &"-"&year(StDatoKri77sort)
+                  PreSaldoEndDt = dateAdd("d", -1, PreSaldoEndDt)
+
+                   'Response.write "77 <> 1: ddato= "& ddato &" StDatoKri77sort  = "& StDatoKri77sort &" listartDato_GT: "& listartDato_GT & " PreSaldoEndDt: "& PreSaldoEndDt & " lonKorsel_lukketPerDt: "& lonKorsel_lukketPerDt &" endfor:" & endfor &" stKri: "& stKri
+
+            else
+                  
+                  
+                  StDatoKri77sort = dateadd("d", +(stfor), varTjDatoUS_man)
+                  PreSaldoEndDt = "1-"&month(StDatoKri77sort)&"-"&year(StDatoKri77sort)
+                  PreSaldoEndDt = dateAdd("d", -1, StDatoKri77sort)
+                  
+
+                  'Response.write "77 = 1: StDatoKri77sort: "& StDatoKri77sort &" listartDato_GT: "& listartDato_GT & " PreSaldoEndDt: "& PreSaldoEndDt & " lonKorsel_lukketPerDt: "& lonKorsel_lukketPerDt &" endfor:" & endfor &" stKri: "& stKri
+
+                      
+
+            end if
+         
+         end if
+     
+                      '** Er der en lukket lønperiode der kan bruges som startdat0
+                      call lonKorsel_lukketPerPrDato(PreSaldoEndDt)
+                       
+
+                       'if session("mid") = 1 then
+                       'Response.write "lonKorsel_lukketPerDt: "& cDate(lonKorsel_lukketPerDt) & " PreSaldoEndDt: "& PreSaldoEndDt & "<br>"
+                       'end if
+
+                       '** Den afsluttede lønperiode er før den periode der alsuttes nu
+                       '** Den afsluttede lønperiode er senere end licens stdato
+                       '** Den afsluttede lønperiode findes (<> 01012002)
+                      if ((cDate(lonKorsel_lukketPerDt) <= cDate(PreSaldoEndDt)) AND (cDate(lonKorsel_lukketPerDt) > cDate(listartDato_GT) )) AND cDate(lonKorsel_lukketPerDt) <> "1-1-2002" then
+                      lonKorsel_lukketPerDt = dateAdd("d", 1, lonKorsel_lukketPerDt)
+                      listartDato_GT = year(lonKorsel_lukketPerDt) &"/"& month(lonKorsel_lukketPerDt) &"/"& day(lonKorsel_lukketPerDt)
+                      else
+                      listartDato_GT = listartDato_GT 
+                      end if
+
+
+                    
+                '*** Henter Saldo før periode ***' 
+                call medarbafstem(usemrn, listartDato_GT, PreSaldoEndDt, 5, akttype_sel, 0)
+
+    
+    
+                '** Omregner til 100 tals
+                akuPreNormLontBalTemp = split(normLontBal, ":")
+		        
+                for t = 0 To UBOUND(akuPreNormLontBalTemp)
+
+                if t = 0 then
+                akuPreNormLontBal = akuPreNormLontBalTemp(t)
+                else
+                akuPreNormLontBal = akuPreNormLontBal &","& formatnumber((akuPreNormLontBalTemp(t) * 100) / 60, 0)
+                end if
+
+                next
+                '*****
+
+                'call timerogminutberegning(akuPreNormLontBal) 
+                akuPreNormLontBal60 = normLontBal  'akuPreNormLontBal 'thoursTot &":"& left(tminTot, 2) 
+
+
+    akuPreRealNormBal = realNormBal
+
+    'Response.write "korrektionReal(x): "& korrektionReal(x) 
+
+    '*Slut Pre Saldo 
+
+     
+    normLontBal = 0 
+    realNormBal = 0
+   
+    public anormTimerTot, arealTimerTot, atotalTimerPer100, aafspadUdbBalTot, aAfspadBalTot, arealfTimerTot
+    public afradragTimerTot, altimerKorFradTot, aafspTimerTot, aafspTimerBrTot, aafspTimerUdbTot
+    public ferieAfVal_md, sygDage_barnSyg, ferieAfVal_md_tot, sygDage_barnSyg_tot, ferieFriAfVal_md, ferieFriAfVal_md_tot, normtime_lontimeAkk, balRealNormtimerAkk, korrektionRealTot
+    public divfritimer_tot, omsorg_tot, sygeDage_tot, barnSyg_tot, barsel_tot, lageTimer_tot
+    'Response.write "<br>"& ddato
+
+    for stfor = stKri to endfor+(endKri)
+   
+    
+       
+            if visning = 7 then 'md / md
+
+                if stfor <> -1 OR (cint(endfor) = 1 AND cint(sort) = 1)  then
+
+                    
+
+                    if cint(sort) <> 1 then
+                    datoB = dateadd("m", fortegn*stfor, ddato)
+                    datoB = "1/"& month(datoB) &"/"& year(datoB)
+                    datoB = dateadd("d", fortegn*1, datoB)
+                    else
+
+                    '** Sidste loop dd. **' 
+                    if stfor = (endfor+(endKri)) then 'sidste loop
+                    
+                    'Response.write "sidste loop<br>"
+                    datoB = dateadd("m", endfor-1, ddato)
+                  
+                    else
+                    datoB = dateadd("m", fortegn*(stfor+2), ddato)
+                    datoB = "1/"& month(datoB) &"/"& year(datoB)
+                    datoB = dateadd("d", -1, datoB)
+                    end if
+
+                    end if
+
+                    datoA = dateadd("m", fortegn*(stfor+1), ddato)
+                
+                else 'efter først loop undt sidste loop
+
+                    if cint(sort) <> 1 then
+                    datoB = day(ddato)&"/"& month(ddato) &"/"& year(ddato)
+                    datoA = ddato
+                    else
+                    
+                  
+                    datoB = dateadd("m", fortegn*(stfor+2), ddato)
+                    datoB = "1/"& month(datoB) &"/"& year(datoB)
+                    datoB = dateadd("d", -1, datoB)
+
+                    datoA = ddato
+                    end if
+                
+                end if
+
+                 
+
+                  slutDatoLastm_B = datepart("yyyy", datoB) &"/"& datepart("m", datoB) &"/"& datepart("d", datoB)
+                  slutDatoLastm_A = datepart("yyyy", datoA) &"/"& datepart("m", datoA) &"/1"
+
+                  'Response.write "stfor: "& stfor &" DATOER A: " & slutDatoLastm_A & " og  B: "& slutDatoLastm_B & "<br>"
+
+                  'Response.write "slutDatoLastm_A:" & slutDatoLastm_A & "<br>"
+                  'Response.write "slutDatoLastm_B:" & slutDatoLastm_B & "<hr>" 
+
+            else '77 dag / dag
+
+          
+            if cint(sort) <> 1 then
+            datoB = dateadd("d", +(endfor-1-stfor), varTjDatoUS_man)
+            datoA = datoB
+            else
+            datoB = dateadd("d", +(stfor), varTjDatoUS_man)
+            datoA = datoB
+            end if
+            
+                
+
+                  slutDatoLastm_B = datepart("yyyy", datoB) &"/"& datepart("m", datoB) &"/"& datepart("d", datoB)
+                  slutDatoLastm_A = slutDatoLastm_B
+
+            end if
+        
+
+    
+    
+  
+    
+    
+    'Response.Write slutDatoLastm_A & " - " & slutDatoLastm_B 
+     
+  
+    call medarbafstem(usemrn, slutDatoLastm_A, slutDatoLastm_B, visning, akttype_sel, 0)
+    'Response.Write "<br>"
+	response.flush
+	
+	next
+
+    
+    if media <> "export" then
+
+    
+	%>
+
+    <!-- Total -->
+	<tr bgcolor="#CCCCCC">
+	<td class=lille style="white-space:nowrap;"><b>Total i per.</b></td>
+	
+	 <%if session("stempelur") <> 0 then 
+              call timerogminutberegning(anormTimerTot*60)
+		                anormTimerTotShow = ""& thoursTot &":"& left(tminTot, 2)
+               else
+                        anormTimerTotShow = formatnumber(anormTimerTot,2)
+         end if%>
+	
+    <td align=right style="white-space:nowrap;" class=lille><b><%=anormTimerTotShow%></b></td>
+	
+	<%if session("stempelur") <> 0 then %> 
+            
+        <%if show = 77 then %>
+              <td align=right style="white-space:nowrap;" class=lille>
+	        &nbsp;
+	        </td>
+         <%select case lto
+                           case "kejd_pb", "intranet - local"
+                            case else %>
+         <td align=right style="white-space:nowrap;" class=lille>
+	        &nbsp;
+	        </td>
+        <%end select %>
+        <%end if %>
+
+	         <td align=right style="white-space:nowrap;" class=lille>
+	         <%call timerogminutberegning(atotalTimerPer100) %>
+            <b><%=thoursTot &":"& left(tminTot, 2) %></b>
+	        </td>
+
+
+             <%if cint(showkgtil) = 1 then %>
+	         <td align=right style="white-space:nowrap;" class=lille><b><%=formatnumber(afradragTimerTot, 2) %></b></td>
+	         <td align=right style="white-space:nowrap;" class=lille><b><%=formatnumber(altimerKorFradTot, 2) %></b></td>
+	         <%end if
+	 
+             %> 
+	         <td align=right style="white-space:nowrap;" class=lille>
+	         <%
+
+             anormtime_lontimeTot = -((anormTimerTot - (altimerKorFradTot)) * 60) 
+     
+             call timerogminutberegning(anormtime_lontimeTot) %>
+		        <b><%=thoursTot &":"& left(tminTot, 2) %></b>
+	         </td>
+
+             <% call timerogminutberegning(normtime_lontimeAkk + (akuPreNormLontBal * 60))  %>
+                  <td align=right styke="white-space:nowrap;" class=lille>
+	
+		            <b><%=thoursTot &":"& left(tminTot, 2) %></b>
+	             </td>
+
+  
+  <%end if %>
+
+             <td align=right style="white-space:nowrap;" class=lille><b><%=formatnumber(arealTimerTot,2)%></b></td>
+	         <%if lto <> "cst" ANd lto <> "kejd_pb" then %>
+	        <td align=right style="white-space:nowrap;" class=lille>(<%=formatnumber(arealfTimerTot,2)%>)</td>
+        
+                <%if cint(showkgtil) = 1 then %>
+                <td align=right style="white-space:nowrap;" class=lille><%=formatnumber(korrektionRealTot,2)%></td>
+                <%end if %>
+
+	        <%end if 
+    
+    %>
+
+
+	    <%if lto <> "cst" AND lto <> "kejd_pb" then %>
+	    <td align=right style="white-space:nowrap;" class=lille><b><%=formatnumber((arealTimerTot - anormTimerTot),2)%></b></td>
+        <td align=right style="white-space:nowrap;" class=lille><b><%=formatnumber(balRealNormtimerAkk+(akuPreRealNormBal),2)%></b></td>
+
+           <%if session("stempelur") <> 0 then %>
+        <td align=right style="white-space:nowrap;" class=lille><b><%=formatnumber((arealTimerTot - (altimerKorFradTot)),2)%></b></td>
+	    <%end if %>
+
+        <%end if %>
+
+
+	 
+	    
+	    
+	    
+	      <!-- Afspad / Overarb --->
+	       <%if instr(akttype_sel, "#30#") <> 0 OR instr(akttype_sel, "#31#") <> 0 then %>
+	          
+             <%if lto <> "kejd_pb" AND lto <> "fk" then   %> 
+	         <td align=right style="white-space:nowrap;" class=lille><b><%=formatnumber(aafspTimerTot, 2)%></b></td>
+             <%end if %>
+             
+	         <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aafspTimerBrTot, 2)%></b></td>
+
+	         <%if lto <> "lw" AND lto <> "kejd_pb" AND lto <> "fk" then %>
+             <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aafspTimerUdbTot, 2)%></b></td>
+	            <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aafspadUdbBalTot, 2)%></b></td>
+                <td align=right class=lille style="white-space:nowrap;"><b><%=formatnumber(aAfspadBalTot, 2)%></b></td>
+                <%end if %>
+	         
+	          
+        	 
+	         
+	         
+	         
+	         <%end if %>
+	  
+
+       <td align=right  class=lille>
+       <%if media <> "print" AND media <> "export" then %>
+       <a href="afstem_tot.asp?usemrn=<%=usemrn %>&show=4&varTjDatoUS_man=<%=varTjDatoUS_man %>" class=rmenu><%=formatnumber(ferieAfVal_md_tot, 2) %></a>
+       <%else %>
+       <b><%=formatnumber(ferieAfVal_md_tot, 2) %></b>
+       <%end if %>
+       </td>
+	
+	 <td align=right  class=lille><b><%=formatnumber(ferieFriAfVal_md_tot, 2) %></b></td>
+
+
+        <%   select case lto
+                        case "intranet - local", "fk"
+            %>
+        	 <td align=right  class=lille><b><%=formatnumber(divfritimer_tot, 2) %></b></td>
+
+        <%
+            end select %>
+
+        
+        <%   select case lto
+                        case "intranet - local", "fk", "kejd_pb"
+            %>
+        	 <td align=right  class=lille><b><%=formatnumber(omsorg_tot, 2) %></b></td>
+
+        <%
+            end select %>
+
+
+         <%   select case lto
+                        case "intranet - local", "fk", "kejd_pb"
+            %>
+        	 <td align=right  class=lille><b><%=formatnumber(barsel_tot, 2) %></b></td>
+        <td align=right  class=lille><b><%=formatnumber(lageTimer_tot, 2) %></b></td>
+
+        <%
+            end select %>
+	 
+	  <%if level = 1 OR (session("mid") = usemrn) then %>
+	 <td align=right  class=lille><b><%=formatnumber(sygeDage_tot, 2) %></b></td>
+	 <%end if %>
+
+          <%if level = 1 OR (session("mid") = usemrn) then %>
+	 <td align=right  class=lille><b><%=formatnumber(barnSyg_tot, 2) %></b></td>
+	 <%end if %>
+	
+	</tr>
+    
+    <%response.flush %>
+    <!-- Grand total -->
+
+
+    
+    
+    </table>
+
+   
+
+
+	
+	</td></tr></table>
+
+
+
+          <%if media <> "print" then %>
+
+                 <table>
+                <tr><td style="color:#999999;"><%  Response.write ">> Saldo videreført (fra senest afsluttet løn-periode og til startdato på den valgte periode): "& formatdatetime(listartDato_GT, 1) & " - "& formatdatetime(PreSaldoEndDt, 1)  %><br />
+
+      
+                <!--Hvis overført saldo = 0, er gl. saldo evt. overført som korrektion i den nye periode.--> </td></tr>
+                <tr><td colspan=2 style="color:#999999; font-size:9px;"><br /><br />
+             <b>Regler for startdato for periode til afstemning af grandtotal</b><br /><br />
+                         1) <b>Licensstartdato</b><br />
+                         2) <b>Medarbejder ans&aelig;ttelses-dato</b>, hvis den er nyere end Licensstartdato.<br />
+                         3) <b>Lønperiode afsluttetdato</b>, hvis den er nyere end medarbejder ans&aelig;ttelses-dato. 
+            </td></tr>
+        
+
+                </table>
+         <%end if %>
+
+    </div>
+
+   <%
+   end if
+
+
+    case 4
+    
+    '** Ferie / Ferie år + feriefridag **'
+    %>
+     <table cellpadding=0 cellspacing=0 border=0 width=80%>
+     <tr><td valign=top style="padding:10px; border:1px #cccccc solid;">
+    <%
+    strAar = year(ugp) 'strAar 'year(now)
+    
+    '*** Ferie år ***
+	if cdate(ugp) >= cdate("1-5-"& strAar) AND cdate(ugp) <= cdate("31-12-"& strAar) then
+	'Response.Write "OK her"
+	ferieaarST = strAar &"/5/1"
+	ferieaarSL = strAar+1 &"/4/30"
+	else
+	ferieaarST = strAar-1 &"/5/1"
+	ferieaarSL = strAar &"/4/30"
+	end if
+	
+    'Response.Write "Periode: "& formatdatetime(ferieaarST, 1) &" - "& formatdatetime(ferieaarSL, 1)
+    
+    '** er ferie slået til ***
+    aty_on = 0
+    call akttyper2009Prop(14)
+    if aty_on = 1 then
+        akttype_sel = "#-99#, #11#, #14#, #15#, #16#, #19#, "
+        
+        aty_on = 0
+        call akttyper2009Prop(111)
+        if aty_on = 1 then
+        akttype_sel = akttype_sel & "#111#, "
+        end if
+
+        aty_on = 0
+        call akttyper2009Prop(112)
+        if aty_on = 1 then
+        akttype_sel = akttype_sel & "#112#, "
+        end if
+        
+
+    
+    else
+    akttype_sel = "#-99#, "
+    end if
+
+    '** er feriefridage slået til ***
+    aty_on = 0
+    call akttyper2009Prop(13)
+    if aty_on = 1 then
+    akttype_sel = akttype_sel & "#12#, #13#, #17#, #18#, "
+    else
+    akttype_sel = akttype_sel
+    end if
+
+    
+    call medarbafstem(usemrn, ferieaarST, ferieaarSL, 4, akttype_sel, 0)
+
+
+    
+    %>
+    </td></tr>
+    <tr><td>
+
+        <br /><br />
+          <table cellpadding="20" cellspacing="1" border="0"><tr><td valign="top">
+
+            <table cellpadding="0" cellspacing="0" border="0" width="250">
+            <tr><td colspan="2"><b>Udspecificering ferie:</b></td></tr>
+        <%
+            '**Udspecificering
+            strSQLfe = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 14" 
+            
+            'Response.write strSQLfe
+            oRec.open strSQLfe, oConn, 3
+            while not oRec.EOF 
+
+            %>
+            <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td><td align="right" style="border-bottom:1px #cccccc solid;"><%=oRec("timer") &" t." %></td></tr>
+
+            <%
+            oRec.movenext
+            wend
+            oRec.close
+
+            %>
+
+            </table>
+       
+
+         <% if aty_on = 1 then %>
+         </td><td valign="top">
+
+        
+
+           
+        <table cellpadding="0" cellspacing="0" border="0" width="250">
+            <tr><td colspan="2"><b>Udspecificering feriefridage:</b></td></tr>
+        <%
+            '**Udspecificering
+            strSQLfe = "SELECT tdato, timer FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& ferieaarST &"' AND '"& ferieaarSL &"' AND tfaktim = 13" 
+            
+            'Response.write strSQLfe
+            oRec.open strSQLfe, oConn, 3
+            while not oRec.EOF 
+
+            %>
+            <tr><td align="right" style="border-bottom:1px #cccccc solid;"><%=formatdatetime(oRec("tdato"), 1) %></td><td align="right" style="border-bottom:1px #cccccc solid;"><%=oRec("timer") &" t." %></td></tr>
+
+            <%
+            oRec.movenext
+            wend
+            oRec.close
+
+            %>
+
+            </table>
+       
+
+
+         <%end if %>
+     </td></tr>
+     </table>
+
+             </td></tr></table>
+
+    </div>
+
+    <%
+    end select%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <%if media = "export" then 
+
+
+                if show = 12 OR show = 77 then
+               
+                strEkspHeader = "Medarbejder;Medarb. nr;Initialer;Dato;"
+
+                strEkspHeader = strEkspHeader & tsa_txt_173 & ";" 'Norm
+    
+               
+                if session("stempelur") <> 0 then
+                        if show = 77 then
+                        strEkspHeader = strEkspHeader & "Komme/gå tid;"
+
+                          select case lto
+                           case "kejd_pb", "intranet - local"
+                            case else 
+                        strEkspHeader = strEkspHeader & "Pauser;"
+                        end select
+                        end if
+                strEkspHeader = strEkspHeader & "Komme/gå optjent;"
+              
+
+                if cint(showkgtil) = 1 then
+                strEkspHeader = strEkspHeader & "Tillæg +/- (ferie, syg mv.);"
+                strEkspHeader = strEkspHeader & "Sum;"
+                end if
+
+              
+                    strEkspHeader = strEkspHeader & tsa_txt_284 &" +/- (Komme/gå tid / Normtid);" 'Saldo
+                    strEkspHeader = strEkspHeader & tsa_txt_284 &" +/- Akkumuleret (Komme/gå tid / Normtid);" 'Saldo akkumuleret
+                end if
+                
+              
+                select case lto
+                case "kejd_pb"
+                strEkspHeader = strEkspHeader & "Timer indberettet på aktiviteter;"
+                case else
+                strEkspHeader = strEkspHeader & "Timer realiseret;"
+                end select
+
+
+                if lto <> "cst" AND lto <> "kejd_pb" then
+                strEkspHeader = strEkspHeader & "(heraf fakturerbare);"
+                  if cint(showkgtil) = 1 then
+                   strEkspHeader = strEkspHeader & "Korrektion (overført saldo);"
+                 end if
+
+                end if
+
+                  if lto <> "cst" AND lto <> "kejd_pb" then 
+                    strEkspHeader = strEkspHeader & tsa_txt_284 &" +/- (Realiseret / Normtid);" 'Saldo
+                    strEkspHeader = strEkspHeader & tsa_txt_284 &" +/- Akkumuleret (Realiseret / Normtid);" 'Saldo
+                end if
+               
+
+
+
+               if session("stempelur") <> 0 then 
+                   
+
+                    if lto <> "cst" AND lto <> "kejd_pb" then
+                    strEkspHeader = strEkspHeader & tsa_txt_166 &" +/- (Realiseret / Komme/gå tid (løntimer);" 'balance
+                    end if
+
+               end if
+
+       
+               if instr(akttype_sel, "#30#") <> 0 OR instr(akttype_sel, "#31#") <> 0 then
+               
+               if lto <> "kejd_pb" AND lto <> "fk" then
+               strEkspHeader = strEkspHeader & tsa_txt_283 &" "& tsa_txt_164 &" (enh.);"
+               end if
+
+               strEkspHeader = strEkspHeader & "Afspads. ~ timer;"
+
+                if lto <> "lw" AND lto <> "kejd_pb" AND lto <> "fk" then
+                strEkspHeader = strEkspHeader &"Udbetalt;Ønsket udb.;"&tsa_txt_283 &" "& tsa_txt_280&";"
+                end if
+
+               end if
+
+
+
+               strEkspHeader = strEkspHeader &"Ferie afholdt ~ dage;Feriefridage afholdt ~ dage;"
+
+                
+                select case lto
+                case "intranet - local", "fk" 
+                 strEkspHeader = strEkspHeader &"1 maj timer;"
+                end select
+                
+
+                select case lto
+                case "intranet - local", "fk", "kejd_pb" 
+                 strEkspHeader = strEkspHeader &"Omsorgsdage ~ dage;"
+                end select
+
+                select case lto
+                case "intranet - local", "fk", "kejd_pb" 
+                 strEkspHeader = strEkspHeader &"Barsel ~ dage;Læge ~ timer;"
+                end select
+
+               if session("rettigheder") = 1 OR (session("mid") = usemrn) then
+               strEkspHeader = strEkspHeader & "Syg ~ dage;"
+               end if
+
+               if session("rettigheder") = 1 OR (session("mid") = usemrn) then
+               strEkspHeader = strEkspHeader & "Barn syg ~ dage;"
+               end if
+
+                   
+               strEkspHeader = strEkspHeader & "xx99123sy#z"
+                
+               else '*** Feriefri og Ferie
+                   
+                   if lto <> "cst" AND instr(akttype_sel, "#13#") <> 0 then 
+                   strEkspHeaderA = "Feriefridage ("&ferieFriaarStart&")" & "xx99123sy#z"
+                   strEkspHeaderA = strEkspHeaderA & meNavn & ";" & meNr & ";"& meInit & ";" & "xx99123sy#z"
+
+                  
+                   strEkspHeaderA = strEkspHeaderA & tsa_txt_174 &" "& tsa_txt_164 &" ~ dage;Planlagt >> dd.~ dage;"&tsa_txt_165 &"~ dage;;Udbetalt ~ dage;"&tsa_txt_282 &" "& tsa_txt_280 &" ~ dage;"
+
+                   strEkspHeaderA = strEkspHeaderA & "xx99123sy#z"
+                   end if
+
+
+                   if instr(akttype_sel, "#14#") <> 0 then 
+                   strEkspHeaderB = tsa_txt_281 &" (1.5."&ferieaarStart&" - 30.4."&ferieaarSlut&")" & "xx99123sy#z"
+                   strEkspHeaderB = strEkspHeaderB & meNavn & ";" & meNr & ";"& meInit & ";" & "xx99123sy#z"
+
+                  
+                   strEkspHeaderB = strEkspHeaderB & tsa_txt_152 &" Opt. ~ dage;"& tsa_txt_317 &" >> dd. ~ dage;Afholdt ~ dage;Afholdt u. løn ~ dage;Udbetalt ~ dage;"& tsa_txt_281 &" "& tsa_txt_280 &" ~ dage;"
+
+                   strEkspHeaderB = strEkspHeaderB & "xx99123sy#z"
+                   end if
+
+
+               end if
+
+
+
+
+   
+	
+	
+	filnavnDato = year(now)&"_"&month(now)& "_"&day(now)
+	filnavnKlok = "_"&datepart("h", now)&"_"&datepart("n", now)&"_"&datepart("s", now)
+	
+	call TimeOutVersion()
+	
+				Set objFSO = server.createobject("Scripting.FileSystemObject")
+				
+				if request.servervariables("PATH_TRANSLATED") = "C:\www\timeout_xp\wwwroot\ver2_1\timereg\afstem_tot.asp" then
+					Set objNewFile = objFSO.createTextFile("c:\www\timeout_xp\wwwroot\"& toVer &"\inc\log\data\medarbafexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", True, False)
+					Set objNewFile = nothing
+					Set objF = objFSO.OpenTextFile("c:\www\timeout_xp\wwwroot\"& toVer &"\inc\log\data\medarbafexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", 8)
+				else
+					Set objNewFile = objFSO.createTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\medarbafexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", True, False)
+					Set objNewFile = nothing
+					Set objF = objFSO.OpenTextFile("d:\webserver\wwwroot\timeout_xp\wwwroot\"& toVer &"\inc\log\data\medarbafexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv", 8)
+				end if
+				
+				
+				
+				file = "medarbafexp_"&filnavnDato&"_"&filnavnKlok&"_"&lto&".csv"
+				
+				
+				'**** Eksport fil, kolonne overskrifter ***
+				
+           
+
+                
+
+				'objF.writeLine("Periode afgrænsning: "& datointerval & vbcrlf)
+                if show <> 4 then
+
+                 strEkspHeader = replace(strEkspHeader, "xx99123sy#z", vbcrlf)
+	            ekspTxt = replace(strEksportTxt, "xx99123sy#z", vbcrlf)
+
+				objF.WriteLine(strEkspHeader)
+				objF.WriteLine(ekspTxt)
+				else
+
+                strEkspHeaderA = replace(strEkspHeaderA, "xx99123sy#z", vbcrlf)
+	            ekspTxtA = replace(ekspTxtA, "xx99123sy#z", vbcrlf)
+                
+                strEkspHeaderB = replace(strEkspHeaderB, "xx99123sy#z", vbcrlf)
+	            ekspTxtB = replace(ekspTxtB, "xx99123sy#z", vbcrlf)
+
+
+                objF.WriteLine(strEkspHeaderA)
+				objF.WriteLine(ekspTxtA)
+                objF.WriteLine(strEkspHeaderB)
+				objF.WriteLine(ekspTxtB)
+                end if
+                %>
+
+               
+	            <table border=0 cellspacing=1 cellpadding=0 width="200">
+	            <tr><td valign=top bgcolor="#ffffff" style="padding:5px;">
+	            <img src="../ill/outzource_logo_200.gif" />
+	            </td>
+	            </tr>
+	            <tr>
+	            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
+	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Din CSV. fil er klar >></a>
+	            </td></tr>
+	            </table>
+
+               
+               
+	            <%
+                Response.end
+                 'Response.redirect "../inc/log/data/"& file &""	
+	
+
+end if 
+
+ 
+ '*** Finder startDato for afstemning
+
+ call licensStartDato()
+ call lonKorsel_lukketPer(now, -2)
+ call meStamdata(usemrn)
+
+ if cdate(meAnsatDato) > cdate(licensstdato) then
+ listartDato_GT = meAnsatDato
+ else
+ listartDato_GT = licensstdato
+ end if
+
+ lic_mansat_dt = listartDato_GT
+
+ if cdate(lonKorsel_lukketPerDt) > cdate(listartDato_GT) then
+ lonKorsel_lukketPerDt = dateAdd("d", 1, lonKorsel_lukketPerDt)
+ listartDato_GT = year(lonKorsel_lukketPerDt) &"/"& month(lonKorsel_lukketPerDt) &"/"& day(lonKorsel_lukketPerDt)
+ else
+ listartDato_GT = year(listartDato_GT) &"/"& month(listartDato_GT) &"/"& day(listartDato_GT)
+ end if
+
+
+ %>
+
+
+     <form>
+    <input type="hidden" id="jqstartdatoDK" value="<%=day(datoA)&"/"&month(datoA)&"/"&year(datoA) %>" />
+    <input type="hidden" id="jqstartdato" value="<%=listartDato_GT %>" />
+    <input type="hidden" id="jqlic_mansat_dt" value="<%=lic_mansat_dt %>" />
+    <input type="hidden" id="jqslutdato" value="<%=slutDato_GT %>" />
+    <input type="hidden" id="jqusemrn" value="<%=usemrn %>" />
+    <input type="hidden" id="jqlevel" value="<%=level %>" />
+    <input type="hidden" id="show" value="<%=show %>" />
+    <input type="hidden" id="media" value="<%=media %>" />
+    <input type="hidden" id="globalWdt" value="<%=globalWdt %>" />
+ 
+    </form>
+
+    <br /><br />&nbsp;
+
+    <%
+
+    '** Grandtotal Div '
+    if show <> 4 then%>
+     <div id="div_gt" style="position:absolute; left:40px; top:290px; height:80px; width:700px; padding:0px; border:0px #999999 solid; font-size:9px; z-index:90000000;">
+    
+    <%'if session("mid") = 1 then
+    'Response.write "listartDato_GT :" & listartDato_GT &  "meAnsatDato : "&  meAnsatDato & " lonKorsel_lukketPerDt:"& lonKorsel_lukketPerDt & " licensstdato: "& licensstdato
+    'end if %>    
+     <!--<h4>Grandtotal <span style="color:darkred; font-size:11px;"><%=formatdatetime(listartDato_GT, 1) & " - " & formatdatetime(slutDato_GT, 1) %></span></h4>-->
+
+     <i>Beregner... (vent 5-10 sek.)</i>
+  
+    </div>
+   <%end if %>
+    
+    
+   
+    </div>
+    
+
+
+
+
+
+
+
+    <%
+
+
+if media <> "print" AND media <> "export" then
+
+itop = 176
+ileft = 635
+iwdt = 120
+ihgt = 0
+ibtop = 60 
+ibleft = 150
+ibwdt = 600
+ibhgt = 550
+iId = "pagehelp"
+ibId = "pagehelp_bread"
+'call sideinfoId(itop,ileft,iwdt,ihgt,iId,phDsp,phVzb,ibtop,ibleft,ibwdt,ibhgt,ibId)
+
+    
+   
+    
+   
+			'call akttyper2009(3)
+			%>
+			
+            <!--
+            </table>
+   
+   
+   </td>
+   </tr>
+   </table>
+   </div>
+    -->
+    
+    
+    <%
+    end if 'media
+
+
+
+    if media <> "print" AND media <> "export" then
+    ptop = 212
+    pleft = (globalWdt - 200)
+    pwdt = 200
+
+call eksportogprint(ptop,pleft, pwdt)
+%>
+
+
+
+
+<form action="#" method="post">
+<tr> 
+
+    <td valign=top align=center>
+   <input type=image src="../ill/export1.png" onclick="popUp('afstem_tot.asp?media=export&usemrn=<%=intMid %>&show=<%=show%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&yuse=<%=yuse %>',400,200,200,100)" />
+    </td>
+    <td class=lille><input id="Submit3" type="button" value="Eksportér til .csv >> " style="font-size:9px; width:130px;" onclick="popUp('afstem_tot.asp?media=export&usemrn=<%=intMid %>&show=<%=show%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&yuse=<%=yuse %>',400,200,200,100)" /></td>
+</tr>
+</form>
+
+
+<form action="afstem_tot.asp?media=print&usemrn=<%=intMid %>&show=<%=show%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&yuse=<%=yuse %>" method="post" target="_blank">
+<tr>
+
+    <td valign=top align=center>
+   <input type=image src="../ill/printer3.png"/>
+    </td><td class=lille><input id="Submit6" type="submit" value="Print venlig" style="font-size:9px; width:130px;" /></td>
+</tr>
+</form>
+
+
+   
+	
+   </table>
+</div>
+
+<%else 
+
+ 'Response.Write("<script language=""JavaScript"">window.print();</script>")
+
+end if %>
+	
+
+    
+ 
+   
+  
+   
+<%end if 'validering %>
+<!--#include file="../inc/regular/footer_inc.asp"-->
+
+
+
+
+
+
+  

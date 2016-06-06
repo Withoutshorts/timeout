@@ -1,0 +1,13 @@
+msxml3.dll error '80072f06' 
+
+The host name in the certificate is invalid or does not match 
+
+
+==================================================================
+
+
+msxml3.dll error '80072efd' 
+
+A connection with the server could not be established 
+
+/timeout/exch_meeting_webdav_bowe.asp, line 49 

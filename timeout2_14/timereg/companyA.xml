@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<order>
+  <salesperson>John Doe</salesperson>
+  <item>Production-Class Widget</item>
+  <quantity>16</quantity>
+  <date>
+    <month>1</month>
+    <day>13</day>
+    <year>2000</year>
+  </date>
+  <customer>Sally Finkenstein</customer>
+</order>

@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<moduler>
+		<modul>
+			<modulname>A1</modulname>
+			<desc>Timeregistrering</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>A2</modulname>
+			<desc>Medarbejder log</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>A3</modulname>
+			<desc>Skift medarbejder</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>A4</modulname>
+			<desc>Se timereg for andre medarb.</desc>
+			<onoff>on</onoff>
+		</modul>
+		
+		<modul>
+			<modulname>B1</modulname>
+			<desc>Joboversigt og Aktiviter. Mulighed for at lukke akt.</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>B2</modulname>
+			<desc>Projektgrupper</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>B3</modulname>
+			<desc>Stamaktiviteter</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>B4</modulname>
+			<desc>Jobplanner</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>B5</modulname>
+			<desc>Km regnskab</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>B6</modulname>
+			<desc>Udgifter paa job</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>B7</modulname>
+			<desc>Jobtyper</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>B8</modulname>
+			<desc>Upload af dokumenter</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>B9</modulname>
+			<desc>Incident tool</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>B10</modulname>
+			<desc>Aktivitetsskabeloner</desc>
+			<onoff>on</onoff>
+		</modul>
+		
+		<modul>
+			<modulname>C1</modulname>
+			<desc>Kunder + filter og sog paa kunde</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>C2</modulname>
+			<desc>Kundelogin + Kundejoblog</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>C3</modulname>
+			<desc>Upload logoer paa kunder</desc>
+			<onoff>on</onoff>
+		</modul>
+		
+		<modul>
+			<modulname>D1</modulname>
+			<desc>Medarbejdere</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>D2</modulname>
+			<desc>Brugergrupper</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>D3</modulname>
+			<desc>Medarbejder typer</desc>
+			<onoff>on</onoff>
+		</modul>
+		
+		<modul>
+			<modulname>E1</modulname>
+			<desc>Statistik og Fakturering + filter</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>E2</modulname>
+			<desc>Joblog_z, joblog, top 5 job</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>E3</modulname>
+			<desc>Aars omsaetning</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>E4</modulname>
+			<desc>Export</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>E5</modulname>
+			<desc>Fakturering</desc>
+			<onoff>on</onoff>
+		</modul>
+		
+		<modul>
+			<modulname>H1</modulname>
+			<desc>Kalender</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>H2</modulname>
+			<desc>Firmaer</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>H3</modulname>
+			<desc>Aktions historik + sogefunktion</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>H4</modulname>
+			<desc>Status</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>H5</modulname>
+			<desc>Emner</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>H6</modulname>
+			<desc>Kontaktform</desc>
+			<onoff>on</onoff>
+		</modul>
+		<modul>
+			<modulname>H7</modulname>
+			<desc>Outlook integration</desc>
+			<onoff>on</onoff>
+		</modul>
+	<lang>Danish</lang>
+	<dbconn>driver={MySQL};server=213.237.64.28; Port=6033; uid=outzource;pwd=SKba200473;database=timeout_intranet;</dbconn>
+	
+</moduler>
