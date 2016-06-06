@@ -1,0 +1,293 @@
+<%response.Buffer = true 
+tloadA = now
+%>
+<!--#include file="../inc/connection/conn_db_inc.asp"-->
+
+<!--#include file="../inc/errors/error_inc.asp"-->
+<!--#include file="inc/convertDate.asp"-->
+<!--#include file="../inc/regular/global_func.asp"-->
+<!--#include file="../inc/regular/treg_func.asp"-->
+
+
+
+
+<%
+if len(session("user")) = 0 then
+	%>
+	<!--#include file="../inc/regular/header_inc.asp"-->
+	<%
+	errortype = 5
+	call showError(errortype)
+	
+	else
+	
+	function SQLBless(s)
+		dim tmp
+		tmp = s
+		tmp = replace(tmp, ",", ".")
+		SQLBless = tmp
+	end function
+	
+	func = request("func")
+	id = request("id")
+	thisfile = "ugeseddel_2011.asp"
+	media = request("media")
+
+
+    usemrn = request("usemrn")
+    varTjDatoUS_man = request("varTjDatoUS_man")
+	varTjDatoUS_son = request("varTjDatoUS_son")
+
+    'Response.Write varTjDatoUS_man
+    'Response.end
+
+    datoMan = day(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& year(varTjDatoUS_man)
+    datoSon = day(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& year(varTjDatoUS_son)
+
+    next_varTjDatoUS_man = dateadd("d", 7, varTjDatoUS_man)
+	next_varTjDatoUS_son = dateadd("d", 7, varTjDatoUS_son)
+    next_varTjDatoUS_man = year(next_varTjDatoUS_man) &"/"& month(next_varTjDatoUS_man) &"/"& day(next_varTjDatoUS_man)
+	next_varTjDatoUS_son = year(next_varTjDatoUS_son) &"/"& month(next_varTjDatoUS_son) &"/"& day(next_varTjDatoUS_son)
+
+
+    prev_varTjDatoUS_man = dateadd("d", -7, varTjDatoUS_man)
+	prev_varTjDatoUS_son = dateadd("d", -7, varTjDatoUS_son)
+    prev_varTjDatoUS_man = year(prev_varTjDatoUS_man) &"/"& month(prev_varTjDatoUS_man) &"/"& day(prev_varTjDatoUS_man)
+	prev_varTjDatoUS_son = year(prev_varTjDatoUS_son) &"/"& month(prev_varTjDatoUS_son) &"/"& day(prev_varTjDatoUS_son)
+
+
+	'Response.Write "media " & media
+	
+	
+	'*** Sætter lokal dato/kr format. *****
+	Session.LCID = 1030
+	
+	
+    select case func 
+	case "-"
+
+    case "opdaterstatus"
+
+          ujid = split(request("ids"), ",")
+	
+    for u = 0 to UBOUND(ujid)
+	
+	            editor = session("user")
+
+
+                if len(trim(request("FM_godkendt_"& trim(ujid(u))))) <> 0 then
+                uGodkendt = request("FM_godkendt_"& trim(ujid(u)))
+                else
+                uGodkendt = 0
+                end if
+              
+
+				strSQL = "UPDATE timer SET godkendtstatus = "& uGodkendt &", "_
+				&"godkendtstatusaf = '"& editor &"' WHERE tid = " & ujid(u)
+				
+				'Response.write strSQL &"<br>"
+				
+				oConn.execute(strSQL)
+				
+	next
+
+    Response.Redirect "ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&varTjDatoUS_son="&varTjDatoUS_son
+	
+	case "godkendugeseddel"
+	
+	'*** Godkender ugeseddel ***'
+	
+	    
+	    strSQLup = "UPDATE timer SET godkendtstatus = 1, godkendtstatusaf = '"& session("user") &"' WHERE tmnr = "& usemrn & " AND tdato BETWEEN '"& varTjDatoUS_man &"' AND '" & varTjDatoUS_son & "'" 
+	    oConn.execute(strSQLup)
+	    
+	    'Response.Write strSQLup
+	    'Response.end
+        '*** Godkend uge status ****'
+        call godekendugeseddel(thisfile, session("mid"), usemrn, varTjDatoUS_man)
+	    
+	
+	
+	Response.Redirect "ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&varTjDatoUS_son="&varTjDatoUS_son
+	
+
+    case "afvisugeseddel"
+	
+	'*** Afviser ugeseddel ***'
+    if len(trim(request("FM_afvis_grund"))) <> 0 then
+    txt = replace(request("FM_afvis_grund"), "'", "")
+    else
+    txt = ""
+    end if
+
+	call afviseugeseddel(thisfile, session("mid"), usemrn, varTjDatoUS_man, varTjDatoUS_son, txt)
+	    
+	Response.Redirect "ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&varTjDatoUS_son="&varTjDatoUS_son
+	
+    
+    
+    case "adviserugeafslutning"
+
+    call afslutugereminder(thisfile, session("mid"), usemrn, varTjDatoUS_man, varTjDatoUS_son, txt)
+
+    Response.Redirect "ugeseddel_2011.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&varTjDatoUS_son="&varTjDatoUS_son&"&showadviseringmsg=1"
+	
+
+    case else
+
+    if media <> "print" then
+    %>
+
+     <div id="loadbar" style="position:absolute; display:; visibility:visible; top:260px; left:200px; width:300px; background-color:#ffffff; border:1px #cccccc solid; padding:2px; z-index:100000000;">
+
+	<table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
+	<img src="../ill/outzource_logo_200.gif" />
+	</td><td align=right style="padding-right:40px;">
+	<img src="../inc/jquery/images/ajax-loader.gif" />
+	</td></tr></table>
+
+	</div>
+
+    <% end if
+
+    call akttyper2009(2)
+	
+	
+	
+	if media <> "export" then
+	
+	
+	if media <> "print" then
+	
+	
+	%>
+
+	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
+    <SCRIPT language=javascript src="inc/ugeseddel_2011_jav.js"></script>
+
+     <%call browsertype()
+    
+        
+        if browstype_client <> "ip" then
+            
+            
+	    leftPos = 20
+	    topPos = 192%>
+
+	    <!--#include file="../inc/regular/topmenu_inc.asp"-->
+	
+	    <div id="Div1" style="position:absolute; left:0; top:42; visibility:visible;">
+	    <!--<h4>Timeregistrering - Jobliste</h4>-->
+	    <%call tsamainmenu(1)%>
+	    </div>
+	    <div id="sekmenu" style="position:absolute; left:15; top:97; visibility:visible;">
+	     <%call tregsubmenu() %>
+	
+	    </div>
+	
+	
+	
+	      <%
+
+
+          else
+
+          
+	    leftPos = 20
+	    topPos = 99
+
+          end if
+
+
+      call treg_3menu(thisfile)
+    
+   
+    
+    else 
+	
+	leftPos = 20
+	topPos = 20
+	
+	%>
+	<!--#include file="../inc/regular/header_hvd_inc.asp"-->
+	<%end if%>
+	
+	<%end if%>
+	
+	
+	
+	<!-------------------------------Sideindhold------------------------------------->
+	<div id="sindhold" style="position:absolute; left:<%=leftPos%>; top:<%=topPos%>; visibility:visible;">
+
+	
+
+       
+	
+	<%
+	
+	
+	
+
+     tTop = 2
+	tLeft = 0
+	tWdth = 900
+	
+	
+	call tableDiv(tTop,tLeft,tWdth)
+
+    
+   ugeseddelvisning = 1
+   showtotal = 1 
+   showheader = 1
+   call ugeseddel(usemrn, varTjDatoUS_man, varTjDatoUS_son, ugeseddelvisning, showtotal, showheader)  
+	
+	
+    if browstype_client <> "ip" then
+	
+	 if media <> "print" then
+
+ptop = 0
+pleft = 945
+pwdt = 200
+
+call eksportogprint(ptop,pleft, pwdt)
+%>
+
+<form action="ugeseddel_2011.asp?usemrn=<%=usemrn%>&varTjDatoUS_man=<%=varTjDatoUS_man %>&varTjDatoUS_son=<%=varTjDatoUS_son %>&media=print" method="post" target="_blank">
+<tr> 
+    <td valign=top align=center>
+   <input type=image src="../ill/printer3.png" />
+    </td>
+    <td class=lille><input id="Submit5" type="submit" value=" Print venlig >> " style="font-size:9px; width:130px;" /></td>
+</tr>
+</form>
+
+   
+	
+   </table>
+</div>
+<%else
+
+Response.Write("<script language=""JavaScript"">window.print();</script>")
+
+end if %>
+
+  
+
+    </div>
+    <br /><br />&nbsp;
+    <%end if %>
+
+
+
+
+    </div>
+    <br /><br />&nbsp;
+    <%
+	
+	
+	end select
+	
+	
+	end if%>
+<!--#include file="../inc/regular/footer_inc.asp"-->
