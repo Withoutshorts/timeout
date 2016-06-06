@@ -1,0 +1,149 @@
+﻿  <tr><td valign=top>
+       
+        <b>Aftaler:</b>
+        </td><td valign=top>
+	    
+	    <% 
+	    strSQLaft = "SELECT s.id AS sid, s.navn, s.aftalenr"_
+	    &" FROM serviceaft s "_
+	    &" WHERE s.kundeid = " & kundeid & "  GROUP BY s.id ORDER BY s.navn"
+	  
+      'AND f.fid <> 0
+      '- <%=oRec("antalfak") 
+      ', COUNT(f.fid) AS antalfak 
+      '&" LEFT JOIN fakturaer f ON (f.aftaleid = s.id AND shadowcopy = 0) "_
+	  'Response.Write strSQLjob
+	  'Response.flush
+
+	    %>
+	    
+	        <% if print <> "j" then%>
+	        <select id="FM_aftale" name="FM_aftale" size=3 style="font-size : 9px; width:325px;">
+            
+            <%if cint(aftid) = -1 then
+            ingSEL = "SELECTED"
+            else
+            ingSEL = ""
+            end if
+            %>
+            
+            <option value=-1 <%=ingSEL %>>Ingen</option>
+            <%if cint(aftid) = 0 then
+            nulSEL = "SELECTED"
+            else
+            nulSEL = ""
+            end if
+            %>
+            <option value=0 <%=nulSEL %>>Alle</option>
+            
+            <%
+            end if
+            
+            oRec.open strSQLaft, oConn, 3
+				while not oRec.EOF
+				
+				if cint(aftid) = cint(oRec("sid")) then
+				isSelected = "SELECTED"
+				vlgtAft = oRec("navn") & " ("& oRec("aftalenr") &")"
+				else
+				isSelected = ""
+				end if
+				
+				
+				if print <> "j" then
+				%>
+				<option value="<%=oRec("sid")%>" <%=isSelected%>><%=oRec("navn")%> (<%=oRec("aftalenr")%>)</option>
+				<%
+				end if
+				oRec.movenext
+				wend
+				oRec.close
+				
+				if print <> "j" then%>
+                </select>
+                <%else %>
+                <%=vlgtAft %>
+                <%end if %>
+        
+        </td></tr>
+	    
+	    </tr>
+
+        <!--
+        <tr><td valign=top><b>Job:</b>
+        <br />Kun kontakter, job og aftaler<br /> med fakturaer på vises.</td><td valign=top>
+	    <%
+	    if cdbl(aftid) > 0 then
+	    aftidKri = " AND serviceaft = " & aftid
+	    else
+	    aftidKri = ""
+	    end if
+	    
+	    if kundeid <> 0 then
+	    strjobKidSQL = "jobknr = " & kundeid
+	    else
+	    strjobKidSQL = "jobknr <> 0 "
+	    end if
+	    
+	    strSQLjob = "SELECT j.id AS jid, j.jobnavn, j.jobnr"_
+	    &" FROM job j "_
+	    &" WHERE "& strjobKidSQL &" "& aftidKri &" GROUP BY j.id ORDER BY j.jobnavn"
+	  
+      'AND f.fid <> 0 
+      '**, COUNT(f.fid) AS antalfak 
+      '&" LEFT JOIN fakturaer f ON (f.jobid = j.id AND shadowcopy = 0) "_
+      ''- <%=oRec("antalfak") 
+	  'Response.Write strSQLjob
+	  'Response.flush
+	  
+	        if print <> "j" then %>
+            <select id="FM_job" name="FM_job" size=8 style="font-size : 9px; width:325px;">
+             <%if cint(jobid) = -1 then
+            ingSEL = "SELECTED"
+            else
+            ingSEL = ""
+            end if
+            %>
+            
+            <option value="-1" <%=ingSEL %>>Ingen</option>
+            
+            <%if cint(jobid) = 0 then
+            nulSEL = "SELECTED"
+            else
+            nulSEL = ""
+            end if
+            %>
+            
+            <option value=0 <%=nulSEL %>>Alle</option>
+            <%
+            end if
+            
+            oRec.open strSQLjob, oConn, 3
+				while not oRec.EOF
+				
+				if cint(jobid) = cint(oRec("jid")) then
+				isSelected = "SELECTED"
+				vlgtJob = oRec("jobnavn") & " ("& oRec("jobnr") &")"
+				else
+				isSelected = ""
+				end if
+				
+				
+				if print <> "j" then
+				%>
+				<option value="<%=oRec("jid")%>" <%=isSelected%>><%=oRec("jobnavn")%> (<%=oRec("jobnr")%>)</option>
+				<%
+				end if
+				oRec.movenext
+				wend
+				oRec.close
+				%>
+         
+        <% if print <> "j" then%>   
+        </select><br /><input id="FM_jobikkedelafaftale" name="FM_jobikkedelafaftale" value="1" type="checkbox" <%=jidaftCHK%> />Vis kun job der ikke er del af aftale.
+        
+        <%else%>
+        <%=vlgtJob %>
+        <%end if %>
+        </td></tr>
+        -->
