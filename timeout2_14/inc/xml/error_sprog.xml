@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+
+    <!-- error_inc.asp -->
+    <txt_001>Der er opstået en fejl!</txt_001>
+    <txt_004>
+      Den valgte medarbejder kan ikke logge ind i TimeOut.#nylinie##nylinie#
+
+      Det skyldes som regel en af følgende årsager: #nylinie#
+      - Kombinationen af login og password er forkert.#nylinie#
+      - Status på medarbejderkontoen er Deaktiveret.#nylinie#
+      - Status på medarbejderkontoen er Passiv 
+
+
+    </txt_004>
+    <txt_028>
+		En eller flere af de indtastede time-registreringer indeholder ulovlige karakterer.#nylinie#
+		Registreringerne må kun indeholde tallene 0-9, samt komma eller punktum. #nylinie#Den ulovlige registrering er:
+	</txt_028>
+
+    <txt_054>Antal er ikke angivet som et tal!</txt_054>
+
+
+    <txt_090>
+      Indtast materialer #nylinie#
+      - Forbrugsdato er ikke angivet i et gyldigt datoformat.
+    </txt_090>
+
+    <txt_106>
+      Materiale indtastning #nylinie#
+      - Pris er ikke udfyldt korrekt.
+    </txt_106>
+
+
+    <txt_107>
+      Materiale indtastning #nylinie#
+      - Navn er ikke udfyldt korrekt.
+    </txt_107>
+
+    <txt_074>
+      Fejl i varenr #nylinie#
+      - Det angivne varenr findes allerede på et materiale/udlæg i den valgte gruppe.
+    </txt_074>
+
+    <txt_108A>
+
+      Materiale indtastning #nylinie#
+      A) Dato for materiale registrering/udlæg (Intern kode: ekstern / ikke angivet) på det valgte job,
+      ligger i et datointerval der allerede er faktureret.#nylinie##nylinie#
+      Seneste faktura dato på dette job er:
+    </txt_108A>
+
+    <txt_108B>
+      #nylinie#Den valgte registrerings dato er:
+    </txt_108B>
+
+    <txt_108C>
+
+      #nylinie##nylinie#B) Du prøver at registrere timer i en periode der er afsluttet via Smiley ordning,
+      via automatisk månedsafslutning funktion eller periode er lukket via afslut lønperiode funktionen.
+
+    </txt_108C>
+
+    <txt_120>
+      Materiale indtastning #nylinie#
+      - Salgspris er ikke udfyldt korrekt.
+    </txt_120>
+
+  </dk>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <!-- error_inc.asp -->
+
+    <txt_001>An error has occured!</txt_001>
+    <txt_004>
+      You are not able to login to TimeOut.
+      by one of the following reasons: #nylinie##nylinie#
+      - Either the login or password are wrong.#nylinie#
+      - Status on the employee account are Disabled.#nylinie#
+      - Status on the employee account are Passive.
+      </txt_004>
+    <txt_028>
+		One or more time recordings containing illegal caracters.#nylinie#
+		Time recordings can only contain numbers 0-9 and comma or full stop.#nylinie#
+		The illegal caracter are:
+	</txt_028>
+
+    <txt_090>
+      Enter materials #nylinie#
+      - Consumer date is not a valid format.
+    </txt_090>
+
+    <txt_106>
+      Enter materials #nylinie#
+      - Price is not in a valid format.
+    </txt_106>
+
+
+    <txt_107>
+      Enter materials #nylinie#
+      - Name is not in a valid format.
+    </txt_107>
+
+    <txt_074>
+      Error in Item no. #nylinie#
+      - Item no is allready in use i this storage group.
+    </txt_074>
+
+    <txt_108A>
+      Enter materials #nylinie#
+      A) Consumer date for this recording (Code: External / Not Stated), are in a invoiced period.#nylinie##nylinie#
+      Latest invoice date on this job are:
+    </txt_108A>
+
+    <txt_108B>
+      #nylinie#and the selected date are:
+    </txt_108B>
+
+    <txt_108C>
+      #nylinie##nylinie#B) You are recording hours in a pariode which are allready completed or closed by the monthly periode close down option.
+    </txt_108C>
+
+    <txt_120>
+      Enter materials #nylinie#
+      - Selling price is not in a valid format.
+    </txt_120>
+
+  </uk>
+
+
+</sprog>

@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<txt>
+<timereg>
+		<timereg_txt_1>
+			<lang_1>Timeregistrering</lang_1>
+			<lang_2>Timeregistration</lang_2>
+		</timereg_txt_1>
+		<timereg_txt_2>
+			<lang_1>Vælg hvilke job der skal vises på listen ud fra filter kriterierne A, B eller C.</lang_1>
+			<lang_2>Choose which jobs to be shown on the list from the filter criterias A, B or C.</lang_2>
+		</timereg_txt_2>
+		<timereg_txt_3>
+			<lang_1>Kontakter.</lang_1>
+			<lang_2>Contacts.</lang_2>
+		</timereg_txt_3>
+		<timereg_txt_4>
+			<lang_1>Alle (baseret på dine aktive job)</lang_1>
+			<lang_2>All (based on your active jobs)</lang_2>
+		</timereg_txt_4>
+		<timereg_txt_5>
+			<lang_1>Seneste 5 job du har registreret tid på.</lang_1>
+			<lang_2>Last 5 jobs you have registered time on.</lang_2>
+		</timereg_txt_5>
+		<timereg_txt_6>
+			<lang_1>De 8 senest oprettede job.</lang_1>
+			<lang_2>The last 8 jobs created.</lang_2>
+		</timereg_txt_6>
+		<timereg_txt_7>
+			<lang_1>Vælg filter / indlæs timer</lang_1>
+			<lang_2>Choose filter / record hours</lang_2>
+		</timereg_txt_7>
+		<timereg_txt_8>
+			<lang_1>Når du vælger filter indlæses timer, inden det nye filter eksekveres. Følg med i dine timeregistreringer i kalenderen til højre. Kun job der er slået "til" i "Guiden dine aktive job!" vises uanset om filter A, B eller C benyttes.</lang_1>
+			<lang_2>When you choose filter your hours will be recorded before the new filter will be executed. Follow your registrations in the calendar to the right. Only jobs turned "on" in "The guide for your active jobs!" will be shown whether filter A, B or C is used</lang_2>
+		</timereg_txt_8>
+		<timereg_txt_9>
+			<lang_1>Rediger din jobliste her:</lang_1>
+			<lang_2>Draw up your joblist here:</lang_2>
+		</timereg_txt_9>
+		<timereg_txt_10>
+			<lang_1>Guiden dine aktive job!</lang_1>
+			<lang_2>The guide for your active jobs!</lang_2>
+		</timereg_txt_10>
+		<timereg_txt_11>
+			<lang_1>Indtast timer for:</lang_1>
+			<lang_2>Record hours for:</lang_2>
+		</timereg_txt_11>
+		<timereg_txt_12>
+			<lang_1>Uge:</lang_1>
+			<lang_2>Week:</lang_2>
+		</timereg_txt_12>
+			<OBS!!! DATOFORMAT></OBS!!! DATOFORMAT>
+		<timereg_txt_13>
+			<lang_1>Timer forkalkuleret / Realiseret</lang_1>
+			<lang_2>Pre calculated hours / realized</lang_2>
+		</timereg_txt_13>
+		<timereg_txt_14>
+			<lang_1>Marker job for at fjerne fra time-registreringen og overføre til "Guiden dine aktive job!".</lang_1>
+			<lang_2>Mark jobs to remove from time registration and transfer to "The guide for your active jobs!".</lang_2>
+		</timereg_txt_14>
+		<timereg_txt_15>
+			<lang_1>Afslut uge ?</lang_1>
+			<lang_2>Finish week ?</lang_2>
+		</timereg_txt_15>
+		<timereg_txt_16>
+			<lang_1>Marker denne når du vil afslutte uge:</lang_1>
+			<lang_2>Mark here if you want to finish week:</lang_2>
+		</timereg_txt_16>
+		<timereg_txt_17>
+			<lang_1>Ved markering inden søndag kl. 24:00 vil denne uge betragtes som rettidigt afsluttet.</lang_1>
+			<lang_2>If the mark is set before sonday 0:00 pm. the week will be considered to be finished on time</lang_2>
+		</timereg_txt_17>
+		<timereg_txt_18>
+			<lang_1>Indlæs timer</lang_1>
+			<lang_2>Record hours</lang_2>
+		</timereg_txt_18>
+</timereg>
+
+<hovedmenu>
+		<hovedmenu_txt_1>
+			<lang_1>Menu</lang_1>
+			<lang_2>Menu</lang_2>
+		</hovedmenu_txt_1>
+		<hovedmenu_txt_2>
+			<lang_1>Timeregistrering</lang_1>
+			<lang_2>Timeregistration</lang_2>
+		</hovedmenu_txt_2>
+		<hovedmenu_txt_3>
+			<lang_1>TimeOut idag</lang_1>
+			<lang_2>TimeOut today</lang_2>
+		</hovedmenu_txt_3>
+		<hovedmenu_txt_4>
+			<lang_1>Jobs</lang_1>
+			<lang_2>Jobs</lang_2>
+		</hovedmenu_txt_4>
+		<hovedmenu_txt_5>
+			<lang_1>Ressourcer</lang_1>
+			<lang_2>Ressources</lang_2>
+		</hovedmenu_txt_5>
+		<hovedmenu_txt_6>
+			<lang_1>Kontakter</lang_1>
+			<lang_2>Contacts</lang_2>
+		</hovedmenu_txt_6>
+		<hovedmenu_txt_7>
+			<lang_1>Medarbejdere</lang_1>
+			<lang_2>Staff</lang_2>
+		</hovedmenu_txt_7>
+		<hovedmenu_txt_8>
+			<lang_1>Statistik</lang_1>
+			<lang_2>Statistics</lang_2>
+		</hovedmenu_txt_8>
+		<hovedmenu_txt_9>
+			<lang_1>Bogføring og fakturering</lang_1>
+			<lang_2>Accounting and invoice</lang_2>
+		</hovedmenu_txt_9>
+</hovedmenu>
+
+
+<undermenu_1>
+		<undermenu_1_txt_1>
+			<lang_1>Timeregistrering</lang_1>
+			<lang_2>Timeregistration</lang_2>
+		</undermenu_1_txt_1>
+		<undermenu_1_txt_2>
+			<lang_1>Timeregistrering</lang_1>
+			<lang_2>Timeregistration</lang_2>
+		</undermenu_1_txt_2>
+		<undermenu_1_txt_3>			
+			<lang_1>Medarbejder Log</lang_1>
+			<lang_2>Staff member log</lang_2>
+		</undermenu_1_txt_3>
+		<undermenu_1_txt_4>
+			<lang_1>Medarbejder kørsel</lang_1>
+			<lang_2>Staff member driving</lang_2>
+		</undermenu_1_txt_4>
+		<undermenu_1_txt_5>
+			<lang_1>Guiden dine aktive job!</lang_1>
+			<lang_2>The guide for your active jobs!</lang_2>
+		</undermenu_1_txt_5>
+		<undermenu_1_txt_6>
+			<lang_1>Din uge</lang_1>
+			<lang_2>Your week</lang_2>
+		</undermenu_1_txt_6>
+</undermenu_1>
+
+<smileymenu>
+		<DATOFORMAT></DATOFORMAT>
+
+		<smileymenu_txt_1>
+			<lang_1>Glad Smiley.</lang_1>
+			<lang_2>Happy Smiley</lang_2>
+		</smileymenu_txt_1>
+
+		<smileymenu_txt_1>
+			<lang_1>Mellemfornøjet Smiley.</lang_1>
+			<lang_2>Disgruntled Smiley.</lang_2>
+		</smileymenu_txt_1>
+
+		<smileymenu_txt_1>
+			<lang_1>Sur Smiley.</lang_1>
+			<lang_2>Annoyed Smiley</lang_2>
+		</smileymenu_txt_1>
+
+		<smileymenu_txt_1>
+			<lang_1>Nb: Smileyordning kan slås til og fra i medarbejder-profilen.</lang_1>
+			<lang_2>Nb: The Smiley can be turned on and off in the staff profile.</lang_2>
+		</smileymenu_txt_1>
+</smileymenu>
+
+<topbar>
+		<ugereg_txt_1>
+			<lang_1>Du er logget ind som:</lang_1>
+			<lang_2>You are logged in as:</lang_2>
+		</ugereg_txt_1>
+
+		<DATOFORMAT></DATOFORMAT>
+
+		<ugereg_txt_2>
+			<lang_1>Log ud</lang_1>
+			<lang_2>Log out</lang_2>
+		</ugereg_txt_2>
+
+</topbar>
+
+<ugereg>
+		<DATOFORMAT></DATOFORMAT>
+
+		<ugereg_txt_1>
+			<lang_1>Reg. job timer:</lang_1>
+			<lang_2>Rec. job hours:</lang_2>
+		</ugereg_txt_1>
+
+		<ugereg_txt_2>
+			<lang_1>Normeret tid:</lang_1>
+			<lang_2>Pre calculated hours:</lang_2>
+		</ugereg_txt_2>
+
+		<ugereg_txt_3>
+			<lang_1>Din uge:</lang_1>
+			<lang_2>Your week:</lang_2>
+		</ugereg_txt_3>
+
+		<ugereg_txt_4>
+			<lang_1>timer</lang_1>
+			<lang_2>hours</lang_2>
+		</ugereg_txt_4>
+</ugereg>
+
+<kalender>
+		<kalender_txt_1>
+			<lang_1>Kalender</lang_1>
+			<lang_2>Calendar</lang_2>
+		</kalender_txt_1>
+
+		<DATOFORMAT></DATOFORMAT>
+</kalender>
+
+<timereg_andre>
+		<timereg_andre_txt_1>
+			<lang_1>Se time-registreringer for andre medarbejdere:</lang_1>
+			<lang_2>See recorded hours for other staff members:</lang_2>
+		</timereg_andre_txt_1>
+</timereg_andre>
+</txt>
+
+
+
+

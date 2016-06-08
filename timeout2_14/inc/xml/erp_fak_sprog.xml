@@ -1,0 +1,1067 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+    <txt_1>Faktura</txt_1>
+    <txt_2>Kreditnota</txt_2>
+    <txt_3>Tlf</txt_3>
+    <txt_4>CVR</txt_4>
+    <txt_5>Kundenr.</txt_5>
+    <txt_6>dato</txt_6>
+    <txt_7>Forfaldsdato</txt_7>
+    <txt_8>Kontonr</txt_8>
+    
+    <txt_9>IBAN</txt_9>
+    <txt_10>SWIFT</txt_10>
+    <txt_11>CVR</txt_11>
+    
+    <txt_12>Vedrørende</txt_12>
+    
+    
+    <txt_13>Antal</txt_13>
+    <txt_14>Beskrivelse</txt_14>
+    <txt_15>Enhedspris</txt_15>
+    <txt_16>Rabat</txt_16>
+    <txt_17>Pris</txt_17>
+    
+    <txt_18>Timepris</txt_18>
+    <txt_19>Stk. pris</txt_19>
+    <txt_20>Enhedspris</txt_20>
+    
+    <txt_21>Afs.</txt_21>
+    <txt_22>Att.</txt_22>
+    
+    
+    <txt_23>Fax</txt_23>
+    <txt_24>Email</txt_24>
+    <txt_25>Bank</txt_25>
+    <txt_26>Varenr</txt_26>
+    
+    
+    <txt_27>Subtotal</txt_27>
+    <txt_28>Total</txt_28>
+    <txt_29>Subtotal ekskl. moms</txt_29>
+    <txt_30>Moms beløb</txt_30>
+    <txt_31>Total eksl. moms</txt_31>
+    <txt_32>Total inkl. moms</txt_32>
+    <txt_33>Note og betalingsbetingelser</txt_33>
+    <txt_34>moms</txt_34>
+
+    <txt_35>Time</txt_35>
+    <txt_36>Stk.</txt_36>
+    <txt_37>Enhed</txt_37>
+
+    <txt_38>Joblog</txt_38>
+    <txt_39>Øvrigt materialeforbrug</txt_39>
+    <txt_40>pr.</txt_40>
+    <txt_41>Materialer u. moms</txt_41>
+    <txt_42>Dato</txt_42>
+    <txt_43>Navn</txt_43>
+    <txt_44>Enhed</txt_44>
+
+    <txt_45>(Ej fakturerbar)</txt_45>
+    <txt_46>Aktivitet</txt_46>
+    <txt_47>Medarbejder</txt_47>
+    <txt_48>Enheder</txt_48>
+    <txt_49>Periode</txt_49>
+
+    <txt_50>Intern ref.</txt_50>
+    <txt_51>aftale</txt_51>
+    <txt_52>job</txt_52>
+
+    <txt_53>Rekvisitions nr.</txt_53>
+	  <txt_54>Km.</txt_54>
+	  <txt_55>Denne faktura er omfattet af SKI</txt_55>
+	  <txt_56>Vor ref. </txt_56>
+    <txt_57>Tekst</txt_57>
+
+    <txt_58>Handels</txt_58>
+    <txt_59>Side</txt_59>
+
+    <txt_60>Benyt alternativ modtager adr.</txt_60>
+    <txt_61>(kontaktpers. / filial)</txt_61>
+    <txt_62>Forvalgt fakturaadresse blandt kontaktpersoner/filialer.</txt_62>
+    <txt_63>/ Opdater</txt_63>
+    <txt_64>(klik til/fra for at gen-indlæse adresse)</txt_64>
+
+    <txt_65>Vis Att. person</txt_65>
+    <txt_66>(vises først på fakturalayout)</txt_66>
+    <txt_67>Den økonomi ansvarlige</txt_67>
+    <txt_68>Regnskabs afd.</txt_68>
+    <txt_69>Administrationen</txt_69>
+
+    <txt_70>Afsender</txt_70>
+    <txt_71>Vis afsender felter tilvalg:</txt_71>
+
+    <txt_72>Forrige</txt_72>
+    <txt_73>Næste</txt_73>
+
+    <txt_74>Hvis du ændrer</txt_74>
+    <txt_75>faktura systemdato</txt_75>
+    <txt_76>, følger fakturadatoen ikke længere det valgte datointerval og timer kan gå tabt, eller blive faktureret dobbelt.</txt_76>
+    <txt_77>Benyt evt. </txt_77>
+    <txt_78>Labeldato istedet</txt_78>
+    <txt_79>Faktura systemdatoen der afgør hvor</txt_79>
+    <txt_80>skæringsdatoen</txt_80>
+    <txt_81>mellem timer på denne faktura og næste faktura skal ligge.</txt_81>
+
+    <txt_82>Faktura indstilliger</txt_82>
+    <txt_83>Rykker</txt_83>
+    <txt_84>Fakturadato:</txt_84>
+    <txt_85>Skæringsdato for lukning af periode.</txt_85>
+    <txt_86>start-dato</txt_86>
+    <txt_87>er korrigeret til dagen efter seneste fakturadato på jobbet.</txt_87>
+    
+    <txt_88>Vis </txt_88>
+    <txt_89>på faktura:</txt_89>
+    <txt_90>til</txt_90>
+    
+    <txt_91>Labeldato:</txt_91>
+    <txt_92>Forfaldsdato:</txt_92>
+    <txt_93>Status:</txt_93>
+    
+    <txt_94>Kladde</txt_94>
+    <txt_95>Godkendt</txt_95>
+    <txt_96>Rabatkolonne:</txt_96>
+    <txt_97>Vis rabat-kolonne på faktura</txt_97>
+    
+    <txt_98>Brug labeldato, istedet for faktura systemt-dato, som fakturadato på fakturaprint.</txt_98>
+    <txt_99>Dette giver mulighed for at flytte fakturadatoen i forhold til den periode der bliver lukket for timeregistrering, der altid følger system datoen.</txt_99>
+    <txt_100>Hvis der vælges </txt_100>
+    <txt_101>labeldato</txt_101>
+    <txt_102>bliver omsætningen beregnet udfra denne dato.</txt_102>
+    
+    <txt_103>Antal- og enheds -kolonner:</txt_103>
+    <txt_104>Skjul antal- og enheds -kolonner på faktura print. (ikke materiale linier)</txt_104>
+    <txt_105>Intern/Handelsfaktura:</txt_105>
+    <txt_106>Alm. faktura</txt_106>
+    <txt_107>Intern faktura</txt_107>
+    <txt_108>Handelsfaktura (pro-forma)</txt_108>
+        
+    <txt_109>Medregnes ikke i udfaktureret omsætning, ingen moms, egen nummerserie.</txt_109>
+    <txt_110>Lukker periode/job for timeregistrering ligesom alm. fakturaer.</txt_110>
+    <txt_111>Interne/Handels fakturaer ignoreres ved beregning af timer til fakturering ved næste faktura oprettelse.</txt_111>
+    <txt_112>Evt. posteringer i kontoplan foretages som normalt.</txt_112>
+    
+    <txt_113>Fakturerings valuta:</txt_113>
+    <txt_114>Sprog:</txt_114>
+    <txt_115>Moms:</txt_115>
+    <txt_116>Sideskift efter:</txt_116>
+    
+    <txt_117>(2 sider, tilføj manuelt ombrydning i brødtekst)</txt_117>
+    <txt_118>(3 sider, tilføj manuelt ombrydning i brødtekst)</txt_118>
+    <txt_119>(4 sider, tilføj manuelt ombrydning i brødtekst)</txt_119>
+    <txt_120>(5 sider, tilføj manuelt ombrydning i brødtekst)</txt_120>
+    <txt_121>(6 sider, tilføj manuelt ombrydning i brødtekst)</txt_121>
+    <txt_122>(7 sider, tilføj manuelt ombrydning i brødtekst)</txt_122>
+    <txt_123>(8 sider, tilføj manuelt ombrydning i brødtekst)</txt_123>
+    
+    <txt_124>linjer</txt_124>
+    <txt_125>(ingen sideskift)</txt_125>
+    
+    <txt_126>Konto posteringer</txt_126>
+    <txt_127>(Valgfrit)</txt_127>
+    <txt_128>Opret posteringer på konti oprettet på kontoplanen:</txt_128>
+    <txt_129>Posteringer tilføjes ved godkend, konti oprettes i under bøgføring.</txt_129>
+    <txt_130>Debitor konto:</txt_130>
+    
+    <txt_131>Ingen konto</txt_131>
+    <txt_132>Kreditor konto:</txt_132>
+    <txt_133>(Intern konto)</txt_133>
+    
+    <txt_134>Vis</txt_134>
+    <txt_135>ikke</txt_135>
+    <txt_136>job/aftale</txt_136>
+    <txt_137>navn</txt_137>
+    <txt_138>(overskrift) på faktura</txt_138>
+    <txt_139>Vis job/aftale</txt_139>
+    <txt_140>beskrivelse</txt_140>
+    
+    <txt_141>Luk job ved faktura oprettelse</txt_141>
+    <txt_142>Jobnavn:</txt_142>
+    <txt_143>Jobtype:</txt_143>
+    <txt_144>Bruttoomsætning:</txt_144>
+    <txt_145>Timer forkalk:</txt_145>
+    <txt_146>Kunderabat:</txt_146>
+    <txt_147>Rekvnr/Indkøbsordre:</txt_147>
+    <txt_148>Aftale:</txt_148>
+    <txt_149>SKI aftale</txt_149>
+    <txt_150>Faktureret indtil d.d.:</txt_150>
+    
+    <txt_151>Aftale navn:</txt_151>
+    <txt_152>Pris:</txt_152>
+    <txt_153>Enheder:</txt_153>
+    <txt_154>Periode:</txt_154>
+    <txt_155>Job tilknyttet denne aftale:</txt_155>
+    
+    <txt_156>Job Tweet</txt_156>
+    <txt_157>Intern note</txt_157>
+    <txt_158>Beskrivelse:</txt_158>
+    <txt_159>Bemærk at sideombrydning er vejledende og kan forskubbe sig en smule ifht. tilvalg af rekv. nr. etc.</txt_159>
+    <txt_160>Editor-bredde er sat = faktura brødtekst bredde</txt_160>
+   
+    <txt_161>Sideombrydning 1</txt_161>
+    <txt_162>Sideombrydning 2</txt_162>
+    <txt_163>Sideombrydning 3</txt_163>
+    <txt_164>Sideombrydning 4</txt_164>
+    <txt_165>Sideombrydning 5</txt_165>
+    <txt_166>Sideombrydning 6</txt_166>
+    <txt_167>Sideombrydning 7</txt_167>
+    
+    <txt_168>Betalingsbetingelser / Kommentar:</txt_168>
+    <txt_169>Gem betalingsbetingelser og forfaldsdato som standard for</txt_169>
+    <txt_170>denne</txt_170>
+    <txt_171>kontakt.</txt_171>
+    <txt_172>Gem som standard betalingsbetingelser og forfaldsdato for</txt_172>
+    <txt_173>alle</txt_173>
+    <txt_174>kontakter.</txt_174>
+    
+    <txt_175>Faktura total:</txt_175>
+    <txt_176>Beløb i alt:</txt_176>
+    <txt_177>Fastpris: Brutto oms. fra budget.</txt_177>
+    <txt_178>Lbn. timer: forbrug.</txt_178>
+    <txt_179>Pris fra aftale.</txt_179>
+    <txt_180>Fra faktura-oprettelse.</txt_180>
+
+    <txt_181>Faktura total må afvige sum på fakturalinjer (f.eks fastpris job)</txt_181>
+    <txt_182>Ikke momspligtigt beløb:</txt_182>
+    
+    <txt_183>Sidst opdateret den </txt_183>
+    <txt_184>af</txt_184>        
+    
+    <txt_185>Omregner priser til valgte valuta, et øjeblik...</txt_185>      
+    <txt_186>Det tager normalt 5-8 sek.</txt_186>      
+    
+    <txt_187>Der er MERE end 100 aktive aktiviteter på dette job. Derfor kan fakturaen ikke vises.</txt_187>      
+    <txt_188>Deaktiver de aktiviteter der ikke er ibrug og forsøg igen, eller kontakt support@outzource.dk</txt_188>      
+    <txt_189>aktive aktiviteter</txt_189>      
+    <txt_190>på dette job, der via deres aktivitetstype er sat til at blive vist på faktura.</txt_190>      
+    <txt_191>Forventet loadtid:</txt_191>      
+    <txt_192>Mellem:</txt_192>      
+    <txt_193>og</txt_193>      
+    <txt_194>Der er</txt_194>   
+    <txt_195>Ca. 2 sek.</txt_195>
+    
+    <txt_196>Rediger</txt_196>   
+    <txt_197>Opret ny</txt_197>   
+    
+    <txt_198>Materiale- / udlægs -log</txt_198>
+    <txt_199>Søg i fakturaer</txt_199>
+    <txt_200>Step 1</txt_200>
+    <txt_201>Indstillinger</txt_201>
+    <txt_202>Step 2</txt_202>
+    <txt_203>Modtager og</txt_203>
+    <txt_204>Afsender</txt_204>
+    <txt_205>Step 3</txt_205>
+    <txt_206>Job / Aftale</txt_206>
+    <txt_207>beskriv.</txt_207>
+    <txt_208>Step 4</txt_208>
+    <txt_209>Step 5</txt_209>
+    <txt_210>Mat. / udlæg</txt_210>
+    <txt_211>fak. linier</txt_211>
+    <txt_212>Step 6</txt_212>
+    <txt_213>Betalings</txt_213>
+    <txt_214>betingelser</txt_214>
+    
+    <txt_215>Gen-indlæser faktura</txt_215>
+    <txt_216>Modtager</txt_216>
+    <txt_217>Manuelle rettelser til adr. kan ikke overføres til EAN fak.</txt_217>
+    <txt_218>Vis land</txt_218>
+    <txt_219>Vis CVR nr.</txt_219>
+    <txt_220>+ Opret ny</txt_220>
+    <txt_221>(systemdato)</txt_221>
+
+    <txt_222>Udskrift funktioner:</txt_222>
+    <txt_223>Print</txt_223>
+    <txt_224>PDF</txt_224>
+    <txt_225>OIO XML</txt_225>
+
+    <txt_226>Gem PDF ovenfor, og email faktura til:</txt_226>
+    <txt_227>Søg:</txt_227>
+    <txt_228>Kontaktpersoner oprettes under fanebladet "kontakter" i hovemenuen.</txt_228>
+    <txt_229>Godkend faktura nu</txt_229>
+
+    <txt_230>Faktura historik</txt_230>
+    <txt_231>Kontakter:</txt_231>
+    <txt_232>(fakturadato | faktura labeldato)</txt_232>
+    <txt_233>Sortér efter</txt_233>
+    <txt_234>Faktura Nr.</txt_234>
+    <txt_235>Fakturadato</txt_235>
+    <txt_236>Faktura Labeldato</txt_236>
+    <txt_237>Forfaldsdato</txt_237>
+    <txt_238>Vis kun:</txt_238>
+    <txt_239>Åbne poster</txt_239>
+    <txt_240>Interne/Handels fakturaer</txt_240>
+    <txt_241>Fakturaer der ikke tidligere har været overført til ERP system</txt_241>
+    <txt_242>Godkendte</txt_242>
+    
+    <txt_243>Søg i fakturanr. / beløb</txt_243>
+    <txt_244>Søg på Kunde/job/aftale</txt_244>
+    <txt_245>Ignorer periode</txt_245>
+    <txt_246>Faktura nr, eks. 54 - 103, % = wildcard</txt_246>
+    <txt_247>Søgning ignorerer valgt kontakt.</txt_247>
+
+    <txt_248>Kontakt</txt_248>
+    <txt_249>L: Label dato</txt_249>
+    <txt_250>F: Fak. sys. dato</txt_250>
+    <txt_251>Type</txt_251>
+    <txt_252>Fak. Beløb </txt_252>
+    <txt_253>(excl. moms)</txt_253>
+    <txt_254>(incl. moms)</txt_254>
+    <txt_255>Vente t.</txt_255>
+    <txt_256>Brugt / Ultimo</txt_256>
+    <txt_257>Konto</txt_257>
+    <txt_258>Modkonto</txt_258>
+    <txt_259>Lukket?</txt_259>
+    <txt_260>(betalt)</txt_260>
+    <txt_261>Kommentar</txt_261>
+    <txt_262>overført</txt_262>
+    <txt_263>til ERP?</txt_263>
+    <txt_264>Luk job</txt_264>
+    
+    <txt_265>(intern)</txt_265>
+    <txt_266>(handelsfak.)</txt_266>
+    <txt_267>Nej</txt_267>
+    <txt_268>Ja</txt_268>
+    <txt_269>Lukket</txt_269>
+
+    <txt_270>Der blev ikke fundet fakturaer der matcher de valgte kriterier</txt_270>
+    <txt_271>Antal fakturaer:</txt_271>
+    <txt_272>Faktureret ialt:</txt_272>
+    <txt_273>(kreditnotaer udgør:</txt_273>
+    <txt_274>Interne udgør:</txt_274>
+    <txt_275>Job:</txt_275>
+    <txt_276>Aftaler:</txt_276>
+    <txt_277>Åbne poster: (ikke interne)</txt_277>
+    <txt_278>stk.,</txt_278>
+    <txt_279>Alle beløb er excl. moms.</txt_279>
+    <txt_280>Udfaktureret ialt: (- interne)</txt_280>
+
+    <txt_281>Interne fakturaer medregnes ikke i omsætningen.</txt_281>
+    <txt_282>Eksporterer alle aktivitets-, medarbejder- og materiale -linjer på de viste fakturaer, samt joblog for den valgte faktura periode. (Pivot)</txt_282>
+    <txt_283>Eksporterer hovedkolonner, Kontakt, id, adresse, beløb, moms, fakturadato, konti mm.</txt_283>
+    <txt_284>Eksporterer kun kontakt id, beløb incl. moms, fakturadato, valuta.</txt_284>
+    <txt_285>Print faktura historik</txt_285>
+    <txt_286>Mail med PDF og XML filer fra liste.</txt_286>
+    <txt_287>Afsender mail med vedh. pdf'er og xml filer fra nedenstående liste. (Sendes til egen email, maks. ca 400 fakturaer)</txt_287>
+    <txt_288>Valuta, sprog og moms er nedarvet fra job/aftale</txt_288>
+    <txt_289>Forretningsområde</txt_289>
+    <txt_290>Tilpas evt. internkonto til dette forretningsområde, hvis omsætningen i ERP system skal fordeles på specifikke omsætningskonti.</txt_290>
+
+    
+    
+
+
+  </dk>
+
+
+
+
+  <!--- Svensk -->
+  <se>
+
+    <txt_1>Faktura</txt_1>
+    <txt_2>Kreditnota</txt_2>
+    <txt_3>Tel</txt_3>
+    <txt_4>VAT no.</txt_4>
+    <txt_5>Kundnr.</txt_5>
+    <txt_6>datum</txt_6>
+    <txt_7>Forfaldsdatum</txt_7>
+    <txt_8>Kontonr.</txt_8>
+
+    <txt_9>IBAN</txt_9>
+    <txt_10>SWIFT</txt_10>
+    <txt_11>CVR/VAT no.</txt_11>
+
+    <txt_12>Er referens</txt_12>
+
+
+    	
+    <txt_13>Antal</txt_13>
+    <txt_14>Beskrivning</txt_14>
+    <txt_15>Standardpris</txt_15>
+    <txt_16>Rabatt</txt_16>
+    <txt_17>Belopp</txt_17>
+
+    <txt_18>Timmapris</txt_18>
+    <txt_19>Stk. pris</txt_19>
+    <txt_20>Enhedspris</txt_20>
+
+    <txt_21>Afs.</txt_21>
+    <txt_22>Att.</txt_22>
+
+
+    <txt_23>Fax</txt_23>
+    <txt_24>Email</txt_24>
+    <txt_25>Bank</txt_25>
+    <txt_26>Varenr</txt_26>
+
+
+    <txt_27>Subtotal</txt_27>
+    <txt_28>Fakturatotal</txt_28>
+    <txt_29>Subtotal exkl. moms</txt_29>
+    <txt_30>Momsbelopp</txt_30>
+    <txt_31>Nettobelopp</txt_31>
+    <txt_32>Summa inkl. moms</txt_32>
+    <txt_33>Note</txt_33>
+    <txt_34>moms</txt_34>
+
+    <txt_35>Timma</txt_35>
+    <txt_36>Stk.</txt_36>
+    <txt_37>Enhet</txt_37>
+
+    <txt_38>Joblog</txt_38>
+    <txt_39>Øvrigt materialeforbrug</txt_39>
+    <txt_40>pr.</txt_40>
+    <txt_41>Materialer u. moms</txt_41>
+    <txt_42>Datum</txt_42>
+    <txt_43>Namm</txt_43>
+    <txt_44>Enhet</txt_44>
+
+    <txt_45>(Inta fakturerbar)</txt_45>
+    <txt_46>Aktivitet</txt_46>
+    <txt_47>Ansatt</txt_47>
+    <txt_48>Enhet</txt_48>
+    <txt_49>Faktura för perioden</txt_49>
+    <txt_50>Intern ref.</txt_50>
+    <txt_51>avtal</txt_51>
+    <txt_52>jobb</txt_52>
+    <txt_53>Rekvisitions nr.</txt_53>
+	  <txt_54>Km.</txt_54>
+	 <txt_55>Faktura er en del av SKI</txt_55>
+	  <txt_56>Vor ref. </txt_56>
+      <txt_57>Tekst</txt_57>
+    <txt_58>Handels</txt_58>
+    <txt_59>Side</txt_59>
+    
+    
+    
+    <!-- Endnu ikke oversatte svnakse ord. Det er også herfra det IKKE er faklayout mere med fak opr. -->
+
+    <txt_60>Benyt alternativ modtager adr.</txt_60>
+    <txt_61>(kontaktpers. / filial)</txt_61>
+    <txt_62>Forvalgt fakturaadresse blandt kontaktpersoner/filialer.</txt_62>
+    <txt_63>/ Opdater</txt_63>
+    <txt_64>(klik til/fra for at gen-indlæse adresse)</txt_64>
+
+    <txt_65>Vis Att. person</txt_65>
+    <txt_66>(vises først på fakturalayout)</txt_66>
+    <txt_67>Den økonomi ansvarlige</txt_67>
+    <txt_68>Regnskabs afd.</txt_68>
+    <txt_69>Administrationen</txt_69>
+
+    <txt_70>Afsender</txt_70>
+    <txt_71>Vis afsender felter tilvalg:</txt_71>
+
+    <txt_72>Forrige</txt_72>
+    <txt_73>Næste</txt_73>
+
+    <txt_74>Hvis du ændrer</txt_74>
+    <txt_75>faktura systemdato</txt_75>
+    <txt_76>, følger fakturadatoen ikke længere det valgte datointerval og timer kan gå tabt, eller blive faktureret dobbelt.</txt_76>
+    <txt_77>Benyt evt. </txt_77>
+    <txt_78>Labeldato istedet</txt_78>
+    <txt_79>Faktura systemdatoen der afgør hvor</txt_79>
+    <txt_80>skæringsdatoen</txt_80>
+    <txt_81>mellem timer på denne faktura og næste faktura skal ligge.</txt_81>
+
+    <txt_82>Faktura indstilliger</txt_82>
+    <txt_83>Rykker</txt_83>
+    <txt_84>Fakturadato:</txt_84>
+    <txt_85>Skæringsdato for lukning af periode.</txt_85>
+    <txt_86>start-dato</txt_86>
+    <txt_87>er korrigeret til dagen efter seneste fakturadato på jobbet.</txt_87>
+
+    <txt_88>Vis </txt_88>
+    <txt_89>på faktura:</txt_89>
+    <txt_90>til</txt_90>
+
+    <txt_91>Labeldato:</txt_91>
+    <txt_92>Forfaldsdato:</txt_92>
+    <txt_93>Status:</txt_93>
+
+    <txt_94>Kladde</txt_94>
+    <txt_95>Godkendt</txt_95>
+    <txt_96>Rabatkolonne:</txt_96>
+    <txt_97>Vis rabat-kolonne på faktura</txt_97>
+
+    <txt_98>Brug labeldato, istedet for faktura systemt-dato, som fakturadato på fakturaprint.</txt_98>
+    <txt_99>Dette giver mulighed for at flytte fakturadatoen i forhold til den periode der bliver lukket for timeregistrering, der altid følger system datoen.</txt_99>
+    <txt_100>Hvis der vælges </txt_100>
+    <txt_101>labeldato</txt_101>
+    <txt_102>bliver omsætningen beregnet udfra denne dato.</txt_102>
+
+    <txt_103>Antal- og enheds -kolonner:</txt_103>
+    <txt_104>Skjul antal- og enheds -kolonner på faktura print. (ikke materiale linier)</txt_104>
+    <txt_105>Intern/Handelsfaktura:</txt_105>
+    <txt_106>Alm. faktura</txt_106>
+    <txt_107>Intern faktura</txt_107>
+    <txt_108>Handelsfaktura (pro-forma)</txt_108>
+
+    <txt_109>Medregnes ikke i udfaktureret omsætning, ingen moms, egen nummerserie.</txt_109>
+    <txt_110>Lukker periode/job for timeregistrering ligesom alm. fakturaer.</txt_110>
+    <txt_111>Interne/Handels fakturaer ignoreres ved beregning af timer til fakturering ved næste faktura oprettelse.</txt_111>
+    <txt_112>Evt. posteringer i kontoplan foretages som normalt.</txt_112>
+
+    <txt_113>Fakturerings valuta:</txt_113>
+    <txt_114>Sprog:</txt_114>
+    <txt_115>Moms:</txt_115>
+    <txt_116>Sideskift efter:</txt_116>
+
+    <txt_117>(2 sider, tilføj manuelt ombrydning i brødtekst)</txt_117>
+    <txt_118>(3 sider, tilføj manuelt ombrydning i brødtekst)</txt_118>
+    <txt_119>(4 sider, tilføj manuelt ombrydning i brødtekst)</txt_119>
+    <txt_120>(5 sider, tilføj manuelt ombrydning i brødtekst)</txt_120>
+    <txt_121>(6 sider, tilføj manuelt ombrydning i brødtekst)</txt_121>
+    <txt_122>(7 sider, tilføj manuelt ombrydning i brødtekst)</txt_122>
+    <txt_123>(8 sider, tilføj manuelt ombrydning i brødtekst)</txt_123>
+
+    <txt_124>linjer</txt_124>
+    <txt_125>(ingen sideskift)</txt_125>
+
+    <txt_126>Konto posteringer</txt_126>
+    <txt_127>(Valgfrit)</txt_127>
+    <txt_128>Opret posteringer på konti oprettet på kontoplanen:</txt_128>
+    <txt_129>Posteringer tilføjes ved godkend, konti oprettes i under bøgføring.</txt_129>
+    <txt_130>Debitor konto:</txt_130>
+
+    <txt_131>Ingen konto</txt_131>
+    <txt_132>Kreditor konto:</txt_132>
+    <txt_133>(Intern konto)</txt_133>
+
+    <txt_134>Vis</txt_134>
+    <txt_135>ikke</txt_135>
+    <txt_136>job/aftale</txt_136>
+    <txt_137>navn</txt_137>
+    <txt_138>(overskrift) på faktura</txt_138>
+    <txt_139>Vis job/aftale</txt_139>
+    <txt_140>beskrivelse</txt_140>
+
+    <txt_141>Luk job ved faktura oprettelse</txt_141>
+    <txt_142>Jobnavn:</txt_142>
+    <txt_143>Jobtype:</txt_143>
+    <txt_144>Bruttoomsætning:</txt_144>
+    <txt_145>Timer forkalk:</txt_145>
+    <txt_146>Kunderabat:</txt_146>
+    <txt_147>Rekvnr/Indkøbsordre:</txt_147>
+    <txt_148>Aftale:</txt_148>
+    <txt_149>SKI aftale</txt_149>
+    <txt_150>Faktureret indtil d.d.:</txt_150>
+
+    <txt_151>Aftale navn:</txt_151>
+    <txt_152>Pris:</txt_152>
+    <txt_153>Enheder:</txt_153>
+    <txt_154>Periode:</txt_154>
+    <txt_155>Job tilknyttet denne aftale:</txt_155>
+
+    <txt_156>Job Tweet</txt_156>
+    <txt_157>Intern note</txt_157>
+    <txt_158>Beskrivelse:</txt_158>
+    <txt_159>Bemærk at sideombrydning er vejledende og kan forskubbe sig en smule ifht. tilvalg af rekv. nr. etc.</txt_159>
+    <txt_160>Editor-bredde er sat = faktura brødtekst bredde</txt_160>
+
+    <txt_161>Sideombrydning 1</txt_161>
+    <txt_162>Sideombrydning 2</txt_162>
+    <txt_163>Sideombrydning 3</txt_163>
+    <txt_164>Sideombrydning 4</txt_164>
+    <txt_165>Sideombrydning 5</txt_165>
+    <txt_166>Sideombrydning 6</txt_166>
+    <txt_167>Sideombrydning 7</txt_167>
+
+    <txt_168>Betalingsbetingelser / Kommentar:</txt_168>
+    <txt_169>Gem betalingsbetingelser og forfaldsdato som standard for</txt_169>
+    <txt_170>denne</txt_170>
+    <txt_171>kontakt.</txt_171>
+    <txt_172>Gem som standard betalingsbetingelser og forfaldsdato for</txt_172>
+    <txt_173>alle</txt_173>
+    <txt_174>kontakter.</txt_174>
+
+    <txt_175>Faktura total:</txt_175>
+    <txt_176>Beløb i alt:</txt_176>
+    <txt_177>Fastpris: Brutto oms. fra budget.</txt_177>
+    <txt_178>Lbn. timer: forbrug.</txt_178>
+    <txt_179>Pris fra aftale.</txt_179>
+    <txt_180>Fra faktura-oprettelse.</txt_180>
+
+    <txt_181>Faktura total må afvige sum på fakturalinjer (f.eks fastpris job)</txt_181>
+    <txt_182>Ikke momspligtigt beløb:</txt_182>
+
+    <txt_183>Sidst opdateret den </txt_183>
+    <txt_184>af</txt_184>
+
+    <txt_185>Omregner priser til valgte valuta, et øjeblik...</txt_185>
+    <txt_186>Det tager normalt 5-8 sek.</txt_186>
+
+    <txt_187>Der er MERE end 100 aktive aktiviteter på dette job. Derfor kan fakturaen ikke vises.</txt_187>
+    <txt_188>Deaktiver de aktiviteter der ikke er ibrug og forsøg igen, eller kontakt support@outzource.dk</txt_188>
+    <txt_189>aktive aktiviteter</txt_189>
+    <txt_190>på dette job, der via deres aktivitetstype er sat til at blive vist på faktura.</txt_190>
+    <txt_191>Forventet loadtid:</txt_191>
+    <txt_192>Mellem:</txt_192>
+    <txt_193>og</txt_193>
+    <txt_194>Der er</txt_194>
+    <txt_195>Ca. 2 sek.</txt_195>
+
+    <txt_196>Rediger</txt_196>
+    <txt_197>Opret ny</txt_197>
+
+    <txt_198>Materiale- / udlægs -log</txt_198>
+    <txt_199>Søg i fakturaer</txt_199>
+    <txt_200>Step 1</txt_200>
+    <txt_201>Indstillinger</txt_201>
+    <txt_202>Step 2</txt_202>
+    <txt_203>Modtager og</txt_203>
+    <txt_204>Afsender</txt_204>
+    <txt_205>Step 3</txt_205>
+    <txt_206>Job / Aftale</txt_206>
+    <txt_207>beskriv.</txt_207>
+    <txt_208>Step 4</txt_208>
+    <txt_209>Step 5</txt_209>
+    <txt_210>Mat. / udlæg</txt_210>
+    <txt_211>fak. linier</txt_211>
+    <txt_212>Step 6</txt_212>
+    <txt_213>Betalings</txt_213>
+    <txt_214>betingelser</txt_214>
+
+    <txt_215>Gen-indlæser faktura</txt_215>
+    <txt_216>Modtager</txt_216>
+    <txt_217>Manuelle rettelser til adr. kan ikke overføres til EAN fak.</txt_217>
+    <txt_218>Vis land</txt_218>
+    <txt_219>Vis CVR nr.</txt_219>
+    <txt_220>+ Opret ny</txt_220>
+    <txt_221>(systemdato)</txt_221>
+
+    <txt_222>Udskrift funktioner:</txt_222>
+    <txt_223>Print</txt_223>
+    <txt_224>PDF</txt_224>
+    <txt_225>OIO XML</txt_225>
+
+    <txt_226>Gem PDF ovenfor, og email faktura til:</txt_226>
+    <txt_227>Søg:</txt_227>
+    <txt_228>Kontaktpersoner oprettes under fanebladet "kontakter" i hovemenuen.</txt_228>
+    <txt_229>Godkend faktura nu</txt_229>
+
+    <txt_230>Faktura historik</txt_230>
+    <txt_231>Kontakter:</txt_231>
+    <txt_232>(fakturadato | faktura labeldato)</txt_232>
+    <txt_233>Sortér efter</txt_233>
+    <txt_234>Faktura Nr.</txt_234>
+    <txt_235>Fakturadato</txt_235>
+    <txt_236>Faktura Labeldato</txt_236>
+    <txt_237>Forfaldsdato</txt_237>
+    <txt_238>Vis kun:</txt_238>
+    <txt_239>Åbne poster</txt_239>
+    <txt_240>Interne/Handels fakturaer</txt_240>
+    <txt_241>Fakturaer der ikke tidligere har været overført til ERP system</txt_241>
+    <txt_242>Godkendte</txt_242>
+
+    <txt_243>Søg i fakturanr. / beløb</txt_243>
+    <txt_244>Søg på kunde/job/aftale</txt_244>
+    <txt_245>Ignorer periode</txt_245>
+    <txt_246>Faktura nr, eks. 54 - 103, % = wildcard</txt_246>
+    <txt_247>Søgning ignorerer valgt kontakt.</txt_247>
+
+    <txt_248>Kontakt</txt_248>
+    <txt_249>L: Label dato</txt_249>
+    <txt_250>F: Fak. sys. dato</txt_250>
+    <txt_251>Type</txt_251>
+    <txt_252>Fak. Beløb </txt_252>
+    <txt_253>(excl. moms)</txt_253>
+    <txt_254>(incl. moms)</txt_254>
+    <txt_255>Vente t.</txt_255>
+    <txt_256>Brugt / Ultimo</txt_256>
+    <txt_257>Konto</txt_257>
+    <txt_258>Modkonto</txt_258>
+    <txt_259>Lukket?</txt_259>
+    <txt_260>(betalt)</txt_260>
+    <txt_261>Kommentar</txt_261>
+    <txt_262>overført</txt_262>
+    <txt_263>til ERP?</txt_263>
+    <txt_264>Luk job</txt_264>
+
+    <txt_265>(intern)</txt_265>
+    <txt_266>(handelsfak.)</txt_266>
+    <txt_267>Nej</txt_267>
+    <txt_268>Ja</txt_268>
+    <txt_269>Lukket</txt_269>
+
+    <txt_270>Der blev ikke fundet fakturaer der matcher de valgte kriterier</txt_270>
+    <txt_271>Antal fakturaer:</txt_271>
+    <txt_272>Faktureret ialt:</txt_272>
+    <txt_273>(kreditnotaer udgør:</txt_273>
+    <txt_274>Interne udgør:</txt_274>
+    <txt_275>Job:</txt_275>
+    <txt_276>Aftaler:</txt_276>
+    <txt_277>Åbne poster: (ikke interne)</txt_277>
+    <txt_278>stk.,</txt_278>
+    <txt_279>Alle beløb er excl. moms.</txt_279>
+    <txt_280>Udfaktureret ialt: (- interne)</txt_280>
+
+    <txt_281>Interne fakturaer medregnes ikke i omsætningen.</txt_281>
+    <txt_282>Eksporterer alle aktivitets-, medarbejder- og materiale -linjer på de viste fakturaer, samt joblog for den valgte faktura periode. (Pivot)</txt_282>
+    <txt_283>Eksporterer hovedkolonner, Kontakt, id, adresse, beløb, moms, fakturadato, konti mm.</txt_283>
+    <txt_284>Eksporterer kun kontakt id, beløb incl. moms, fakturadato, valuta.</txt_284>
+    <txt_285>Print faktura historik</txt_285>
+    <txt_286>Mail med PDF og XML filer fra liste.</txt_286>
+    <txt_287>Afsender mail med vedh. pdf'er og xml filer fra nedenstående liste. (Sendes til egen email, maks. ca 400 fakturaer)</txt_287>
+    <txt_288>Valuta, sprog og moms er nedarvet fra job/aftale</txt_288>
+    <txt_289>Forretningsområde</txt_289>
+    <txt_290>Tilpas evt. internkonto til dette forretningsområde, hvis omsætningen i ERP system skal fordeles på specifikke omsætningskonti.</txt_290>
+
+  </se>
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1>Invoice</txt_1>
+    <txt_2>Creditnote</txt_2>
+    <txt_3>Tel</txt_3>
+    <txt_4>VAT no.</txt_4>
+    <txt_5>Customer no.</txt_5>
+    <txt_6>date</txt_6>
+    <txt_7>Duedate</txt_7>
+    <txt_8>Account no.</txt_8>
+
+    <txt_9>IBAN</txt_9>
+    <txt_10>SWIFT</txt_10>
+
+    <txt_11>VAT.  no.</txt_11>
+    <txt_12>Your reference</txt_12>
+
+
+
+    <txt_13>Qty.</txt_13>
+    <txt_14>Description</txt_14>
+    <txt_15>Unit price</txt_15>
+    <txt_16>Discount</txt_16>
+    <txt_17>Price</txt_17>
+
+    <txt_18>Hours</txt_18>
+    <txt_19>Pc.</txt_19>
+    <txt_20>Units</txt_20>
+
+    <txt_21>Frm.</txt_21>
+    <txt_22>Att.</txt_22>
+    <txt_23>Fax no.</txt_23>
+    <txt_24>Email</txt_24>
+    <txt_25>Bank</txt_25>
+    <txt_26>Item no.</txt_26>
+
+    <txt_27>Subtotal</txt_27>
+    <txt_28>Total</txt_28>
+    <txt_29>Subtotal excl. VAT</txt_29>
+
+    <txt_30>VAT amount</txt_30>
+    <txt_31>Total excl. VAT</txt_31>
+    <txt_32>Total including VAT</txt_32>
+    <txt_33>Payment- and Delivery terms</txt_33>
+    <txt_34>VAT rate</txt_34>
+
+    <txt_35>Hours</txt_35>
+    <txt_36>Pc.</txt_36>
+    <txt_37>Units</txt_37>
+
+    <txt_38>Joblog</txt_38>
+    <txt_39>Other Expenses</txt_39>
+    <txt_40>per</txt_40>
+    <txt_41>Expenses without VAT</txt_41>
+    <txt_42>Date</txt_42>
+    <txt_43>Name</txt_43>
+    <txt_44>Unit</txt_44>
+
+    <txt_45>(Non payable)</txt_45>
+    <txt_46>Activites</txt_46>
+    <txt_47>Employe</txt_47>
+    <txt_48>Units</txt_48>
+    <txt_49>Invoice Period</txt_49>
+
+    <txt_50>Our reference</txt_50>
+    <txt_51>agreement</txt_51>
+    <txt_52>task</txt_52>
+
+    <txt_53>Requisition no.</txt_53>
+	<txt_54>Km.</txt_54>
+	  <txt_55>This Invoice is a part of SKI</txt_55>
+	  <txt_56>Our ref. </txt_56>
+      <txt_57>Text</txt_57>
+
+    <txt_58>Commercial</txt_58>
+    <txt_59>Page</txt_59>
+
+    <txt_60>Use alternative maling adr.</txt_60>
+    <txt_61>(Contact / branch office)</txt_61>
+    <txt_62>Default invoice adress among contacts/branch offices.</txt_62>
+    <txt_63>/ Update</txt_63>
+    <txt_64>(click on/off for refresh adress)</txt_64>
+
+    <txt_65>Show Att. person</txt_65>
+    <txt_66>(visible on the invoice layout)</txt_66>
+    <txt_67>The financial manager</txt_67>
+    <txt_68>Accounting dept.</txt_68>
+    <txt_69>Administration</txt_69>
+
+    <txt_70>Sender</txt_70>
+    <txt_71>Show sender-field options</txt_71>
+
+    <txt_72>Previous</txt_72>
+    <txt_73>Next</txt_73>
+
+    <txt_74>If you change</txt_74>
+    <txt_75>the invoice systemdate</txt_75>
+    <txt_76>the invoice date no longer follows the choosen date interval and hours can be lost or double invoiced.</txt_76>
+    <txt_77>Alt. use </txt_77>
+    <txt_78>Label date instead</txt_78>
+    <txt_79>The invoice system date determines where to place</txt_79>
+    <txt_80>the cut-off date</txt_80>
+    <txt_81>between hours of this invoice and the next invoice.</txt_81>
+
+    <txt_82>Invoice settings</txt_82>
+    <txt_83>Reminder</txt_83>
+    <txt_84>Invoice date:</txt_84>
+    <txt_85>Cut-off date for closing the period</txt_85>
+    <txt_86>start date</txt_86>
+    <txt_87>is corrected to the day after the last date of invoice on the job.</txt_87>
+
+    <txt_88>Show </txt_88>
+    <txt_89>on invoice:</txt_89>
+    <txt_90>to</txt_90>
+
+    <txt_91>Label date:</txt_91>
+    <txt_92>Due date:</txt_92>
+    <txt_93>Status:</txt_93>
+    
+    <txt_94>Draft</txt_94>
+    <txt_95>Approved</txt_95>
+    <txt_96>Discount column:</txt_96>
+    <txt_97>Show discount column on invoice</txt_97>
+    
+    <txt_98>Use label date, instead of the invoice system date, as the invoice date on the invoice.</txt_98>
+    <txt_99>This allows you to move the date of the invoice in relation to the period being closed for time reporting, which always follows the system date.</txt_99>
+    <txt_100>If you select </txt_100>
+    <txt_101>label date</txt_101>
+    <txt_102>the revenue will be calculated from that date.</txt_102>
+    
+    <txt_103>Numbers and types of columns:</txt_103>
+    <txt_104>Hide Number and types of columns on the invoice. (not meterial lines)</txt_104>
+    <txt_105>Internal/Pro forma invoice:</txt_105>
+    <txt_106>Std. invoice</txt_106>
+    <txt_107>Internal invoice</txt_107>
+    <txt_108>Pro forma invoice</txt_108>
+    
+    <txt_109>Medregnes ikke i udfaktureret omsætning, ingen moms, egen nummerserie.</txt_109>
+    <txt_110>Lukker periode/job for timeregistrering ligesom alm. fakturaer.</txt_110>
+    <txt_111>Interne/Handels fakturaer ignoreres ved beregning af timer til fakturering ved næste faktura oprettelse.</txt_111>
+    <txt_112>Evt. posteringer i kontoplan foretages som normalt.</txt_112>
+    
+    <txt_113>Invoicing currency:</txt_113>
+    <txt_114>Language</txt_114>
+    <txt_115>VAT:</txt_115>
+    <txt_116>Page break after:</txt_116>
+    
+    <txt_117>(2 pages, add manually wrap the body text)</txt_117>
+    <txt_118>(3 pages, add manually wrap the body text)</txt_118>
+    <txt_119>(4 pages, add manually wrap the body text)</txt_119>
+    <txt_120>(5 pages, add manually wrap the body text)</txt_120>
+    <txt_121>(6 pages, add manually wrap the body text)</txt_121>
+    <txt_122>(7 pages, add manually wrap the body text)</txt_122>
+    <txt_123>(8 pages, add manually wrap the body text)</txt_123>
+  
+    <txt_124>lines</txt_124>
+    <txt_125>(no page break)</txt_125>
+  
+    <txt_126>Account postings</txt_126>
+    <txt_127>(Optional)</txt_127>
+    <txt_128>Create postings on accounts which are created on the chart of accounts:</txt_128>
+    <txt_129>Postings are added when approved and accounts are created when posted.</txt_129>
+    <txt_130>Accounts Receivable:</txt_130>
+    
+    <txt_131>No account</txt_131>
+    <txt_132>Accounts Payable:</txt_132>
+    <txt_133>(Internal account)</txt_133>
+    
+    <txt_134>Do</txt_134>
+    <txt_135>not</txt_135>
+    <txt_136>show job/agreement</txt_136>
+    <txt_137>name</txt_137>
+    <txt_138>(headline) on invoice</txt_138>
+    <txt_139>Show job/agreement</txt_139>
+    <txt_140>desription</txt_140>
+  
+    <txt_141>Close job when invoice is created</txt_141>
+    <txt_142>Job name:</txt_142>
+    <txt_143>Job type:</txt_143>
+    <txt_144>Revenue:</txt_144>
+    <txt_145>Hours estimated:</txt_145>
+    <txt_146>Customer discount:</txt_146>
+    <txt_147>Req.No/Purchase Order:</txt_147>
+    <txt_148>Agreement:</txt_148>
+    <txt_149>Public agreement</txt_149>
+    <txt_150>Invoiced to date</txt_150>
+    
+    <txt_151>Agreement name:</txt_151>
+    <txt_152>Price:</txt_152>
+    <txt_153>Units:</txt_153>
+    <txt_154>Period:</txt_154>
+    <txt_155>Jobs linked to this agreement:</txt_155>
+    
+    <txt_156>Job Tweet</txt_156>
+    <txt_157>Internal note</txt_157>
+    <txt_158>Description:</txt_158>
+    <txt_159>Note: pagination is indicative and may shift a bit in relation to options like Req.No etc.</txt_159>
+    <txt_160>Editor-width is set = invoice body text width</txt_160>
+  
+    <txt_161>Pagination 1</txt_161>
+    <txt_162>Pagination 2</txt_162>
+    <txt_163>Pagination 3</txt_163>
+    <txt_164>Pagination 4</txt_164>
+    <txt_165>Pagination 5</txt_165>
+    <txt_166>Pagination 6</txt_166>
+    <txt_167>Pagination 7</txt_167>  
+  
+    <txt_168>Payment Terms / Comment:</txt_168>
+    <txt_169>Save payment terms and due date as the default for</txt_169>
+    <txt_170>this</txt_170>
+    <txt_171>contact.</txt_171>
+    <txt_172>Save as standard payment terms and due date for</txt_172>
+    <txt_173>all</txt_173>
+    <txt_174>contacts.</txt_174>
+    
+    <txt_175>Total invoice:</txt_175>
+    <txt_176>Total amount:</txt_176>
+    <txt_177>Fixed price: Gross rev. from budget.</txt_177>
+    <txt_178>Time and materials: usage.</txt_178>
+    <txt_179>Price from agreement.</txt_179>
+    <txt_180>From creation of invoice.</txt_180>
+    
+    <txt_181>Total invoice amount may differ from invoice lines (eg fixed price)</txt_181>
+    <txt_182>Non-taxable amount:</txt_182>
+    
+    <txt_183>Last updated </txt_183>
+    <txt_184>by</txt_184>
+  
+    <txt_185>Converts prices to the selected currency, one moment...</txt_185>      
+    <txt_186>Normal loadtime 5-8 sec.</txt_186>   
+    
+    <txt_187>The invoice is not shown. There are more than 100 active activities on this job.</txt_187>      
+    <txt_188>Please de-activte activities which are not used and try again, or contact support@outzource.dk</txt_188>      
+    <txt_189>active activities</txt_189>      
+    <txt_190>on this job, which due to the activity type to be shown on the invoice.</txt_190>      
+    <txt_191>Expected load time:</txt_191>      
+    <txt_192>Between:</txt_192>      
+    <txt_193>and</txt_193>  
+    <txt_194>There are</txt_194>
+    <txt_195>Ca. 2 Sec.</txt_195>   
+    
+    <txt_196>Edit</txt_196>   
+    <txt_197>Create new</txt_197>   
+    
+    <txt_198>Material-/expense-log</txt_198>
+    <txt_199>Search invoices</txt_199>
+    <txt_200>Step 1</txt_200>
+    <txt_201>Settings</txt_201>
+    <txt_202>Step 2</txt_202>
+    <txt_203>Recipient and</txt_203>
+    <txt_204>Sender</txt_204>
+    <txt_205>Step 3</txt_205>
+    <txt_206>Job / Agree.</txt_206>
+    <txt_207>descrip.</txt_207>
+    <txt_208>Step 4</txt_208>
+    <txt_209>Step 5</txt_209>
+    <txt_210>Mat. / expens</txt_210>
+    <txt_211>inv. lines</txt_211>
+    <txt_212>Step 6</txt_212>
+    <txt_213>Payment</txt_213>
+    <txt_214>terms</txt_214>
+  
+    <txt_215>Re-loading invoice</txt_215>
+    <txt_216>Recipient</txt_216>
+    <txt_217>Manual corrections to the addr. can not be transferred to EAN inv.</txt_217>  
+    <txt_218>Show country</txt_218>
+    <txt_219>Show VAT no.</txt_219>
+    <txt_220>+ Create new</txt_220>
+    <txt_221>(system date)</txt_221>
+
+    <txt_222>Print options:</txt_222>
+    <txt_223>Print</txt_223>
+    <txt_224>PDF</txt_224>
+    <txt_225>OIO XML</txt_225>
+
+    <txt_226>Save PDF and mail invoice to:</txt_226>
+    <txt_227>Search:</txt_227>
+    <txt_228>Contacts are created through the mainmenu: Customers</txt_228>
+    <txt_229>Appove invoice</txt_229>
+
+    <txt_230>Invoice history</txt_230>
+    <txt_231>Contacts:</txt_231>
+    <txt_232>(Invoice date | invoice label date)</txt_232>
+    <txt_233>Sort by</txt_233>
+    <txt_234>Invoice No.</txt_234>
+    <txt_235>Invoice date</txt_235>
+    <txt_236>Invoice Label date</txt_236>
+    <txt_237>Due date</txt_237>
+
+    <txt_238>Show only:</txt_238>
+    <txt_239>Open posts</txt_239>
+    <txt_240>Internal/Trade invoices</txt_240>
+    <txt_241>Invoice which has not been transferred to ERP system</txt_241>
+    <txt_242>Approved</txt_242>
+
+    <txt_243>Search invoice no. / amount</txt_243>
+    <txt_244>Search customer / job / agreem.</txt_244>
+    <txt_245>Ignore period</txt_245>
+    <txt_246>Invoice no., eg 54 - 103, % = wildcard</txt_246>
+    <txt_247>Search ignores choosen contact.</txt_247>
+
+    <txt_248>Contact</txt_248>
+    <txt_249>L: Label date</txt_249>
+    <txt_250>F: Inv. sys. date</txt_250>
+    <txt_251>Type</txt_251>
+    <txt_252>Inv. amount</txt_252>
+    <txt_253>(excl. VAT)</txt_253>
+    <txt_254>(incl. VAT)</txt_254>
+    <txt_255>Waite t.</txt_255>
+    <txt_256>Used / Ultimo</txt_256>
+    <txt_257>Account</txt_257>
+    <txt_258>contra account</txt_258>
+    <txt_259>Closed?</txt_259>
+    <txt_260>(paid)</txt_260>
+    <txt_261>Comment</txt_261>
+    <txt_262>transferred</txt_262>
+    <txt_263>to ERP?</txt_263>
+    <txt_264>Close job</txt_264>
+
+    <txt_265>(internal)</txt_265>
+    <txt_266>(trade inv.)</txt_266>
+    <txt_267>No</txt_267>
+    <txt_268>Yes</txt_268>
+    <txt_269>Closed</txt_269>
+
+    <txt_270>No invoices found that match the selected criteria</txt_270>
+    <txt_271>No of invoices:</txt_271>
+    <txt_272>Total invoiced:</txt_272>
+    <txt_273>(Credit notes count for:</txt_273>
+    <txt_274>Internal count for:</txt_274>
+    <txt_275>Job(s):</txt_275>
+    <txt_276>agreements:</txt_276>
+    <txt_277>Open posts (excl internal)</txt_277>
+    <txt_278>Pcs.,</txt_278>
+    <txt_279>All amounts are excl. VAT.</txt_279>
+    <txt_280>Total invoices (- internal)</txt_280>
+
+    <txt_281>Internal invoices are not included in turnover.</txt_281>
+    <txt_282>Export all activity-, employee- and material lines showed on the invoices and joblog for the choosen period. (pivot)</txt_282>
+    <txt_283>Exports main coloumns, Contact, ID, adress, amount, VAT, invoice date, accounts etc.</txt_283>
+    <txt_284>Exports only contact ID, amount incl. VAT, invoice date, currency.</txt_284>
+    <txt_285>Print invoice history</txt_285>
+    <txt_286>Mail with PDF and XML files from list.</txt_286>
+    <txt_287>Sends email w/ PDF's attatched and XML files from the list. (Incl. own email, max approx. 400 invoices)</txt_287>
+    <txt_288>Currency, VAT and language are inherited from job/service agreement</txt_288>
+    <txt_289>Businessarea</txt_289>
+    <txt_290>Adjust internal account to fit businessarea if needed</txt_290>
+
+  </uk>
+
+
+</sprog>

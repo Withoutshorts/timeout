@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+
+    <txt_1>Timeregistrering</txt_1>
+    <txt_2>Projekter</txt_2>
+    <txt_3>Rapporter</txt_3>
+    <txt_4>Kunder</txt_4>
+    <txt_5>Medarbejdere</txt_5>
+    <txt_6>Lager</txt_6>
+    <txt_7>Økonomi</txt_7>
+
+    <txt_8>Service-Desk</txt_8>
+    <txt_9>Administration</txt_9>
+    
+    <txt_10>TimeOut mobile</txt_10>
+    <txt_11> Husk mig</txt_11>
+    <txt_12>TimeTag</txt_12>
+    <txt_13>Login:</txt_13>
+    <txt_14>Kære besøgende, angiv venligst dit navn, firma og email, og du vil få adgang til vores demo:</txt_14>
+    <txt_15>Navn:</txt_15>
+    <txt_16>Firma:</txt_16>
+    <txt_17>Email:</txt_17>
+    <txt_18>Telefon:</txt_18>
+    <txt_19>Brugernavn</txt_19>
+    <txt_20>Password:</txt_20>
+
+    <txt_21>Indstilling for komme/gå tid:</txt_21>
+
+    <txt_22>Glemt/forgot login/password >></txt_22>
+    <txt_23>Tilføj TimeOut til favoritter</txt_23>
+    <txt_24>Gør TimeOut til startside</txt_24>
+    <txt_25>TimeOut genvej</txt_25>
+    <txt_26>Træk dette link ud på skrivebordet</txt_26>
+
+    <txt_27>Licenshaver: </txt_27>
+    <txt_28>Shortcuts: </txt_28>
+
+    <txt_29>OutZourCE og OutZourCE -underleverandører. Alle rettigheder forbeholdes.</txt_29>
+    <txt_30>Tænkt og produceret af OutZourCE</txt_30>
+    <txt_31>Design af Margin Media</txt_31>
+    <txt_32>Graphical elements copyright ©Microsoft Corp</txt_32>
+    <txt_33>Betingelser</txt_33>
+    <txt_34>Support og Salg:</txt_34>
+    
+
+
+
+  </dk>
+ 
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1>Timerecording</txt_1>
+    <txt_2>Projects</txt_2>
+    <txt_3>Reports</txt_3>
+    <txt_4>Customers</txt_4>
+    <txt_5>Emplyees</txt_5>
+    <txt_6>Stock</txt_6>
+    <txt_7>Economy</txt_7>
+
+    <txt_8>Service-Desk</txt_8>
+    <txt_9>Administration</txt_9>
+
+    <txt_10>TimeOut mobile</txt_10>
+    <txt_11> Remember me</txt_11>
+    <txt_12>TimeTag</txt_12>
+    <txt_13>Sign in:</txt_13>
+    <txt_14>Welcome to our demo. Please state your name, company and email. And we will grant you access to our demo.</txt_14>
+    <txt_15>Name:</txt_15>
+    <txt_16>Company:</txt_16>
+    <txt_17>Email:</txt_17>
+    <txt_18>Phone no:</txt_18>
+    <txt_19>Username:</txt_19>
+    <txt_20>Password:</txt_20>
+
+    <txt_21>Settings: Come/Go:</txt_21>
+
+    <txt_22>Forgot Username/password >></txt_22>
+    <txt_23>Add TimeOut to favorites</txt_23>
+    <txt_24>Make TimeOut your start page</txt_24>
+    <txt_25>TimeOut shortcut</txt_25>
+    <txt_26>Drag this link to you desktop</txt_26>
+
+    <txt_27>Licens owner: </txt_27>
+    <txt_28>Shortcuts: </txt_28>
+
+    <txt_29>OutZourCE and OutZourCE -subcontractors. All rights recerved.</txt_29>
+    <txt_30>Created and produced by OutZourCE</txt_30>
+    <txt_31>Design by Margin Media</txt_31>
+    <txt_32>Graphical elements copyright ©Microsoft Corp</txt_32>
+    <txt_33>Terms and Conditions</txt_33>
+    <txt_34>Support and Sales dept.:</txt_34>
+    
+
+
+  </uk>
+
+
+</sprog>

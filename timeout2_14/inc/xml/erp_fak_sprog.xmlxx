@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+    <txt_1>Faktura</txt_1>
+    <txt_2>Kreditnota</txt_2>
+    <txt_3>Tlf</txt_3>
+    <txt_4>CVR</txt_4>
+    <txt_5>Kundenr.</txt_5>
+    <txt_6>dato</txt_6>
+    <txt_7>Forfaldsdato</txt_7>
+    <txt_8>Reg. og Kontonr</txt_8>
+    
+    <txt_9>IBAN</txt_9>
+    <txt_10>SWIFT</txt_10>
+    <txt_11>CVR</txt_11>
+    
+    <txt_12>Vedrørende</txt_12>
+    
+    
+    <txt_13>Antal</txt_13>
+    <txt_14>Beskrivelse</txt_14>
+    <txt_15>Enhedspris</txt_15>
+    <txt_16>Rabat</txt_16>
+    <txt_17>Pris</txt_17>
+    
+    <txt_18>Timepris</txt_18>
+    <txt_19>Stk. pris</txt_19>
+    <txt_20>Enhedspris</txt_20>
+    
+    <txt_21>Afs.</txt_21>
+    <txt_22>Att.</txt_22>
+    
+    
+    <txt_23>Fax</txt_23>
+    <txt_24>Email</txt_24>
+    <txt_25>Bank</txt_25>
+    <txt_26>Varenr</txt_26>
+    
+    
+    <txt_27>Subtotal</txt_27>
+    <txt_28>Total</txt_28>
+    <txt_29>Subtotal ekskl. moms</txt_29>
+    <txt_30>Moms beløb</txt_30>
+    <txt_31>Total eksl. moms</txt_31>
+    <txt_32>Total inkl. moms</txt_32>
+    <txt_33>Note og betalingsbetingelser</txt_33>
+    <txt_34>moms</txt_34>
+
+    <txt_35>Time</txt_35>
+    <txt_36>Stk.</txt_36>
+    <txt_37>Enhed</txt_37>
+
+    <txt_38>Joblog</txt_38>
+    <txt_39>Udlæg / materialeforbrug</txt_39>
+    <txt_40>pr.</txt_40>
+    <txt_41>Udlæg / Materialer u. moms</txt_41>
+    <txt_42>Dato</txt_42>
+    <txt_43>Navn</txt_43>
+    <txt_44>Enhed</txt_44>
+
+    <txt_45>(Ej fakturerbar)</txt_45>
+    <txt_46>Aktivitet</txt_46>
+    <txt_47>Medarbejder</txt_47>
+    <txt_48>Enheder</txt_48>
+    <txt_49>Periode</txt_49>
+
+    <txt_50>Intern ref.</txt_50>
+    <txt_51>aftale</txt_51>
+    <txt_52>job</txt_52>
+
+    <txt_53>Rekvisitions nr.</txt_53>
+	<txt_54>Km.</txt_54>
+	<txt_55>Denne faktura er omfattet af SKI</txt_55>
+	 <txt_56>Vor ref. </txt_56>
+     <txt_57>Tekst</txt_57>
+
+    <txt_58>Handels</txt_58>
+
+  </dk>
+
+
+
+
+  <!--- Svensk -->
+  <se>
+
+    <txt_1>Faktura</txt_1>
+    <txt_2>Kreditnota</txt_2>
+    <txt_3>Tel</txt_3>
+    <txt_4>VAT no.</txt_4>
+    <txt_5>Kundnr.</txt_5>
+    <txt_6>datum</txt_6>
+    <txt_7>Forfaldsdatum</txt_7>
+    <txt_8>Reg. and account no.</txt_8>
+
+    <txt_9>IBAN</txt_9>
+    <txt_10>SWIFT</txt_10>
+    <txt_11>CVR/VAT no.</txt_11>
+
+    <txt_12>Er referens</txt_12>
+
+
+    	
+    <txt_13>Nummer</txt_13>
+    <txt_14>Beskrivning</txt_14>
+    <txt_15>Standardpris</txt_15>
+    <txt_16>Rabatt</txt_16>
+    <txt_17>Belopp</txt_17>
+
+    <txt_18>Timmapris</txt_18>
+    <txt_19>Stk. pris</txt_19>
+    <txt_20>Enhedspris</txt_20>
+
+    <txt_21>Afs.</txt_21>
+    <txt_22>Att.</txt_22>
+
+
+    <txt_23>Fax</txt_23>
+    <txt_24>Email</txt_24>
+    <txt_25>Bank</txt_25>
+    <txt_26>Varenr</txt_26>
+
+
+    <txt_27>Subtotal</txt_27>
+    <txt_28>Fakturatotal</txt_28>
+    <txt_29>Subtotal exkl. moms</txt_29>
+    <txt_30>Momsbelopp</txt_30>
+    <txt_31>Nettobelopp</txt_31>
+    <txt_32>Summa inkl. moms</txt_32>
+    <txt_33>Note</txt_33>
+    <txt_34>moms</txt_34>
+
+    <txt_35>Timma</txt_35>
+    <txt_36>Stk.</txt_36>
+    <txt_37>Enhet</txt_37>
+
+    <txt_38>Joblog</txt_38>
+    <txt_39>Udlæg / materialeforbrug</txt_39>
+    <txt_40>pr.</txt_40>
+    <txt_41>Udlæg / Materialer u. moms</txt_41>
+    <txt_42>Datum</txt_42>
+    <txt_43>Namm</txt_43>
+    <txt_44>Enhet</txt_44>
+
+    <txt_45>(Inta fakturerbar)</txt_45>
+    <txt_46>Aktivitet</txt_46>
+    <txt_47>Ansatt</txt_47>
+    <txt_48>Enhet</txt_48>
+    <txt_49>Faktura för perioden</txt_49>
+    <txt_50>Intern ref.</txt_50>
+    <txt_51>avtal</txt_51>
+    <txt_52>jobb</txt_52>
+    <txt_53>Rekvisitions nr.</txt_53>
+	  <txt_54>Km.</txt_54>
+	 <txt_55>Faktura er en del av SKI</txt_55>
+	  <txt_56>Vor ref. </txt_56>
+      <txt_57>Tekst</txt_57>
+    <txt_58>Handels</txt_58>
+
+
+  </se>
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1>Invoice</txt_1>
+    <txt_2>Creditnote</txt_2>
+    <txt_3>Tel</txt_3>
+    <txt_4>VAT no.</txt_4>
+    <txt_5>Customer no.</txt_5>
+    <txt_6>date</txt_6>
+    <txt_7>Duedate</txt_7>
+    <txt_8>Reg. and Account no.</txt_8>
+
+    <txt_9>IBAN</txt_9>
+    <txt_10>SWIFT</txt_10>
+
+    <txt_11>CVR/VAT.  no.</txt_11>
+    <txt_12>Your reference</txt_12>
+
+
+
+    <txt_13>Number</txt_13>
+    <txt_14>Description</txt_14>
+    <txt_15>Standard price</txt_15>
+    <txt_16>Discount</txt_16>
+    <txt_17>Price</txt_17>
+
+    <txt_18>Hours</txt_18>
+    <txt_19>Items</txt_19>
+    <txt_20>Units</txt_20>
+
+    <txt_21>Frm.</txt_21>
+    <txt_22>Att.</txt_22>
+    <txt_23>Fax no.</txt_23>
+    <txt_24>Email</txt_24>
+    <txt_25>Bank</txt_25>
+    <txt_26>Item no.</txt_26>
+
+    <txt_27>Subtotal</txt_27>
+    <txt_28>Total</txt_28>
+    <txt_29>Subtotal excl. VAT</txt_29>
+
+    <txt_30>VAT amount</txt_30>
+    <txt_31>Total excl. VAT</txt_31>
+    <txt_32>Total including VAT</txt_32>
+    <txt_33>Note </txt_33>
+    <txt_34>VAT rate</txt_34>
+
+    <txt_35>Hours</txt_35>
+    <txt_36>Items</txt_36>
+    <txt_37>Units</txt_37>
+
+    <txt_38>Joblog</txt_38>
+    <txt_39>Expenses</txt_39>
+    <txt_40>per</txt_40>
+    <txt_41>Expenses without VAT</txt_41>
+    <txt_42>Date</txt_42>
+    <txt_43>Name</txt_43>
+    <txt_44>Qt</txt_44>
+
+    <txt_45>(Non payable)</txt_45>
+    <txt_46>Activites</txt_46>
+    <txt_47>Employe</txt_47>
+    <txt_48>Units</txt_48>
+    <txt_49>Invoice Period</txt_49>
+
+    <txt_50>Our reference</txt_50>
+    <txt_51>agreement</txt_51>
+    <txt_52>task</txt_52>
+
+    <txt_53>Requisition no.</txt_53>
+	<txt_54>Km.</txt_54>
+	  <txt_55>This Invoice is a part of SKI</txt_55>
+	  <txt_56>Our ref. </txt_56>
+      <txt_57>Text</txt_57>
+
+    <txt_58>Commercial</txt_58>
+    
+
+  </uk>
+
+
+</sprog>

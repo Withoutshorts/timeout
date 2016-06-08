@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+   
+
+
+
+    <!-- Global func -->
+    <txt_119>Søg | Sortér</txt_119>
+
+
+
+    <!-- Sek. menu - Global func -->
+    <txt_120>Timeregistrering</txt_120>
+    <txt_121>Projektplan | Ressourcer</txt_121>
+    <txt_122>Job</txt_122>
+    <txt_123>Ressourcer</txt_123>
+    <txt_124>Kunder</txt_124>
+    <txt_125>Medarbejdere</txt_125>
+    <txt_126>Statistik</txt_126>
+    <txt_127>Filarkiv</txt_127>
+    <txt_128>Lager</txt_128>
+
+
+    <!-- Global func akt. typer -->
+    <txt_129>Fakturerbar</txt_129>
+    <txt_130>Km</txt_130>
+    <txt_131>Ikke fakturerbar</txt_131>
+    <txt_132>Salg | NewBizz</txt_132>
+    <txt_133>Frokost</txt_133>
+    
+    <txt_134>Ferie planlagt</txt_134>
+    <txt_135>Ferie afholdt</txt_135>
+    <txt_143>Ferie optjent</txt_143>
+    <txt_156>Ferie udbetalt</txt_156>
+    
+    <txt_136>Feriefridage optjent</txt_136>
+    <txt_137>Feriefridage brugt</txt_137>
+    <txt_149>Feriefridage udbetalt</txt_149>
+   
+    <txt_138>Syg</txt_138>
+    <txt_139>Barn syg</txt_139>
+    
+    <txt_144>Overarbejde</txt_144>
+    <txt_145>Afspadsering</txt_145>
+    <txt_146>Overarbejde udbetalt</txt_146>
+
+    <txt_147>Flextid brugt</txt_147>
+    <txt_148>Sundhed</txt_148>
+
+    <txt_150>Pause</txt_150>
+    <txt_151>Interv. Bonus 15</txt_151>
+    <txt_152>Interv. Bonus 20</txt_152>
+    <txt_153>Weekend Nat</txt_153>
+    <txt_154>Interv. Bonus 10</txt_154>
+    <txt_155>Weekend Aften</txt_155>
+	<txt_157>Ad-hoc</txt_157>
+	<txt_158>Stk. Antal</txt_158>
+	
+	<txt_159>Overarbejde ønskes udb.</txt_159>
+	<txt_160>Læge</txt_160>
+	<txt_161>Rekrutterings bonus</txt_161>
+	<txt_162>CATI</txt_162>
+	  
+	  
+	  <txt_164>Feriefridage planlagt</txt_164>
+	  <txt_165>Ferie afh. u. løn</txt_165>
+	  <txt_166>Interv. Bonus 5</txt_166>
+
+      <txt_171>Barsel</txt_171>
+
+      <txt_172>Omsorgsdage</txt_172>
+      <txt_173>Seniortimer</txt_173>
+      <txt_174>1 maj timer</txt_174>
+
+    <txt_179>Tjenestefri</txt_179>
+
+    <txt_185>Aldersreduktion optjent</txt_185>
+    <txt_186>Aldersreduktion brugt</txt_186>
+    <txt_187>Aldersreduktion udbetalt</txt_187>
+
+    <txt_188>Aldersreduktion planlagt</txt_188>
+    <txt_189>Omsorgsdag 2 planlagt</txt_189>
+    <txt_190>Omsorgsdag 10 planlagt</txt_190>
+    <txt_191>Omsorgsdag Konverteret planlagt</txt_191>
+
+    <txt_192>Ulempe1706 udbetalt</txt_192>
+    <txt_193>UlempeWeekend udbetalt</txt_193>
+
+    <txt_194>Rejsedage</txt_194>
+    <txt_195>E3</txt_195>
+
+
+      <!-- End typer -->
+    
+    
+    <txt_140>aktivitet</txt_140>
+    <txt_141>Timer</txt_141>
+    <txt_142>Aktiviteter</txt_142>
+
+	  <txt_163>Saldo</txt_163>
+	  <txt_167>Total</txt_167>
+	  <txt_168>Tillæg/Frad.</txt_168>
+	  <txt_169>Tillæg</txt_169>
+	  <txt_170>Fradrag</txt_170>
+
+      <txt_175>Ferie overført</txt_175>
+      <txt_176>Ferie optjent u. løn</txt_176>
+
+      <txt_177>Korrektion Komme/Gå</txt_177>
+      <txt_178>Korrektion Realiseret</txt_178>
+
+    <txt_180>Opret ny kunde</txt_180>
+    <txt_181>Aftaleoversigt</txt_181>
+    <txt_182>Kontaktpersoner</txt_182>
+
+    <txt_183>Opret medarbejder</txt_183>
+    <txt_184>Rediger medarbejder</txt_184>
+
+
+  </dk>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <!-- Global func -->
+    <txt_119>Search | Order by</txt_119>
+
+
+
+    <!-- Sek. menu - Global func -->
+    <txt_120>Time recording</txt_120>
+    <txt_121>Pro. planning | Resources</txt_121>
+    <txt_122>Jobs</txt_122>
+    <txt_123>Resources</txt_123>
+    <txt_124>Customers</txt_124>
+    <txt_125>Employees</txt_125>
+    <txt_126>Statistic</txt_126>
+    <txt_127>File archive</txt_127>
+    <txt_128>Material consump./ Expences</txt_128>
+
+
+    <!-- Global func akt. typer -->
+    <txt_129>Invoicable</txt_129>
+    <txt_130>Km</txt_130>
+    <txt_131>None invoicable</txt_131>
+    <txt_132>Sale | NewBizz</txt_132>
+    <txt_133>Lunch</txt_133>
+    <txt_134>Vacation Planed</txt_134>
+    <txt_135>Vacation Conducted</txt_135>
+    
+    <txt_136>Extra days in lieu</txt_136>
+    <txt_137>Extra days conducted</txt_137>
+    
+    <txt_138>Sick</txt_138>
+    <txt_139>Child sick</txt_139>
+    
+    <txt_143>Holiday account</txt_143>
+    <txt_156>Holiday pay out</txt_156>
+    
+
+	  <txt_149>Extra days pay out</txt_149>
+
+
+	  <txt_144>Earned time</txt_144>
+	  <txt_145>Time in lieu </txt_145>
+	  <txt_146>Time in lieu pay out </txt_146>
+
+	  <txt_147>Flexitime conducted</txt_147>
+	  <txt_148>Health</txt_148>
+
+	  <txt_150>Break</txt_150>
+	  <txt_151>Night</txt_151>
+	  <txt_152>Weekend</txt_152>
+	  <txt_153>Weekend Night</txt_153>
+	  <txt_154>Evening</txt_154>
+	  <txt_155>Weekend Eve.</txt_155>
+	  <txt_157>Ad-hoc</txt_157>
+	  <txt_158>Pcs.</txt_158>
+
+	  <txt_159>Time in lieu wants pay out</txt_159>
+	  <txt_160>Doctor</txt_160>
+	  <txt_161>E1</txt_161>
+	  <txt_162>E2</txt_162>
+
+	  <txt_164>Extra days planned</txt_164>
+	  <txt_165>Holiday without pay</txt_165>
+	  <txt_166>Day</txt_166>
+
+    <txt_185>Age-reduction account</txt_185>
+    <txt_186>Age-reduction used</txt_186>
+    <txt_187>Age-reduction pay out</txt_187>
+
+    <txt_188>Age-reduction planned</txt_188>
+    <txt_189>Care day 2 planned</txt_189>
+    <txt_190>Care day 10 planned</txt_190>
+    <txt_191>Care day K planned</txt_191>
+
+    <txt_192>Disadvantage1706 payout</txt_192>
+    <txt_193>DisadvantageWeekend payout</txt_193>
+
+    <txt_194>Traveldays</txt_194>
+    <txt_195>E3</txt_195>
+
+	  <!-- End typer -->
+
+
+
+	  <txt_140>Activity</txt_140>
+	  <txt_141>Hours</txt_141>
+	  <txt_142>Activities</txt_142>
+
+	  <txt_163>Balance</txt_163>
+	  <txt_167>Total</txt_167>
+	  <txt_168>Addition/deduc.</txt_168>
+	  <txt_169>Addition</txt_169>
+	  <txt_170>Deduction</txt_170>
+
+      <txt_171>Maternity leave</txt_171>
+
+      <txt_172>Care day</txt_172>
+      <txt_173>Senior days</txt_173>
+      <txt_174>Misc. holliday hours</txt_174>
+
+      <txt_175>Holiday account transferred</txt_175>
+      <txt_176>Holiday account without pay</txt_176>
+
+      <txt_177>Time Clock Adjustment</txt_177>
+      <txt_178>Adjustment Real.</txt_178>
+
+    <txt_179>Leave</txt_179>
+
+    <txt_180>New Customer</txt_180>
+    <txt_181>Service Agreements</txt_181>
+    <txt_182>Contacts</txt_182>
+
+    <txt_183>New Employee</txt_183>
+    <txt_184>Edit Profile</txt_184>
+
+
+  </uk>
+
+
+</sprog>

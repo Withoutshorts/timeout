@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+
+    <!-- calender_2006.asp -->
+    <txt_107>Kalender</txt_107>
+    <txt_108>M</txt_108>
+    <txt_109>T</txt_109>
+    <txt_110>O</txt_110>
+    <txt_111>T</txt_111>
+    <txt_112>F</txt_112>
+
+    <txt_113>L</txt_113>
+    <txt_114>S</txt_114>
+
+    <txt_115>Dage m. fravær</txt_115>
+    <txt_116>Alm. dage</txt_116>
+
+
+  </dk>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <!-- calender_2006.asp -->
+    <txt_107>Calender</txt_107>
+    <txt_108>M</txt_108>
+    <txt_109>T</txt_109>
+    <txt_110>W</txt_110>
+    <txt_111>T</txt_111>
+    <txt_112>F</txt_112>
+
+    <txt_113>S</txt_113>
+    <txt_114>S</txt_114>
+    
+    <txt_115>Days w. absence</txt_115>
+    <txt_116>Regular days</txt_116>
+
+
+
+  </uk>
+
+
+</sprog>

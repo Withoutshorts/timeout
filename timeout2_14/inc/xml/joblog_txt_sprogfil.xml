@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<txt>
+<joblog>
+		<joblog_txt_1>
+			<lang_1>Job og periode:</lang_1>
+			<lang_2>Job and term:</lang_2>
+		</joblog_txt_1>
+
+		<joblog_txt_2>
+			<lang_1>Fra:</lang_1>
+			<lang_2>From:</lang_2>
+		</joblog_txt_2>
+
+		<joblog_txt_3>
+			<lang_1>Til:</lang_1>
+			<lang_2>To:</lang_2>
+		</joblog_txt_3>
+
+		<joblog_txt_4>
+			<lang_1>Fordel p&aring; medarbejdere.</lang_1>
+			<lang_2>Separate on staff members.</lang_2>
+		</joblog_txt_4>
+
+		<joblog_txt_5>
+			<lang_1>Kør statistik</lang_1>
+			<lang_2>Run statistic</lang_2>
+		</joblog_txt_5>
+
+		<joblog_txt_6>
+			<lang_1>Joblog</lang_1>
+			<lang_2>Joblog</lang_2>
+		</joblog_txt_6>
+
+		<joblog_txt_7>
+			<lang_1>Jobansvarlig 1:</lang_1>
+			<lang_2>Responsible for job 1:</lang_2>
+		</joblog_txt_7>
+
+		<joblog_txt_8>
+			<lang_1>Jobstatus:</lang_1>
+			<lang_2>State of Job:</lang_2>
+		</joblog_txt_8>
+
+		<joblog_txt_9>
+			<lang_1>Jobperiode:</lang_1>
+			<lang_2>Term of job:</lang_2>
+		</joblog_txt_9>
+
+		<joblog_txt_10>
+			<lang_1>Forkalkuleret timer:</lang_1>
+			<lang_2>Pre calculated hours</lang_2>
+		</joblog_txt_10>
+
+		<joblog_txt_11>
+			<lang_1>Uge</lang_1>
+			<lang_2>Week</lang_2>
+		</joblog_txt_11>
+
+		<joblog_txt_12>
+			<lang_1>Dato</lang_1>
+			<lang_2>Date</lang_2>
+		</joblog_txt_12>
+
+		<joblog_txt_13>
+			<lang_1>Aktivitet</lang_1>
+			<lang_2>Activity</lang_2>
+		</joblog_txt_13>
+
+		<joblog_txt_14>
+			<lang_1>Timer</lang_1>
+			<lang_2>Hours</lang_2>
+		</joblog_txt_14>
+
+		<joblog_txt_15>
+			<lang_1>Enh.</lang_1>
+			<lang_2>Units</lang_2>
+		</joblog_txt_15>
+
+		<joblog_txt_16>
+			<lang_1>Medarb.</lang_1>
+			<lang_2>Staff</lang_2>
+		</joblog_txt_16>
+
+		<joblog_txt_17>
+			<lang_1>Taste dato</lang_1>
+			<lang_2>Rec. date</lang_2>
+		</joblog_txt_17>
+
+		<joblog_txt_18>
+			<lang_1>Godkendt?</lang_1>
+			<lang_2>Approved</lang_2>
+		</joblog_txt_18>
+
+		<joblog_txt_19>
+			<lang_1>Ialt på</lang_1>
+			<lang_2>Total for</lang_2>
+		</joblog_txt_19>
+
+		<joblog_txt_20>
+			<lang_1>i den valgte periode:</lang_1>
+			<lang_2>in the chosen term:</lang_2>
+		</joblog_txt_20>
+
+		<joblog_txt_20>
+			<lang_1>timer.</lang_1>
+			<lang_2>hours.</lang_2>
+		</joblog_txt_20>
+
+		<joblog_txt_21>
+			<lang_1>Svarende til</lang_1>
+			<lang_2>Equal to</lang_2>
+		</joblog_txt_21>
+
+		<joblog_txt_22>
+			<lang_1>enheder.</lang_1>
+			<lang_2>units.</lang_2>
+		</joblog_txt_22>
+
+		<joblog_txt_23>
+			<lang_1>Eksportér ovenstående liste som .txt fil.</lang_1>
+			<lang_2>Export the list above as a .txt file</lang_2>
+		</joblog_txt_23>
+
+		<joblog_txt_24>
+			<lang_1>(Job og medarbejder totaler eksporteres ikke.) Gem filen ved at klikke på filmenuen og herefter "gem som". Åbn det program du ønsker at hente txt filen ind i og importer. .txt filen er ";" separeret.</lang_1>
+			<lang_2>(jobs and staff totals is not available for export.) Save the file by clicking files and choose "save as". Open the program you want to read the txt file with and select import. The .txt file is ";" separated</lang_2>
+		</joblog_txt_24>
+</joblog>
+</txt>
+
+
+
+

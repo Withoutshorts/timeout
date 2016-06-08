@@ -1,0 +1,160 @@
+
+<% 
+'if thisfile <> "erp_oprfak_fs" then 'fejler i _fs da de åbenbart blvier declareret 2 gange i forbindelse med faktura_godkendt visning **'
+Dim objXMLHTTP_erp, objXMLDOM_erp, z, strHTML_erp
+Dim Address_erp, Latitude_erp, Longitude_erp
+Dim oNode_erp, oNodes_erp
+Dim sXPathQuery_erp
+'end if
+
+Set objXMLDOM_erp = Server.CreateObject("Microsoft.XMLDOM")
+Set objXMLHTTP_erp = Server.CreateObject("Msxml2.ServerXMLHTTP")
+'objXMLHTTP_erp.open "GET", "http://localhost/timeout_xp/inc/xml/erp_fak_sprog.xml", False
+'objXMLHTTP_erp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/erp_fak_sprog.xml", False
+'objXMLHTTP_erp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver3_99/inc/xml/erp_fak_sprog.xml", False
+objXMLHTTP_erp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/erp_fak_sprog.xml", False
+objXMLHTTP_erp.send
+
+
+Set objXMLDOM_erp = objXMLHTTP_erp.responseXML
+
+'Henter indholdet af alle tags med navnet 'titel'
+'Set objModuler = objXMLDOM_erp.getElementsByTagName("se")
+
+
+Set objXMLHTTP_erp = Nothing
+
+
+'strTxt_1 = objModuler(0).text   'Timeregistrering 
+'Response.Write strTxt_1
+
+        'response.write "thisfile" & thisfile
+        
+        sprog = 1 	
+        
+        if len(trim(request("id"))) <> 0 AND instr(request("id"), ",") = 0 then
+        thisFakid = request("id")
+        else
+        thisFakid = 0
+        end if
+
+        
+
+        if thisFakid <> 0 AND len(trim(thisFakid)) <> 0 then
+
+	        strSQLFak = "SELECT f.sprog FROM fakturaer AS f WHERE fid = "& thisFakid
+
+            'response.write strSQLFak
+            'response.flush
+
+            oRec6.open strSQLFak, oConn, 3
+            if not oRec6.EOF then
+
+                sprog = oRec6("sprog")
+
+            end if
+            oRec6.close
+        
+        end if
+
+
+select case sprog
+case 1
+sXPathQuery_erp = "//sprog/dk"
+Session.LCID = 1030
+case 2
+sXPathQuery_erp = "//sprog/uk"
+Session.LCID = 2057
+case 3
+sXPathQuery_erp = "//sprog/se"
+Session.LCID = 1053
+case else
+sXPathQuery_erp = "//sprog/dk"
+Session.LCID = 1030
+end select
+
+Set oNode_erp = objXMLDOM_erp.documentElement.selectSingleNode(sXPathQuery_erp)
+Address_erp = oNode_erp.Text
+
+Set oNodes_erp = objXMLDOM_erp.documentElement.selectNodes(sXPathQuery_erp)
+
+For Each oNode_erp in oNodes_erp
+
+     txt_001 = oNode_erp.selectSingleNode("txt_1").Text
+     txt_002 = oNode_erp.selectSingleNode("txt_2").Text
+     txt_003 = oNode_erp.selectSingleNode("txt_3").Text
+     txt_003 = oNode_erp.selectSingleNode("txt_3").Text
+    txt_004 = oNode_erp.selectSingleNode("txt_4").Text
+    txt_005 = oNode_erp.selectSingleNode("txt_5").Text
+
+    txt_006 = oNode_erp.selectSingleNode("txt_6").Text
+    txt_007 = oNode_erp.selectSingleNode("txt_7").Text
+    txt_008 = oNode_erp.selectSingleNode("txt_8").Text
+    txt_009 = oNode_erp.selectSingleNode("txt_9").Text
+    txt_010 = oNode_erp.selectSingleNode("txt_10").Text
+    txt_011 = oNode_erp.selectSingleNode("txt_11").Text
+    
+    txt_012 = oNode_erp.selectSingleNode("txt_12").Text
+    txt_013 = oNode_erp.selectSingleNode("txt_13").Text
+    txt_014 = oNode_erp.selectSingleNode("txt_14").Text
+    txt_015 = oNode_erp.selectSingleNode("txt_15").Text
+    txt_016 = oNode_erp.selectSingleNode("txt_16").Text
+    txt_017 = oNode_erp.selectSingleNode("txt_17").Text
+    
+    txt_018 = oNode_erp.selectSingleNode("txt_18").Text
+    txt_019 = oNode_erp.selectSingleNode("txt_19").Text
+    txt_020 = oNode_erp.selectSingleNode("txt_20").Text
+    txt_021 = oNode_erp.selectSingleNode("txt_21").Text
+    txt_022 = oNode_erp.selectSingleNode("txt_22").Text
+    txt_023 = oNode_erp.selectSingleNode("txt_23").Text
+    txt_024 = oNode_erp.selectSingleNode("txt_24").Text
+    
+    txt_025 = oNode_erp.selectSingleNode("txt_25").Text
+    txt_026 = oNode_erp.selectSingleNode("txt_26").Text
+    txt_027 = oNode_erp.selectSingleNode("txt_27").Text
+    txt_028 = oNode_erp.selectSingleNode("txt_28").Text
+    txt_029 = oNode_erp.selectSingleNode("txt_29").Text
+    txt_030 = oNode_erp.selectSingleNode("txt_30").Text
+    txt_031 = oNode_erp.selectSingleNode("txt_31").Text
+    txt_032 = oNode_erp.selectSingleNode("txt_32").Text
+    txt_033 = oNode_erp.selectSingleNode("txt_33").Text
+    txt_034 = oNode_erp.selectSingleNode("txt_34").Text
+    
+     txt_035 = oNode_erp.selectSingleNode("txt_35").Text
+      txt_036 = oNode_erp.selectSingleNode("txt_36").Text
+       txt_037 = oNode_erp.selectSingleNode("txt_37").Text
+       
+        txt_038 = oNode_erp.selectSingleNode("txt_38").Text
+         txt_039 = oNode_erp.selectSingleNode("txt_39").Text
+         txt_040 = oNode_erp.selectSingleNode("txt_40").Text
+         txt_041 = oNode_erp.selectSingleNode("txt_41").Text
+         txt_042 = oNode_erp.selectSingleNode("txt_42").Text
+          txt_043 = oNode_erp.selectSingleNode("txt_43").Text
+          txt_044 = oNode_erp.selectSingleNode("txt_44").Text
+          
+          txt_045 = oNode_erp.selectSingleNode("txt_45").Text
+          txt_046 = oNode_erp.selectSingleNode("txt_46").Text
+          txt_047 = oNode_erp.selectSingleNode("txt_47").Text
+          txt_048 = oNode_erp.selectSingleNode("txt_48").Text
+          txt_049 = oNode_erp.selectSingleNode("txt_49").Text
+          txt_050 = oNode_erp.selectSingleNode("txt_50").Text
+          txt_051 = oNode_erp.selectSingleNode("txt_51").Text
+          txt_052 = oNode_erp.selectSingleNode("txt_52").Text
+          txt_053 = oNode_erp.selectSingleNode("txt_53").Text
+          txt_054 = oNode_erp.selectSingleNode("txt_54").Text
+          txt_055 = oNode_erp.selectSingleNode("txt_55").Text
+          txt_056 = oNode_erp.selectSingleNode("txt_56").Text
+          txt_057 = oNode_erp.selectSingleNode("txt_57").Text
+        
+         txt_058 = oNode_erp.selectSingleNode("txt_58").Text
+         txt_059 = oNode_erp.selectSingleNode("txt_59").Text
+
+next
+
+
+
+'Response.Write "txt_001: " & txt_001 & "<br>"
+'Response.Write "txt_002: " & txt_002 & "<br>"
+
+
+%>

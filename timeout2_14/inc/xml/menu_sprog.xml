@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+
+    <txt_1>Timeregistrering</txt_1>
+    <txt_2>Projekter</txt_2>
+    <txt_3>Rapporter</txt_3>
+    <txt_4>Kunder</txt_4>
+    <txt_5>Medarbejdere</txt_5>
+    <txt_6>Lager</txt_6>
+    <txt_7>Økonomi</txt_7>
+
+    <txt_8>Service-Desk</txt_8>
+    <txt_9>Administration</txt_9>
+  </dk>
+ 
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1>Timerecording</txt_1>
+    <txt_2>Projects</txt_2>
+    <txt_3>Reports</txt_3>
+    <txt_4>Customers</txt_4>
+    <txt_5>Emplyees</txt_5>
+    <txt_6>Stock</txt_6>
+    <txt_7>Economy</txt_7>
+
+    <txt_8>Service-Desk</txt_8>
+    <txt_9>Administration</txt_9>
+
+  
+  </uk>
+
+
+</sprog>
